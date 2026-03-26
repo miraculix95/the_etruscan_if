@@ -577,6 +577,83 @@
   .tutorial-box strong { color: var(--sand); }
   .tutorial-box .tut-icon { margin-right: 0.3rem; }
 
+  /* === INVENTORY === */
+  #inventory-section h2 { margin-bottom: 0.3rem; }
+
+  #inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    min-height: 40px;
+  }
+
+  .inv-slot {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--dark2);
+    border: 1px solid #2a1a0e;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: help;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .inv-slot.empty { opacity: 0.3; cursor: default; }
+  .inv-slot.filled:hover {
+    border-color: var(--gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(201,168,76,0.3);
+    z-index: 5;
+  }
+
+  .inv-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark);
+    border: 1px solid var(--gold);
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: normal;
+    width: 200px;
+    border-radius: 4px;
+    z-index: 100;
+    color: var(--sand);
+    line-height: 1.5;
+    pointer-events: none;
+  }
+
+  .inv-tooltip-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .inv-tooltip-lore {
+    color: #887766;
+    font-style: italic;
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .inv-slot.filled:hover .inv-tooltip { display: block; }
+
+  .inv-new-pulse {
+    animation: invPulse 1.5s ease-in-out 3;
+  }
+
+  @keyframes invPulse {
+    0%, 100% { box-shadow: none; }
+    50% { box-shadow: 0 0 10px rgba(201,168,76,0.6); border-color: var(--gold); }
+  }
+
   /* === ENCYCLOPEDIA === */
   #encyclopedia-btn {
     background: transparent;
@@ -790,6 +867,11 @@
       <div id="pebble-tray"></div>
     </div>
 
+    <div id="inventory-section">
+      <h2>Inventory</h2>
+      <div id="inventory-grid"></div>
+    </div>
+
     <div>
       <h2>Last Omen</h2>
       <div id="omen-display">None yet...</div>
@@ -926,6 +1008,8 @@ const state = {
   omensFollowed: 0,
   omensDefied: 0,
   rerollAvailable: false,
+  inventory: [],
+  newItems: new Set(),
 };
 
 // === SCENE IMAGES ===
@@ -956,6 +1040,7 @@ const SCENE_SOUNDS_DATA = {
 </script>
 <script src="scenes.js"></script>
 <script src="encyclopedia.js"></script>
+<script src="inventory.js"></script>
 <script>
 
 
@@ -1019,6 +1104,7 @@ function saveCheckpoint(sceneId, label) {
     omensFollowed: state.omensFollowed,
     omensDefied: state.omensDefied,
     rerollAvailable: state.rerollAvailable,
+    inventory: JSON.parse(JSON.stringify(state.inventory || [])),
     scene: sceneId,
     label: label,
     timestamp: Date.now()
@@ -1048,6 +1134,9 @@ function loadCheckpoint() {
     state.omensFollowed = save.omensFollowed;
     state.omensDefied = save.omensDefied;
     state.rerollAvailable = save.rerollAvailable;
+    state.inventory = save.inventory || [];
+    state.newItems = new Set();
+    renderInventory();
     // Restore sidebar
     if (state.charClass && CLASSES[state.charClass]) {
       const cls = CLASSES[state.charClass];
@@ -1214,6 +1303,65 @@ function closeDice() {
   document.getElementById('dice-overlay').classList.remove('active');
 }
 
+// === INVENTORY ENGINE ===
+const MAX_INVENTORY_SLOTS = 12;
+
+function renderInventory() {
+  const grid = document.getElementById('inventory-grid');
+  const items = state.inventory || [];
+  let html = '';
+  for (let i = 0; i < MAX_INVENTORY_SLOTS; i++) {
+    if (i < items.length) {
+      const item = ITEMS[items[i]];
+      if (!item) continue;
+      const isNew = state.newItems && state.newItems.has(items[i]);
+      html += `<div class="inv-slot filled${isNew ? ' inv-new-pulse' : ''}">
+        ${item.icon}
+        <div class="inv-tooltip">
+          <div class="inv-tooltip-name">${item.name}</div>
+          <div>${item.description}</div>
+          ${item.lore ? '<div class="inv-tooltip-lore">' + item.lore + '</div>' : ''}
+        </div>
+      </div>`;
+    } else {
+      html += '<div class="inv-slot empty">·</div>';
+    }
+  }
+  grid.innerHTML = html;
+}
+
+function awardSceneItems(sceneId) {
+  const awards = SCENE_ITEMS[sceneId];
+  if (!awards) return;
+  if (!state.inventory) state.inventory = [];
+  if (!state.newItems) state.newItems = new Set();
+  for (const award of awards) {
+    if (state.inventory.includes(award.item)) continue;
+    if (award.condition && !award.condition()) continue;
+    state.inventory.push(award.item);
+    state.newItems.add(award.item);
+    const item = ITEMS[award.item];
+    if (item) showItemToast(item);
+  }
+  renderInventory();
+}
+
+function showItemToast(item) {
+  const container = document.getElementById('stat-toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'stat-toast';
+  toast.innerHTML = `<span style="font-size:18px;">${item.icon}</span> ${item.name}`;
+  toast.style.borderColor = 'var(--gold)';
+  toast.style.color = 'var(--gold)';
+  container.appendChild(toast);
+  setTimeout(() => toast.style.opacity = '0', 2500);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function clearNewItems() {
+  if (state.newItems) state.newItems.clear();
+}
+
 // === ENCYCLOPEDIA ENGINE ===
 const unlockedEntries = new Set();
 const newEntries = new Set();
@@ -1303,8 +1451,10 @@ function renderScene(sceneId) {
   // Run any setup
   if (scene.onEnter) scene.onEnter();
 
-  // Unlock encyclopedia entries for this scene
+  // Unlock encyclopedia entries and award items for this scene
   unlockEncyclopediaEntries(sceneId);
+  clearNewItems();
+  awardSceneItems(sceneId);
 
   // Auto-checkpoint
   if (CHECKPOINT_SCENES[sceneId]) {
@@ -1427,6 +1577,9 @@ function restartGame() {
   document.getElementById('checkpoint-display').textContent = 'No checkpoint yet';
   document.getElementById('checkpoint-display').style.color = '#887766';
   document.getElementById('load-checkpoint-btn').style.display = 'none';
+  state.inventory = [];
+  state.newItems = new Set();
+  renderInventory();
   unlockedEntries.clear();
   newEntries.clear();
   updateEncyclopediaCount();
@@ -1436,6 +1589,7 @@ function restartGame() {
 }
 
 // === INIT ===
+renderInventory();
 renderScene('title');
 </script>
 </body>
