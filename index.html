@@ -1444,6 +1444,7 @@ function renderEncyclopedia() {
 
 // === SCENE RENDERING ===
 function renderScene(sceneId) {
+  if (sceneId !== 'about') state.previousScene = state.currentScene;
   state.currentScene = sceneId;
   const scene = SCENES[sceneId];
   if (!scene) { console.error('Unknown scene:', sceneId); return; }
