@@ -114,7 +114,7 @@ const SCENES = {
       '</div>'
     ],
     choices: [
-      { text: 'Back', action: () => renderScene(state.previousScene || 'title') }
+      { text: 'Back', action: () => renderScene(state.currentScene || 'title') }
     ]
   },
 
