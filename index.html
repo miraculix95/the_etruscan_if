@@ -824,15 +824,91 @@
     text-transform: uppercase;
   }
 
-  /* Responsive */
-  @media (max-width: 800px) {
-    #sidebar { display: none; }
-    #main { margin-left: 0; }
+  /* === HAMBURGER MENU BUTTON === */
+  #hamburger {
+    display: none;
+    position: fixed;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 1100;
+    background: var(--dark);
+    border: 1px solid var(--dark2);
+    color: var(--sand);
+    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.2s;
+  }
+  #hamburger:hover { background: var(--dark2); }
+
+  /* === SIDEBAR BACKDROP === */
+  #sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+  }
+  #sidebar-backdrop.open { display: block; }
+
+  /* === RESPONSIVE: TABLET & MOBILE (≤768px) === */
+  @media (max-width: 768px) {
+    #hamburger { display: block; }
+
+    /* Sidebar → slide-in drawer */
+    #sidebar {
+      left: -300px;
+      width: 280px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+    #sidebar.open { left: 0; }
+
+    #main {
+      margin-left: 0;
+      padding: 1rem 0.75rem;
+    }
+
+    /* Font scaling */
+    body { font-size: 16px; }
+    #scene-title { font-size: 22px; }
+    #title-screen h1 { font-size: 28px; }
+    #title-screen .subtitle { font-size: 16px; }
+    #dice-face { font-size: 56px; }
+
+    /* Image height */
+    #scene-image img { height: auto; max-height: 280px; }
+
+    /* Touch-friendly choice buttons */
+    .choice-btn { min-height: 44px; padding: 0.7rem 1rem; }
+
+    /* Overlays & modals */
+    #pebble-award { padding: 1.5rem 1rem; max-width: 90vw; }
+    #encyclopedia-overlay { padding: 1rem; }
+
+    /* Toast positioning — avoid right-edge overflow */
+    #stat-toast-container { right: 0.5rem; left: 0.5rem; align-items: flex-end; }
+
+    /* Top bar — make room for hamburger */
+    #top-bar { padding-left: 3rem; }
+  }
+
+  /* === RESPONSIVE: SMALL PHONES (≤480px) === */
+  @media (max-width: 480px) {
     .class-grid { grid-template-columns: 1fr; }
+    #title-screen h1 { font-size: 24px; }
+    #scene-title { font-size: 20px; }
+    #main { padding: 0.75rem 0.5rem; }
   }
 </style>
 </head>
 <body>
+
+<button id="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+<div id="sidebar-backdrop" onclick="closeSidebar()"></div>
 
 <div id="app">
   <aside id="sidebar">
@@ -1442,7 +1518,18 @@ function renderEncyclopedia() {
 }
 
 // === SCENE RENDERING ===
+// === MOBILE SIDEBAR ===
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+}
+
 function renderScene(sceneId) {
+  closeSidebar();
   if (sceneId !== 'about') state.currentScene = sceneId;
   const scene = SCENES[sceneId];
   if (!scene) { console.error('Unknown scene:', sceneId); return; }
