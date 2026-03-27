@@ -111,6 +111,9 @@ const SCENES = {
       'Game design & development: Created with <span style="color:var(--warm);">Claude</span> (Anthropic), prompted by a human who wanted to see if every novel could become an adventure.<br><br>' +
       '<em style="color:#665544;">Illustrations generated with AI (Flux). No backend, no server, no tracking. Just HTML, CSS, JavaScript, and a good story.</em>' +
 
+      '<div style="font-family:Cinzel,serif; color:var(--gold); font-size:16px; letter-spacing:2px; margin:1.5rem 0 0.8rem;">CONTROLS</div>' +
+      'Navigate with <span style="color:var(--sage);">mouse click</span> or <span style="color:var(--sage);">Tab</span> and <span style="color:var(--sage);">Enter</span>. Use the <span style="color:var(--sage);">☰ menu</span> on mobile to access stats, inventory, and encyclopedia.' +
+
       '</div>'
     ],
     choices: [
