@@ -902,8 +902,11 @@
     /* Font scaling */
     body { font-size: 16px; }
     #scene-title { font-size: 22px; }
-    #title-screen h1 { font-size: 28px; }
+    #title-screen h1 { font-size: 28px; letter-spacing: 3px; }
     #title-screen .subtitle { font-size: 16px; }
+    #title-screen { padding: 1.5rem 1rem; }
+    #title-screen .act { margin-bottom: 1rem; }
+    #title-screen .intro { font-size: 14px; line-height: 1.6; margin-bottom: 1rem; }
     #dice-face { font-size: 56px; }
 
     /* Image height */
@@ -926,7 +929,10 @@
   /* === RESPONSIVE: SMALL PHONES (≤480px) === */
   @media (max-width: 480px) {
     .class-grid { grid-template-columns: 1fr; }
-    #title-screen h1 { font-size: 24px; }
+    #title-screen h1 { font-size: 24px; letter-spacing: 2px; }
+    #title-screen { padding: 1rem 0.75rem; }
+    #title-screen .act { margin-bottom: 0.5rem; font-size: 13px; }
+    #title-screen .intro { font-size: 13px; line-height: 1.5; margin-bottom: 0.5rem; }
     #scene-title { font-size: 20px; }
     #main { padding: 0.75rem 0.5rem; }
   }
