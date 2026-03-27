@@ -538,7 +538,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    pointer-events: none;
   }
 
   .stat-toast {
@@ -552,11 +551,33 @@
     transform: translateX(30px);
     animation: toastIn 0.4s ease forwards, toastOut 0.4s ease forwards 5s;
     white-space: nowrap;
+    pointer-events: none;
   }
 
   .stat-toast.positive { border-left: 3px solid var(--sage); color: var(--sage); }
   .stat-toast.negative { border-left: 3px solid var(--terra); color: var(--terra); }
   .stat-toast.pebble { border-left: 3px solid var(--gold); color: var(--gold); }
+
+  /* Encyclopedia toast — more prominent, clickable */
+  .stat-toast.encyclopedia {
+    border-left: 3px solid var(--gold);
+    color: var(--sand);
+    background: rgba(42, 26, 14, 0.95);
+    border: 1px solid var(--gold);
+    border-left: 3px solid var(--gold);
+    padding: 0.6rem 1rem;
+    font-size: 14px;
+    font-family: 'Crimson Text', serif;
+    white-space: normal;
+    max-width: 320px;
+    cursor: pointer;
+    pointer-events: auto;
+    animation: toastIn 0.4s ease forwards, toastOut 0.6s ease forwards 8s;
+  }
+  .stat-toast.encyclopedia:hover {
+    border-color: var(--warm);
+    background: rgba(59, 35, 22, 0.98);
+  }
 
   @keyframes toastIn {
     to { opacity: 1; transform: translateX(0); }
@@ -1339,13 +1360,17 @@ function updateStat(stat, delta, reason) {
   }
 }
 
-function showToast(text, type) {
+function showToast(text, type, onclick) {
   const container = document.getElementById('stat-toast-container');
   const toast = document.createElement('div');
   toast.className = `stat-toast ${type || 'positive'}`;
-  toast.textContent = text;
+  toast.innerHTML = text;
+  if (onclick) {
+    toast.onclick = () => { toast.remove(); onclick(); };
+  }
   container.appendChild(toast);
-  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 5800);
+  const duration = type === 'encyclopedia' ? 9000 : 5800;
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, duration);
 }
 
 // === PEBBLES ===
@@ -1462,7 +1487,12 @@ function unlockEncyclopediaEntries(sceneId) {
     }
   }
   if (unlocked.length > 0) {
-    showToast('📖 New: ' + unlocked.join(', '), 'pebble');
+    const firstId = entries.find(id => ENCYCLOPEDIA[id] && unlocked.includes(ENCYCLOPEDIA[id].title));
+    showToast(
+      '📖 <strong>' + unlocked.join(', ') + '</strong><br><span style="font-size:12px; color:var(--sage);">Click to read in Encyclopedia</span>',
+      'encyclopedia',
+      () => openEncyclopedia(firstId)
+    );
   }
   updateEncyclopediaCount();
 }
@@ -1475,12 +1505,25 @@ function updateEncyclopediaCount() {
   }
 }
 
-function openEncyclopedia() {
+function openEncyclopedia(scrollToId) {
   const overlay = document.getElementById('encyclopedia-overlay');
   overlay.classList.add('open');
   document.getElementById('encyclopedia-search').value = '';
+  currentEncFilter = 'all';
   buildEncyclopediaFilters();
   renderEncyclopedia();
+  if (scrollToId) {
+    setTimeout(() => {
+      const entries = document.querySelectorAll('.enc-entry');
+      for (const el of entries) {
+        if (el.querySelector('.enc-entry-title')?.textContent.includes(ENCYCLOPEDIA[scrollToId]?.title)) {
+          el.classList.add('expanded');
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          break;
+        }
+      }
+    }, 100);
+  }
 }
 
 function closeEncyclopedia() {
