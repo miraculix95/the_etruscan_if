@@ -579,6 +579,19 @@
     background: rgba(59, 35, 22, 0.98);
   }
 
+  /* Checkpoint toast — prominent, readable */
+  .stat-toast.checkpoint {
+    border-left: 3px solid var(--sage);
+    color: var(--sand);
+    background: rgba(42, 26, 14, 0.95);
+    border: 1px solid var(--sage);
+    border-left: 3px solid var(--sage);
+    padding: 0.6rem 1rem;
+    font-size: 14px;
+    font-family: 'Crimson Text', serif;
+    animation: toastIn 0.4s ease forwards, toastOut 0.6s ease forwards 6s;
+  }
+
   @keyframes toastIn {
     to { opacity: 1; transform: translateX(0); }
   }
@@ -1225,7 +1238,7 @@ function saveCheckpoint(sceneId, label) {
     el.textContent = label;
     el.style.color = 'var(--sage)';
     document.getElementById('load-checkpoint-btn').style.display = 'block';
-    showToast('Checkpoint: ' + label, 'pebble');
+    showToast('💾 Checkpoint: ' + label, 'checkpoint');
     playSFX(SCENE_SOUNDS_DATA.checkpoint);
   } catch(e) { /* localStorage unavailable */ }
 }
@@ -1375,7 +1388,7 @@ function showToast(text, type, onclick) {
     toast.onclick = () => { toast.remove(); onclick(); };
   }
   container.appendChild(toast);
-  const duration = type === 'encyclopedia' ? 9000 : 5800;
+  const duration = type === 'encyclopedia' ? 9000 : type === 'checkpoint' ? 7000 : 5800;
   setTimeout(() => { if (toast.parentNode) toast.remove(); }, duration);
 }
 
