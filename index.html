@@ -249,10 +249,16 @@
     overflow: hidden;
   }
 
-  .choice-btn:hover {
+  .choice-btn:hover, .choice-btn:focus-visible {
     border-color: var(--terra);
     background: rgba(184, 80, 66, 0.1);
     padding-left: 1.6rem;
+  }
+
+  /* Accessibility: focus indicators */
+  *:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
   }
 
   .choice-btn.omen-choice {
@@ -544,7 +550,7 @@
     font-family: 'Calibri', sans-serif;
     opacity: 0;
     transform: translateX(30px);
-    animation: toastIn 0.4s ease forwards, toastOut 0.4s ease forwards 2.5s;
+    animation: toastIn 0.4s ease forwards, toastOut 0.4s ease forwards 5s;
     white-space: nowrap;
   }
 
@@ -911,7 +917,7 @@
 <div id="sidebar-backdrop" onclick="closeSidebar()"></div>
 
 <div id="app">
-  <aside id="sidebar">
+  <aside id="sidebar" aria-label="Game stats and controls">
     <div>
       <h2>Character</h2>
       <div style="font-family:'Cinzel',serif; color:var(--warm); font-size:16px; margin-top:6px;" id="char-name">—</div>
@@ -977,18 +983,18 @@
     </div>
   </aside>
 
-  <main id="main">
+  <main id="main" role="main" aria-label="Story">
     <div id="top-bar" style="display:flex; justify-content:flex-end; gap:0.8rem; align-items:center; padding:0.5rem 1rem; opacity:0.5; transition:opacity 0.3s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.5'">
-      <button id="back-btn" onclick="goBack()" style="display:none; background:transparent; border:none; color:#665544; font-family:'Cinzel',serif; font-size:11px; letter-spacing:1px; cursor:pointer; padding:2px 6px; transition:color 0.3s;" title="Go back">← BACK</button>
-      <button id="sound-toggle-top" onclick="toggleSound()" style="background:transparent; border:none; color:var(--sage); font-family:'Crimson Text',serif; font-size:13px; cursor:pointer; padding:2px 6px;" title="Click to mute">🔊</button>
-      <button id="fullscreen-btn" onclick="toggleFullscreen()" style="background:transparent; border:none; color:#665544; font-family:'Cinzel',serif; font-size:13px; cursor:pointer; padding:2px 6px; transition:color 0.3s;" title="Toggle fullscreen">⛶</button>
-      <button id="restart-top" onclick="handleRestart(this)" style="background:transparent; border:none; color:#665544; font-family:'Cinzel',serif; font-size:11px; letter-spacing:1px; cursor:pointer; padding:2px 6px; transition:color 0.3s;">RESTART</button>
+      <button id="back-btn" onclick="goBack()" style="display:none; background:transparent; border:none; color:var(--sage); font-family:'Cinzel',serif; font-size:11px; letter-spacing:1px; cursor:pointer; padding:2px 6px; transition:color 0.3s;" title="Go back" aria-label="Go back">← BACK</button>
+      <button id="sound-toggle-top" onclick="toggleSound()" style="background:transparent; border:none; color:var(--sage); font-family:'Crimson Text',serif; font-size:13px; cursor:pointer; padding:2px 6px;" title="Click to mute" aria-label="Toggle sound">🔊</button>
+      <button id="fullscreen-btn" onclick="toggleFullscreen()" style="background:transparent; border:none; color:var(--sage); font-family:'Cinzel',serif; font-size:13px; cursor:pointer; padding:2px 6px; transition:color 0.3s;" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button>
+      <button id="restart-top" onclick="handleRestart(this)" style="background:transparent; border:none; color:var(--sage); font-family:'Cinzel',serif; font-size:11px; letter-spacing:1px; cursor:pointer; padding:2px 6px; transition:color 0.3s;" aria-label="Restart game">RESTART</button>
     </div>
     <div id="story-container">
       <div id="scene-image"></div>
       <div id="scene-title"></div>
       <div id="scene-text"></div>
-      <div id="choices"></div>
+      <div id="choices" role="group" aria-label="Choices"></div>
     </div>
   </main>
 </div>
@@ -1339,7 +1345,7 @@ function showToast(text, type) {
   toast.className = `stat-toast ${type || 'positive'}`;
   toast.textContent = text;
   container.appendChild(toast);
-  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3200);
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 5800);
 }
 
 // === PEBBLES ===
@@ -1446,11 +1452,17 @@ const newEntries = new Set();
 function unlockEncyclopediaEntries(sceneId) {
   const entries = SCENE_ENCYCLOPEDIA[sceneId];
   if (!entries) return;
+  const unlocked = [];
   for (const id of entries) {
     if (!unlockedEntries.has(id)) {
       unlockedEntries.add(id);
       newEntries.add(id);
+      const entry = ENCYCLOPEDIA[id];
+      if (entry) unlocked.push(entry.title);
     }
+  }
+  if (unlocked.length > 0) {
+    showToast('📖 New: ' + unlocked.join(', '), 'pebble');
   }
   updateEncyclopediaCount();
 }

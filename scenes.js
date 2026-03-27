@@ -70,12 +70,12 @@ const SCENES = {
       '<div id="title-screen"><h1>THE ETRUSCAN</h1>' +
       '<div class="subtitle">A Solo Adventure</div>' +
       '<div class="act">Act I — Delphi</div>' +
-      '<div class="intro">Based on the novel by Mika Waltari<br><br>' +
+      '<div class="intro">Inspired by the novel by Mika Waltari<br><br>' +
       'The Mediterranean, 5th century BCE. Gods walk among mortals, oracles speak in riddles, and the great civilizations of Greece, Carthage and Etruria collide.<br><br>' +
       '<em>Collect pebbles at each turning point. Follow the omens — or defy them. The stones will remember what you choose.</em></div></div>'
     ],
     choices: [
-      { text: 'Choose your path...', action: () => renderScene('character_select') },
+      { text: 'Choose your path... (Start Game)', action: () => renderScene('character_select') },
       { text: 'About this game', action: () => renderScene('about') }
     ]
   },
@@ -92,7 +92,7 @@ const SCENES = {
       'The English translation by Lily Leino (1957) is significantly abridged — 381 pages versus the Finnish original\'s 681 — which means this game draws on both the translated text and reconstructed elements from the broader narrative.' +
 
       '<div style="font-family:Cinzel,serif; color:var(--gold); font-size:16px; letter-spacing:2px; margin:1.5rem 0 0.8rem;">THE GAME</div>' +
-      'This is a <span style="color:var(--warm);">solo text adventure</span> in the tradition of gamebooks like <em>Fighting Fantasy</em>, <em>Lone Wolf</em>, and the German <em>Das Schwarze Auge</em> solo adventures. The story follows the novel\'s arc but adapts to your choices — some paths mirror the book closely, others diverge into what might have been.' +
+      'This is a <span style="color:var(--warm);">solo text adventure</span> in the tradition of gamebooks like <em>Fighting Fantasy</em>, <em>Lone Wolf</em>, and the German <em>Das Schwarze Auge</em> solo adventures. Inspired by the novel\'s world and characters, the story adapts to your choices — some paths echo the book, others diverge into what might have been.' +
       '<br><br>' +
       'Four <span style="color:var(--warm);">character archetypes</span> offer different perspectives on the same events. The Storm-Born follows Turms\' original path; the Warrior sees through Dorieus\' eyes; the Seer adds a mystical dimension; the Seafarer brings the pirate captain\'s pragmatism.' +
 
@@ -109,7 +109,7 @@ const SCENES = {
       'Novel: <span style="color:var(--warm);">Mika Waltari</span> (1908–1979)<br>' +
       'English translation: <span style="color:var(--warm);">Lily Leino</span> (1957)<br>' +
       'Game design & development: Created with <span style="color:var(--warm);">Claude</span> (Anthropic), prompted by a human who wanted to see if every novel could become an adventure.<br><br>' +
-      '<em style="color:#665544;">No AI-generated images were used. No backend, no server, no tracking. Just HTML, CSS, JavaScript, and a good story.</em>' +
+      '<em style="color:#665544;">Illustrations generated with AI (Flux). No backend, no server, no tracking. Just HTML, CSS, JavaScript, and a good story.</em>' +
 
       '</div>'
     ],
