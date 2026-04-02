@@ -92,6 +92,22 @@ const ITEMS = {
     icon: '💍',
     description: 'A simple silver ring set with a tiny carved scarab. A parting gift — or a promise.',
     lore: 'Scarab rings were Egyptian in origin but widely adopted across the Mediterranean. They served as seals, amulets, and tokens of affection. The beetle symbolised rebirth and transformation.'
+  },
+
+  // ──── ACT I EXPANSION ITEMS ────
+
+  dove_feather: {
+    name: 'Dove\'s Feather',
+    icon: '🕊️',
+    description: 'A bluish-white dove feather that drifted from an empty sky into your outstretched palm. The priests say it is Aphrodite\'s sign.',
+    lore: 'The dove was Aphrodite\'s most sacred bird. A feather appearing from an empty sky was among the most powerful omens the ancients could receive — a direct, physical sign of divine favor, witnessed by the priests of Delphi themselves.'
+  },
+
+  hecate_torch: {
+    name: 'Hecate\'s Token',
+    icon: '🔥',
+    description: 'A tiny clay torch-shaped amulet, warm to the touch at night. Given by a priestess of Hecate at a mountain crossroads.',
+    lore: 'Hecate was worshipped at crossroads where three roads met. Her priestesses carried torches and performed divination by firelight. Small clay torches were left as offerings — or given to travelers as tokens of the goddess\'s protection on dark roads.'
   }
 
 };

@@ -1520,6 +1520,31 @@ function unlockEncyclopediaEntries(sceneId) {
   updateEncyclopediaCount();
 }
 
+// Manual unlock helpers for use in scene onEnter/choices
+function unlockEncyclopedia(entryId) {
+  if (!ENCYCLOPEDIA[entryId] || unlockedEntries.has(entryId)) return;
+  unlockedEntries.add(entryId);
+  newEntries.add(entryId);
+  const entry = ENCYCLOPEDIA[entryId];
+  showToast(
+    '📖 <strong>' + entry.title + '</strong><br><span style="font-size:12px; color:var(--sage);">Click to read in Encyclopedia</span>',
+    'encyclopedia',
+    () => openEncyclopedia(entryId)
+  );
+  updateEncyclopediaCount();
+}
+
+function awardItem(itemId) {
+  if (!ITEMS[itemId]) return;
+  if (!state.inventory) state.inventory = [];
+  if (state.inventory.includes(itemId)) return;
+  state.inventory.push(itemId);
+  if (!state.newItems) state.newItems = new Set();
+  state.newItems.add(itemId);
+  showItemToast(ITEMS[itemId]);
+  renderInventory();
+}
+
 function updateEncyclopediaCount() {
   const el = document.getElementById('encyclopedia-count');
   if (el) {

@@ -9,7 +9,20 @@ const ACT_CONFIG = {
 const BETA_PASSWORD_HASH = '9c68ef0ca4ced6b8937371813b8a10772e1235d2ba2003161fb6d4bd8d19e0a2';
 
 const SCENE_ACTS = {
-  // Act I — Delphi
+  // Act I — Delphi (Main)
+  pilgrims_fire: 'act1',
+  storm_vision: 'act1',
+  castalia_spring: 'act1',
+  priests_interrogation_1: 'act1',
+  competing_letters: 'act1',
+  fasting_begins: 'act1',
+  priests_interrogation_2: 'act1',
+  sardis_confession: 'act1',
+  dove_feather_omen: 'act1',
+  // Act I — Delphi (Side Quests)
+  sq_egyptian_merchant: 'act1',
+  sq_hecate_priestess: 'act1',
+  // Act I — Delphi (Existing)
   road_to_delphi: 'act1',
   village_rest: 'act1',
   village_info: 'act1',
@@ -258,6 +271,7 @@ const SCENES = {
     ],
     onEnter: () => { updateStat('body', 1, 'A night of rest restored your strength'); },
     choices: [
+      { text: 'Join the other pilgrims by the fire before sleeping', action: () => renderScene('pilgrims_fire') },
       { text: 'Set out at dawn, rested and ready', action: () => renderScene('approach_delphi') }
     ]
   },
@@ -277,9 +291,265 @@ const SCENES = {
         action: () => { state.omensDefied++; updateStat('fate', 1, 'Defied the merchant\'s warning'); renderScene('the_storm'); }
       },
       {
-        text: 'Wait until morning, then proceed carefully',
+        text: 'Wait until morning — join the pilgrims by the fire',
         type: 'omen',
-        action: () => { state.omensFollowed++; updateStat('body', 1, 'Patience preserved your strength'); renderScene('approach_delphi'); }
+        action: () => { state.omensFollowed++; updateStat('body', 1, 'Patience preserved your strength'); renderScene('pilgrims_fire'); }
+      }
+    ]
+  },
+
+  // ---- M01: PILGRIMS BY FIRELIGHT ----
+  pilgrims_fire: {
+    title: 'Pilgrims by Firelight',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Night falls over the mountain village. Around a shared fire, pilgrims from across the Greek world trade rumors about the oracle. A nervous Athenian whispers that the Pythia has been having unsanctioned visions. An Egyptian merchant with hooded eyes speaks of temples older than Apollo\'s. A Phoenician sailor stares into the flames and says nothing.',
+        'The fire crackles, and for one moment every face is lit by the same uncertain glow. You are all strangers. You are all seeking answers.'
+      ];
+      if (cls === 'seer') {
+        lines.push('The fire whispers to you. Not in words — in flickers. You see faces in the flames that are not reflections of anyone present. The other pilgrims do not notice.');
+      } else if (cls === 'warrior') {
+        lines.push('You sit apart from the group, studying them as a soldier studies terrain. Pilgrims are not warriors — they carry fear instead of weapons. But fear, too, is a kind of armor.');
+      } else if (cls === 'seafarer') {
+        lines.push('The Phoenician catches your eye. He has the weathered look of a man who has sailed beyond the charts. You recognize a fellow traveler — someone who measures distance in days at sea, not stadia on land.');
+      } else {
+        lines.push('Something in the fire pulls at you. Not warmth — something deeper. The flames dance in patterns that feel almost familiar, almost like a language you once knew.');
+      }
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.heard_pilgrims = true;
+      unlockEncyclopedia('pilgrims_delphi');
+    },
+    choices: [
+      {
+        text: 'Listen to the Egyptian\'s tale of ancient oracles',
+        action: () => { updateStat('spirit', 1, 'Ancient wisdom broadened your understanding'); renderScene('sq_egyptian_merchant'); }
+      },
+      {
+        text: 'Step outside into the moonlight — you sense something watching',
+        action: () => renderScene('sq_hecate_priestess')
+      },
+      {
+        text: 'Sleep and conserve your strength for tomorrow',
+        action: () => { updateStat('body', 1, 'A full night\'s rest restored your strength'); renderScene('approach_delphi'); }
+      }
+    ]
+  },
+
+  // ---- M02: VISION IN THE STORM ----
+  storm_vision: {
+    title: 'Vision in the Storm',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'As the ecstasy of the storm dance fades, a vision seizes you. A winged figure — female, radiant, neither human nor fully divine — hovers at the edge of sight. She speaks without words: <span class="omen-text">"Not yet. But some day you will know me."</span>',
+        'The vision lasts only a heartbeat, but it leaves your limbs trembling and a strange certainty lodged beneath your ribs. You are not alone. You have never been alone.'
+      ];
+      if (cls === 'seer') {
+        lines.push('You see her clearly — more clearly than the mountain, more clearly than your own hands. She is your guardian spirit, the winged being that has watched over you since before memory. You have always known she was there. This is the first time she has let you look.');
+      } else if (cls === 'warrior') {
+        lines.push('She carries a shield — or no, it is a wing. For a moment you see a warrior-goddess with eyes that burn like bronze in a forge. Then she is gone, and you are left with the echo of something ancient and fierce.');
+      } else if (cls === 'seafarer') {
+        lines.push('She walks on the storm-winds like waves — effortless, her wings spread like sails. A figure made for the sky the way you were made for the sea. She looks at you with recognition, as though she has been following your wake for years.');
+      } else {
+        lines.push('The winged being speaks your name — not Turms, but something older, something that vibrates in your chest like the string of a lyre. You cannot hold the sound. It slips away like water through fingers.');
+      }
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.saw_guardian_spirit = true;
+      unlockEncyclopedia('guardian_spirits');
+    },
+    choices: [
+      {
+        text: 'Reach out to touch the vision — demand to know her name',
+        roll: {
+          label: 'Touch the Guardian Spirit',
+          stat: 'spirit',
+          success: () => {
+            state.flags.touched_guardian = true;
+            updateStat('spirit', 2, 'Your fingers brushed the edge of the divine');
+            addPebble('white', 'A winged shadow in the storm');
+            renderScene('arrival_delphi_storm');
+          },
+          failure: () => {
+            updateStat('spirit', 1, 'The vision faded, but the certainty remains');
+            addPebble('white', 'A winged shadow in the storm');
+            renderScene('arrival_delphi_storm');
+          }
+        }
+      },
+      {
+        text: 'Accept the mystery and continue walking',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'You trusted the vision without demanding answers');
+          addPebble('white', 'A winged shadow in the storm');
+          renderScene('arrival_delphi_storm');
+        }
+      },
+      {
+        text: '"I am no one\'s puppet" — reject the vision',
+        type: 'defy',
+        action: () => {
+          state.omensDefied++;
+          updateStat('body', 1, 'You chose your own strength over divine whispers');
+          renderScene('arrival_delphi_storm');
+        }
+      }
+    ]
+  },
+
+  // ---- M03: THE CASTALIAN SPRING ----
+  castalia_spring: {
+    title: 'The Castalian Spring',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Before entering the sacred precinct, you must purify yourself at the Castalian Spring. The water pours from a cleft in the rock face between the twin Phaedriades cliffs, ice-cold and clear. Other pilgrims wash quietly, whispering prayers.',
+        'The water stings your skin. As you submerge your hands, the guilt of Sardis seems to leach from your fingertips into the current. For a moment, you feel transparent — as though the water can see through you.'
+      ];
+      if (cls === 'seer') {
+        lines.push('In the water\'s surface you see faces — not reflections, but visions. A woman with shifting features. A Spartan youth with a javelin. A dark-haired girl on a rooftop garden, watching ships. Future companions? The water does not explain.');
+      } else if (cls === 'seafarer') {
+        lines.push('"All water is the same goddess," you murmur, and a pilgrim beside you looks up sharply. But it is true — the spring, the sea, the rain that nearly killed you on the mountain. All one current, all one force.');
+      } else if (cls === 'warrior') {
+        lines.push('You perform the ritual with military precision — hands, face, feet, each movement deliberate. A soldier does not waste motion, even in prayer.');
+      } else {
+        lines.push('The water knows you. It flows over your lightning scar and the skin tingles — not with pain but with recognition. Whatever lives in this spring has met you before, in another form, in another age.');
+      }
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('castalian_spring');
+    },
+    choices: [
+      {
+        text: 'Perform the full ritual: drink, wash face, hands, and feet',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          state.flags.purified_castalia = true;
+          updateStat('spirit', 1, 'The ritual purification opened your mind');
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Splash quickly and move on — the temple awaits',
+        action: () => { state.flags.purified_castalia = true; renderScene('temple_calm'); }
+      },
+      ...(state.flags.danced_in_storm ? [{
+        text: '"The storm already cleansed me" — refuse to purify',
+        type: 'defy',
+        action: () => {
+          state.omensDefied++;
+          state.flags.refused_purification = true;
+          renderScene('temple_rush');
+        }
+      }] : [])
+    ]
+  },
+
+  // ---- S03: EGYPTIAN MERCHANT'S TALE ----
+  sq_egyptian_merchant: {
+    title: 'The Egyptian Merchant\'s Tale',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The Egyptian merchant pulls you aside from the fire. He has traveled farther than anyone here — from the temples of Thebes to the oracle at Siwa.',
+        '<span class="italic">"Your oracle is young,"</span> he says with a thin smile. <span class="italic">"In Egypt, the gods have spoken for three thousand years. Through the movement of sacred boats, through the nodding of statues, through dreams induced by temple sleep."</span>',
+        'He studies you over the rim of his wine cup. <span class="italic">"All oracles say the same thing,"</span> he concludes. <span class="italic">"They say what the seeker already knows."</span>'
+      ];
+      if (cls === 'seer') lines.push('His words strike you like a bell. What the seeker already knows. What do <span class="italic">you</span> know, beneath the guilt and the questions? The answer frightens you more than the storm.');
+      else if (cls === 'seafarer') lines.push('You ask about the routes to Egypt. He laughs. "You sailors — always thinking in distances. The journey to wisdom is not measured in stadia."');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_egyptian = true;
+      unlockEncyclopedia('oracles_egypt');
+    },
+    choices: [
+      {
+        text: '"Have you met people from the west — the Etruscans?"',
+        action: () => {
+          updateStat('spirit', 1, 'Ancient wisdom broadened your understanding');
+          renderScene('approach_delphi');
+        }
+      },
+      {
+        text: 'Challenge his skepticism — "Then why do men still travel to oracles?"',
+        action: () => {
+          updateStat('fate', 1, 'You held your ground against cynicism');
+          renderScene('approach_delphi');
+        }
+      },
+      {
+        text: 'Ask about temple sleep — could the gods speak through dreams?',
+        action: () => {
+          unlockEncyclopedia('temple_incubation');
+          updateStat('spirit', 1, 'New knowledge settled into you');
+          renderScene('approach_delphi');
+        }
+      }
+    ]
+  },
+
+  // ---- S04: PRIESTESS OF HECATE ----
+  sq_hecate_priestess: {
+    title: 'The Priestess of Hecate',
+    text: () => {
+      const cls = state.charClass;
+      const hadDream = state.flags.village_rest_taken;
+      const lines = [
+        'Outside in the moonlight, you encounter a woman dressed in black, her face half-veiled. She stands at the crossroads where three paths meet — the road to Delphi, the road back to the coast, and a goat track disappearing into the mountain.',
+        'She recognizes something in you immediately.',
+        '<span class="omen-text">"You have been touched,"</span> she says. <span class="omen-text">"Not by Apollo — he is too bright for whatever lives in you. By someone older. Darker. More loving."</span>'
+      ];
+      if (cls === 'seer') lines.push('You see her aura — dark, but not evil. The darkness of deep water, of rich earth, of the space between stars. She is a conduit for powers older than the Olympians.');
+      else if (cls === 'storm_born') lines.push('The lightning scar on your body pulses faintly in her presence. She notices. Her eyes widen behind the veil.');
+      lines.push('She offers to read your fate by torchlight at the crossroads.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_hecate_priestess = true;
+      unlockEncyclopedia('hecate');
+    },
+    choices: [
+      {
+        text: 'Accept the reading',
+        roll: {
+          label: 'Hecate\'s Reading',
+          stat: 'fate',
+          success: () => {
+            state.flags.hecate_blessing = true;
+            updateStat('fate', 1, 'Hecate\'s priestess saw a thread of destiny in your palm');
+            awardItem('hecate_torch');
+            renderScene('approach_delphi');
+          },
+          failure: () => {
+            updateStat('spirit', -1, 'The vision was disturbing — faces in the dark, screaming');
+            awardItem('hecate_torch');
+            renderScene('approach_delphi');
+          }
+        }
+      },
+      {
+        text: 'Decline respectfully — "I seek Apollo\'s judgment, not Hecate\'s"',
+        action: () => {
+          updateStat('fate', 1, 'You stayed true to your purpose');
+          renderScene('approach_delphi');
+        }
+      },
+      {
+        text: '"I dreamed of a black dog. What does it mean?"',
+        action: () => {
+          updateStat('spirit', 1, 'The priestess smiled — "The dog guards the threshold. You are closer to crossing than you know"');
+          awardItem('hecate_torch');
+          renderScene('approach_delphi');
+        }
       }
     ]
   },
@@ -350,7 +620,7 @@ const SCENES = {
         text: 'Continue dancing until you reach the valley of Delphi',
         action: () => {
           addPebble('black', 'The Storm Dance — I knew myself for the first time');
-          renderScene('arrival_delphi_storm');
+          renderScene('storm_vision');
         }
       }
     ]
@@ -423,9 +693,9 @@ const SCENES = {
     ],
     choices: [
       {
-        text: 'Purify yourself properly — follow the rituals step by step',
+        text: 'Approach the Castalian Spring to purify yourself',
         type: 'omen',
-        action: () => { state.omensFollowed++; updateStat('spirit', 1, 'Ritual purification opened your mind'); renderScene('temple_calm'); }
+        action: () => renderScene('castalia_spring')
       },
       {
         text: 'Run straight for the temple — seize divine protection now',
@@ -457,17 +727,13 @@ const SCENES = {
     text: [
       'You wash in the fountain as custom requires, letting the cold water carry away the dust of travel. You dress in clean garments and follow the sacred way up the terraces, between statues and monuments offered by kings and cities.',
       'The servants acknowledge you with a nod. You make the proper offerings — a handful of coins — and are led into the anteroom of the temple.',
-      'There you wait. On the walls you read the maxims of the seven wise men. The smell of holy bay wood burning at the altar reaches your nostrils. Hours pass.',
-      'Finally, the four priests emerge, adjusting their headbands. They study you with tired, suspicious eyes. "Who are you, and what judgment do you seek?"'
+      'There you wait. On the walls you read the maxims of the seven wise men: <span class="italic">"Know thyself. Nothing in excess. Surety brings ruin."</span> The smell of holy bay wood burning at the altar reaches your nostrils. Hours pass.',
+      'You are led deeper into the temple, past the great silver urns, until you reach the innermost chamber. The Omphalos — the black center of the earth — waits in the dim light.'
     ],
     choices: [
       {
-        text: 'Tell them everything — the burning of Sardis, the lightning, your guilt',
-        action: () => { updateStat('spirit', 1, 'Honesty lightened your soul'); renderScene('priests_question'); }
-      },
-      {
-        text: 'Speak carefully — reveal only what is necessary',
-        action: () => { updateStat('fate', 1, 'Cunning may serve you later'); renderScene('priests_question'); }
+        text: 'Touch the sacred stone...',
+        action: () => renderScene('the_omphalos')
       }
     ]
   },
@@ -499,7 +765,65 @@ const SCENES = {
       'You deliberate. "I have not sinned against the Hellenic gods. On the contrary, the sacred virgin, the sister of your deity, watches over me."'
     ],
     choices: [
-      { text: 'Wait for the Pythia...', action: () => renderScene('the_pythia') }
+      { text: 'Submit to the priests\' judgment...', action: () => renderScene('priests_interrogation_1') }
+    ]
+  },
+
+  // ---- M04: THE FIRST INTERROGATION ----
+  priests_interrogation_1: {
+    title: 'The First Interrogation',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The four priests settle onto their stone seats, adjusting sacred headbands. They are old, weary, and suspicious. The eldest speaks first:',
+        '<span class="italic">"Who are you, stranger? Not your name — we know names are masks. Who are you truly?"</span>',
+        'They want to know about Ephesus, about the lightning, about why you came dancing out of the storm — or walking calmly through the sacred way. Each question peels back a layer. You feel exposed — not by their skill, but by their patience. These are men who have spent decades sifting truth from pilgrims\' lies.'
+      ];
+      if (cls === 'warrior') lines.push('You sit like a soldier before a tribunal — spine straight, eyes forward. The priests notice your discipline. They have seen warriors before, but not ones with your particular wound.');
+      else if (cls === 'seer') lines.push('You sense their thoughts like currents — skepticism from the youngest, weariness from the eldest, genuine curiosity from the one who says least. They are testing you, but you are also reading them.');
+      else if (cls === 'seafarer') lines.push('You recognize a negotiation when you see one. These priests trade in truth the way merchants trade in silver. The question is what currency you carry.');
+      else lines.push('Under their gaze, something stirs in you — the same force that danced in the storm. You feel your face grow warm. The youngest priest blinks and looks away.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('four_priests');
+    },
+    choices: [
+      {
+        text: 'Tell the complete truth — the lightning, the stoning, everything',
+        action: () => {
+          state.flags.interrogation_approach = 'honest';
+          state.flags.fully_honest = true;
+          updateStat('spirit', 1, 'Honesty lightened your soul');
+          renderScene('priests_question');
+        }
+      },
+      {
+        text: 'Tell a careful version — truth, but shaped',
+        action: () => {
+          state.flags.interrogation_approach = 'careful';
+          state.flags.spoke_carefully = true;
+          updateStat('fate', 1, 'Careful words may serve you later');
+          renderScene('priests_question');
+        }
+      },
+      {
+        text: '"First tell me: does this temple truly speak for a god?"',
+        roll: {
+          label: 'Challenge the Priests',
+          stat: 'spirit',
+          success: () => {
+            state.flags.interrogation_approach = 'bold';
+            updateStat('spirit', 1, 'The priests respect your boldness');
+            renderScene('priests_question');
+          },
+          failure: () => {
+            state.flags.interrogation_approach = 'bold';
+            updateStat('fate', -1, 'The priests grow cold at your presumption');
+            renderScene('priests_question');
+          }
+        }
+      }
     ]
   },
 
@@ -508,11 +832,268 @@ const SCENES = {
     text: [
       'The old men listen. They are weary — winter approaches and they yearn for peace. But your story troubles them.',
       '"The burning of a temple," they mutter, "even that of the Asian Cybele, whom we abhor — is a serious matter. Once temples begin to be burned, not even the gods of the Hellenes will be safe."',
-      'They read the wax tablets you brought from Ephesus. One, from the priestess Artemisia, declares you innocent. The other, from the Council of Elders, demands you be cast from the cliff.',
-      'The priests fall into argument. Then — a disturbance. A woman\'s voice from the inner chamber. The Pythia has awakened.'
+      'They produce the wax tablets you brought from Ephesus. Two testimonies, sealed and unread until this moment. The priests exchange glances. "Let us see what your own people say about you."'
     ],
     choices: [
-      { text: 'Follow the priests to the Pythia...', action: () => renderScene('the_pythia') }
+      { text: 'Watch as the priests unseal the tablets...', action: () => renderScene('competing_letters') }
+    ]
+  },
+
+  // ---- M05: THE COMPETING LETTERS ----
+  competing_letters: {
+    title: 'The Competing Letters',
+    text: [
+      'The priests read the tablets aloud, and the contradiction hangs in the air like smoke.',
+      'Artemisia of Ephesus, high priestess, declares you innocent — <span class="omen-text">"the goddess herself guided his hand. What was burned was Cybele\'s abomination, not a sanctuary of the Hellenic gods."</span>',
+      'Epenides of the Council of Elders demands your death — <span class="omen-text">"let Turms be cast from the cliff lest he bring about still greater harm. He is a blasphemer, a rebel, and a temple-burner."</span>',
+      'The priests fall into heated argument. One wonders aloud whether the burning of any temple, even Cybele\'s, might embolden those who would burn Apollo\'s. Another insists that the distinction matters — Cybele is foreign, Artemis is not.',
+      'They turn to you. "What say you in your own defense?"'
+    ],
+    onEnter: () => {
+      state.flags.letters_read = true;
+      unlockEncyclopedia('artemisia');
+      unlockEncyclopedia('burning_sardis');
+    },
+    choices: [
+      {
+        text: '"I was the goddess\'s instrument — my hand, her will"',
+        roll: {
+          label: 'Speak in Your Defense',
+          stat: 'spirit',
+          success: () => {
+            state.flags.defense_convincing = true;
+            updateStat('spirit', 1, 'Your words carried the weight of conviction');
+            renderScene('fasting_begins');
+          },
+          failure: () => {
+            renderScene('fasting_begins');
+          }
+        }
+      },
+      {
+        text: 'Let the letters speak for themselves — silence is its own argument',
+        action: () => {
+          updateStat('fate', 1, 'You trusted the evidence to carry your case');
+          renderScene('fasting_begins');
+        }
+      },
+      {
+        text: '"Epenides writes from cowardice, not righteousness"',
+        action: () => {
+          state.flags.denounced_epenides = true;
+          updateStat('spirit', 1, 'You spoke with fire');
+          updateStat('fate', -1, 'Bold words have consequences');
+          renderScene('fasting_begins');
+        }
+      }
+    ]
+  },
+
+  // ---- M06: THE FASTING BEGINS ----
+  fasting_begins: {
+    title: 'The Fasting Begins',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Days blur into weeks. The servants instruct you in the rituals of purification: fasting, cold water, prayers at dawn. Your body thins. Your mind sharpens.',
+        'The world takes on a crystalline quality — sounds are louder, colors brighter, and at night you dream of things you have never seen. A city of painted tombs. A woman whose face shifts like the Pythia\'s. A language that lives in your throat but will not reach your tongue.',
+        'The fasting strips away everything that is not essential. What remains is the question: <span class="bold">who are you?</span>'
+      ];
+      if (cls === 'warrior') lines.push('The inaction gnaws at you. Your body, trained for daily exertion, rebels against the stillness. You pace the anteroom like a caged animal, counting the stones in the wall, shadow-boxing against columns.');
+      else if (cls === 'seer') lines.push('The fasting intensifies your visions. At night, the boundary between dream and waking dissolves. You see the temple as it was a thousand years ago — bare rocks worshipped under an open sky, before Apollo, before names.');
+      else if (cls === 'seafarer') lines.push('You are restless. The mountain air feels wrong — too thin, too still, too far from the salt-tang of the coast. At night you dream of tides, and your body rocks gently as though the temple floor were a deck.');
+      else lines.push('Something is changing. The fasting peels back layers you did not know you had. Beneath the exile, beneath the guilt, beneath the man who ran from Ephesus — there is something else. Something older. You feel it stirring.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('purification_rites');
+    },
+    choices: [
+      {
+        text: 'Embrace the fast completely — let the visions come',
+        action: () => {
+          state.flags.deep_fast = true;
+          updateStat('spirit', 2, 'The visions came, and you did not flinch');
+          updateStat('body', -1, 'The fasting weakened your body');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      {
+        text: 'Maintain your strength — eat when the servants aren\'t looking',
+        action: () => {
+          updateStat('body', 1, 'You kept your strength through quiet disobedience');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      {
+        text: 'Use the time between rituals to explore Delphi',
+        action: () => {
+          state.flags.explored_during_fast = true;
+          renderScene('priests_interrogation_2');
+        }
+      }
+    ]
+  },
+
+  // ---- M07: THE SECOND INTERROGATION ----
+  priests_interrogation_2: {
+    title: 'The Second Interrogation',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The priests summon you again, leaner and paler than before. This time they want details. Not the political facts — they have those from merchants and sailors. They want to know what it <span class="italic">felt</span> like to hold the torch.',
+        '"As old men are wont to do," they make you begin at the beginning. What possessed you. Whether you heard a voice, saw a sign, felt a hand on your shoulder.',
+        'The youngest priest watches you with particular intensity. You wonder whether he believes you or is simply cataloguing your lies.'
+      ];
+      if (cls === 'warrior') lines.push('You tell it like a battle report — the march inland, the three days\' journey, the reed-thatched roofs. You are precise about the tactical failure. You say nothing about the screaming.');
+      else if (cls === 'seer') lines.push('As you speak, the visions that accompanied the fire return — the women\'s festival, the flames leaping from roof to roof, the faces illuminated by destruction. You relive it as the priests watch.');
+      else if (cls === 'seafarer') lines.push('You describe the naval context — the Athenian ships at the quay, the supply lines, the sea routes. You frame Sardis as a port that burned instead of a city. The priests are unconvinced.');
+      else lines.push('Your voice falters. The guilt is a physical thing — a weight on your chest, a taste in your mouth. The youngest priest leans forward. He sees something in your face that interests him.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('ionian_revolt');
+    },
+    choices: [
+      {
+        text: 'Describe the burning in full honesty — the chaos, the shame',
+        action: () => {
+          state.flags.shame_confessed = true;
+          updateStat('spirit', 1, 'The truth, even the ugly truth, has weight');
+          renderScene('sardis_confession');
+        }
+      },
+      {
+        text: '"Artemis guided my hand against Cybele" — frame it as divine mission',
+        roll: {
+          label: 'Convince the Priests',
+          stat: 'fate',
+          success: () => {
+            updateStat('fate', 1, 'The priests accepted your framing');
+            renderScene('sardis_confession');
+          },
+          failure: () => {
+            updateStat('fate', -1, 'The priests saw through your framing');
+            renderScene('sardis_confession');
+          }
+        }
+      },
+      {
+        text: 'Break down — the guilt overwhelms you',
+        action: () => {
+          updateStat('spirit', 2, 'Vulnerability is its own kind of strength');
+          updateStat('fate', -1, 'The priests see your weakness');
+          renderScene('sardis_confession');
+        }
+      }
+    ]
+  },
+
+  // ---- M08: THE BURNING OF SARDIS ----
+  sardis_confession: {
+    title: 'The Burning of Sardis',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'As you speak, memory becomes vision. You are back in Sardis.',
+        'The Athenian ships at the quay. The march inland — three days, sheep following a ram. The city\'s reed-thatched roofs. The temple of Cybele, squat and dark. The torch in your hand. The wind that caught the flames and spread them beyond anything you intended.',
+        'The flight, the Persian auxiliaries, the Ephesians\' midnight festival gone wrong. And through it all, the sickening certainty that you have done something that cannot be undone.'
+      ];
+      if (cls === 'storm_born') lines.push('You remember the fire matching the lightning — the same force, the same indifference. Was it you who burned Sardis, or the storm that lives inside you?');
+      else if (cls === 'warrior') lines.push('You analyze the tactical failure with a soldier\'s eye. The roofs. The wind direction. The lack of a firebreak. It was not arson — it was incompetence. That is worse.');
+      else if (cls === 'seer') lines.push('You see the future fires this act will kindle — the Persian reprisal, the fleet at Lade, the decades of war. One torch, one city, one cascade of consequences spreading like ripples across the Aegean.');
+      else lines.push('You think of the ships that will never come home. The sailors who trusted their captains. The women on the rooftops watching the smoke. War is not a story. War is a smell — burning thatch, burning flesh, burning hope.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('burning_sardis_ext');
+    },
+    choices: [
+      {
+        text: '"I accept full responsibility — the fire was my hand, my choice"',
+        type: 'omen',
+        action: () => {
+          state.flags.sardis_stance = 'responsible';
+          state.omensFollowed++;
+          updateStat('spirit', 1, 'You shouldered the weight of your actions');
+          addPebble('black', 'Sardis burns in my memory');
+          renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: '"The goddess used me — I was her instrument, not the author"',
+        type: 'defy',
+        action: () => {
+          state.flags.sardis_stance = 'instrument';
+          state.omensDefied++;
+          updateStat('fate', 1, 'You placed the burden on the divine');
+          addPebble('black', 'Sardis burns in my memory');
+          renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: '"It was war. War burns. I am neither hero nor monster"',
+        action: () => {
+          state.flags.sardis_stance = 'pragmatic';
+          updateStat('body', 1, 'Pragmatic acceptance steadied your resolve');
+          addPebble('black', 'Sardis burns in my memory');
+          renderScene('dove_feather_omen');
+        }
+      }
+    ]
+  },
+
+  // ---- M09: THE DOVE'S FEATHER ----
+  dove_feather_omen: {
+    title: 'The Dove\'s Feather',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You and the priests step outside the anteroom into the open air. The sky is somber. The priests clutch their robes against the cold.',
+        'You extend your hand, palm up, and say: <span class="bold">"Let us wait for an omen."</span>',
+        'And then it happens. A bluish-white dove\'s feather drifts down from the empty sky and lands in your outstretched palm.',
+        'The priests crowd around, eyes wide. <span class="omen-text">"The dove is Aphrodite\'s bird,"</span> the eldest whispers. <span class="omen-text">"Behold — the Cytherean has thrown her golden veil over him."</span>',
+        'Lightning flickers on a western peak. Thunder rumbles through the valley. Then silence.'
+      ];
+      if (cls === 'seer') lines.push('For a flicker — less than a heartbeat — you see her. Not the dove, not the feather. Aphrodite herself, golden and amused, watching from the edge of the sky. Then she is gone.');
+      else if (cls === 'seafarer') lines.push('A dove. A navigator\'s sign — doves always fly toward land. This one came from the west. The direction is clear.');
+      else if (cls === 'warrior') lines.push('You are unmoved by superstition. But you cannot explain the chill that runs through you, or the way the feather sits in your palm as though it was always meant to land there.');
+      else lines.push('The thunder echoes the storm dance. The feather echoes the winged figure. Everything is connected — thread by thread, omen by omen — and the pattern is pulling you west.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('aphrodite_dove');
+      awardItem('dove_feather');
+    },
+    choices: [
+      {
+        text: 'Hold the feather aloft — "This is the sign. Let the Pythia speak"',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          state.flags.dove_omen_response = 'proclaimed';
+          updateStat('spirit', 1, 'You proclaimed the sign before the priests');
+          addPebble('white', 'Aphrodite\'s feather fell into my hand');
+          renderScene('the_pythia');
+        }
+      },
+      {
+        text: 'Pocket the feather quietly — trust the sign, but need no spectacle',
+        action: () => {
+          state.flags.dove_omen_response = 'quiet';
+          updateStat('fate', 1, 'You kept the sign between yourself and the goddess');
+          renderScene('the_pythia');
+        }
+      },
+      {
+        text: '"It is only a feather. Doves fly over Delphi every day"',
+        type: 'defy',
+        action: () => {
+          state.omensDefied++;
+          state.flags.dove_omen_response = 'dismissed';
+          renderScene('the_pythia');
+        }
+      }
     ]
   },
 

@@ -174,6 +174,99 @@ const ENCYCLOPEDIA = {
     scenes: ['the_voyage', 'the_crossing', 'corinth_arrival']
   },
 
+  // ──── ACT I EXPANSION ────
+
+  pilgrims_delphi: {
+    title: 'Pilgrims of Delphi',
+    category: 'culture',
+    text: 'Pilgrims came to Delphi from across the Greek world and beyond — from Ionia, Egypt, Italy, and even Persia. They traveled by land and sea, often in groups for safety, bringing offerings and questions for the oracle. The journey itself was considered a sacred act. Pilgrims purified themselves at the Castalian Spring before entering the sacred precinct and were expected to observe strict ritual protocols. The economy of Delphi depended almost entirely on pilgrim traffic, which peaked during the four annual festivals.',
+    scenes: []
+  },
+
+  guardian_spirits: {
+    title: 'Guardian Spirits (Etruscan)',
+    category: 'culture',
+    text: 'The Etruscans believed each person was accompanied by a guardian spirit — a winged being that watched over them from birth to death. Unlike the Greek daimon or the Roman genius, the Etruscan guardian spirit was depicted as distinctly female, with powerful wings and an otherworldly beauty. In tomb paintings, these spirits are shown carrying the deceased to the afterlife. The relationship between mortal and spirit was intimate: the spirit knew the person\'s true name, and would whisper it at the moment of death.',
+    scenes: []
+  },
+
+  castalian_spring: {
+    title: 'Castalian Spring',
+    category: 'places',
+    text: 'The Castalian Spring flows from a cleft in the rocks between the twin Phaedriades cliffs at Delphi. Sacred to Apollo and the Muses, it was the primary site of ritual purification for all who entered the sacred precinct — pilgrims, priests, and the Pythia herself. The water was believed to carry prophetic power: those who drank deeply might receive visions, while the act of washing symbolized the stripping away of worldly corruption. The spring flows year-round, even in the driest summers.',
+    scenes: []
+  },
+
+  four_priests: {
+    title: 'The Four Priests of Delphi',
+    category: 'people',
+    text: 'The temple of Apollo at Delphi was administered by a college of priests drawn from Delphi\'s leading families. By the 6th century BCE, four senior priests typically handled judicial matters — hearing cases, interpreting the Pythia\'s utterances, and managing the treasury. They were shrewd political operators as well as religious officials, balancing the interests of competing Greek city-states while maintaining the oracle\'s reputation for impartiality. Their interrogation of supplicants could last weeks or months, involving fasting, purification, and detailed testimony.',
+    scenes: []
+  },
+
+  artemisia: {
+    title: 'Artemisia of Ephesus',
+    category: 'people',
+    text: 'Artemisia served as a high-ranking priestess of Artemis at Ephesus, one of the most powerful religious positions in the eastern Greek world. The Temple of Artemis at Ephesus was one of the Seven Wonders of the Ancient World — an enormous marble structure that served as both sanctuary and bank. Artemisia\'s letter of support for Turms reflects the complex politics of the Ionian cities: the temple establishment sometimes supported individuals whom the civil authorities condemned, creating a parallel system of justice rooted in divine rather than human law.',
+    scenes: []
+  },
+
+  burning_sardis: {
+    title: 'The Burning of Sardis',
+    category: 'culture',
+    text: 'In 498 BCE, a combined force of Athenians, Eretrians, and Ionians marched inland from Ephesus and attacked Sardis, the capital of the Persian satrapy of Lydia. The city\'s reed-thatched roofs caught fire during the assault, and the blaze spread uncontrollably, destroying much of the city including the temple of Cybele. The expedition retreated in disarray, pursued by Persian cavalry. The burning of Sardis enraged the Persian king Darius and is traditionally cited as the immediate cause of the Greco-Persian Wars.',
+    scenes: []
+  },
+
+  purification_rites: {
+    title: 'Purification Rites at Delphi',
+    category: 'culture',
+    text: 'Purification at Delphi was not a single act but an extended process. Supplicants fasted, washed in the Castalian Spring, offered sacrifices, and submitted to questioning by the priests. For serious cases — those involving bloodshed, sacrilege, or ambiguous guilt — the process could last weeks or months. The fasting was genuinely severe: reduced to bread, water, and occasional fruit, supplicants often experienced vivid dreams and altered states of consciousness, which the priests interpreted as signs of divine engagement.',
+    scenes: []
+  },
+
+  ionian_revolt: {
+    title: 'The Ionian Revolt',
+    category: 'culture',
+    text: 'The Ionian Revolt (499-493 BCE) was the uprising of Greek city-states in Asia Minor against Persian rule. Sparked by the ambitions of Aristagoras of Miletus and supported by Athens and Eretria, the revolt included the burning of Sardis but ultimately failed at the naval Battle of Lade (494 BCE). Miletus was destroyed, and the Persian Empire turned its attention to punishing Athens — leading directly to the Battles of Marathon and Salamis. For individuals like Turms, caught up in the revolt, the consequences were exile, displacement, and lasting guilt.',
+    scenes: []
+  },
+
+  burning_sardis_ext: {
+    title: 'The Burning of Sardis (Extended)',
+    category: 'culture',
+    text: 'The assault on Sardis was chaotic and poorly planned. The Greek forces reached the city easily — the Persians had not expected an attack so deep inland — but had no strategy for holding it. A soldier set fire to a house near the temple of Cybele, and the wind carried the flames across the city\'s thatched roofs. The fire was not intentional strategy but catastrophic accident. The destruction of Cybele\'s temple particularly outraged the Persians, who would later cite it as justification for burning Greek temples during Xerxes\' invasion.',
+    scenes: []
+  },
+
+  aphrodite_dove: {
+    title: 'Aphrodite and the Dove',
+    category: 'gods',
+    text: 'The dove was Aphrodite\'s most sacred bird — a symbol of love, beauty, and the goddess\'s gentler aspects. In Greek art, Aphrodite is frequently depicted with doves perched on her hand or shoulder. At her temple on Mount Eryx in Sicily, sacred doves were kept and fed by the priests. A dove appearing unexpectedly — especially a feather falling from an empty sky — was interpreted as a direct sign of Aphrodite\'s favor. The goddess was also associated with the sea, the evening star, and the western direction.',
+    scenes: []
+  },
+
+  oracles_egypt: {
+    title: 'Oracles of Egypt',
+    category: 'culture',
+    text: 'Long before Delphi, Egypt had developed elaborate systems of divine communication. The oracle of Amun at Siwa — which Alexander the Great would later visit — delivered prophecies through the movement of a sacred boat carried by priests. Temple incubation, where supplicants slept in sacred chambers to receive prophetic dreams, was practiced at temples of Isis and Serapis. Egyptian oracle practice influenced Greek traditions, though the Greeks adapted the concept to their own religious framework.',
+    scenes: []
+  },
+
+  temple_incubation: {
+    title: 'Temple Incubation',
+    category: 'culture',
+    text: 'Temple incubation was the practice of sleeping within a sacred precinct to receive divine messages through dreams. Practiced across the ancient Mediterranean — in Egypt, Greece, and Etruria — it was considered one of the most direct forms of communication with the gods. The supplicant would fast, purify, and make offerings before lying down in a specially designated chamber. The dreams that followed were interpreted by priests. The practice was particularly associated with healing cults — patients slept in temples of Asclepius hoping for curative visions.',
+    scenes: []
+  },
+
+  hecate: {
+    title: 'Hecate',
+    category: 'gods',
+    text: 'Hecate was the goddess of crossroads, the underworld, and the moon — a liminal deity who stood at the boundaries between worlds. Unlike the bright Olympians, Hecate operated in darkness, guiding souls, protecting travelers at night, and commanding spirits. Her sacred animal was the black dog. Offerings were left at crossroads where three roads met. Her priestesses practiced divination by torchlight. In the Etruscan religious system, Hecate corresponded to similar chthonic deities associated with the passage between life and death.',
+    scenes: []
+  },
+
 };
 
 // Scenes → encyclopedia entries mapping (which entries unlock at which scene)
