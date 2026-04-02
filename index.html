@@ -1248,6 +1248,10 @@ function loadCheckpoint() {
     const raw = localStorage.getItem('etruscan_checkpoint');
     if (!raw) return;
     const save = JSON.parse(raw);
+    if (!isSceneEnabled(save.scene)) {
+      showToast('This checkpoint is from an unreleased act', 'checkpoint');
+      return;
+    }
     state.charClass = save.charClass;
     state.spirit = save.spirit;
     state.body = save.body;
@@ -1628,6 +1632,7 @@ function updateBackButton() {
 }
 
 function renderScene(sceneId, isBack) {
+  if (!isSceneEnabled(sceneId)) { renderScene('act1_end', isBack); return; }
   closeSidebar();
   if (!isBack && state.currentScene && state.currentScene !== 'title' && sceneId !== 'about') {
     sceneHistory.push(state.currentScene);
@@ -1705,6 +1710,16 @@ function renderScene(sceneId, isBack) {
   const choices = typeof scene.choices === 'function' ? scene.choices() : scene.choices;
   if (choices) {
     choices.forEach(c => {
+      if (c.target && !isSceneEnabled(c.target)) {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = c.text + ' — Coming Soon';
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.cursor = 'default';
+        choicesEl.appendChild(btn);
+        return;
+      }
       const btn = document.createElement('button');
       btn.className = 'choice-btn';
       if (c.type === 'omen') btn.classList.add('omen-choice');
@@ -1776,6 +1791,18 @@ function restartGame() {
   renderScene('title');
   window.scrollTo(0, 0);
 }
+
+// === ACT SWITCH URL OVERRIDE (F-113) ===
+(function() {
+  const acts = new URLSearchParams(window.location.search).get('acts');
+  if (acts) {
+    Object.keys(ACT_CONFIG).forEach(k => ACT_CONFIG[k] = false);
+    acts.split(',').forEach(a => {
+      const key = 'act' + a.trim();
+      if (key in ACT_CONFIG) ACT_CONFIG[key] = true;
+    });
+  }
+})();
 
 // === INIT ===
 renderInventory();

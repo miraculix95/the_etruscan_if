@@ -1,3 +1,65 @@
+// Developer Act Switch (F-113)
+// Toggle acts for production vs. testing. URL override: ?acts=1,2
+const ACT_CONFIG = {
+  act1: true,
+  act2: false,
+};
+
+const SCENE_ACTS = {
+  // Act I — Delphi
+  road_to_delphi: 'act1',
+  village_rest: 'act1',
+  village_info: 'act1',
+  the_storm: 'act1',
+  storm_survived: 'act1',
+  storm_death: 'act1',
+  approach_delphi: 'act1',
+  arrival_delphi_storm: 'act1',
+  temple_calm: 'act1',
+  temple_rush: 'act1',
+  the_omphalos: 'act1',
+  priests_question: 'act1',
+  the_pythia: 'act1',
+  after_pythia: 'act1',
+  the_stadium: 'act1',
+  after_race: 'act1',
+  friendship: 'act1',
+  the_bones: 'act1',
+  choose_east: 'act1',
+  choose_west: 'act1',
+  choose_corinth: 'act1',
+  act1_end: 'act1',
+  // Act II — The Western Sea
+  act2_title: 'act2',
+  corinth_arrival: 'act2',
+  corinth_dionysius: 'act2',
+  the_voyage: 'act2',
+  sea_battle_choice: 'act2',
+  sea_storm_act2: 'act2',
+  sea_survived_act2: 'act2',
+  sea_death: 'act2',
+  sicily_shores: 'act2',
+  himera_gates: 'act2',
+  tanakil_feast: 'act2',
+  himera_winter: 'act2',
+  kydippe_trap: 'act2',
+  road_to_eryx: 'act2',
+  temple_eryx: 'act2',
+  goddess_sleep: 'act2',
+  arsinoe_night: 'act2',
+  arsinoe_day: 'act2',
+  eryx_death: 'act2',
+  arsinoe_saved: 'act2',
+  flight_from_eryx: 'act2',
+  act2_end: 'act2',
+};
+
+function isSceneEnabled(sceneId) {
+  const act = SCENE_ACTS[sceneId];
+  if (!act) return true;
+  return ACT_CONFIG[act] === true;
+}
+
 const SCENE_IMAGES = {
   title: SCENE_IMAGES_DATA.title,
   road_to_delphi: SCENE_IMAGES_DATA.road_to_delphi,
@@ -738,7 +800,7 @@ const SCENES = {
       ];
     },
     choices: [
-      { text: 'Continue to Act II — The Western Sea', action: () => renderScene('act2_title') },
+      { text: 'Continue to Act II — The Western Sea', target: 'act2_title', action: () => renderScene('act2_title') },
       { text: 'Review your pebbles and start again', action: () => {
         state.charClass = null;
         state.spirit = 5; state.body = 6; state.fate = 3;
