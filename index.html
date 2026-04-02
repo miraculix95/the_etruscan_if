@@ -1718,6 +1718,36 @@ function renderScene(sceneId, isBack) {
         btn.style.opacity = '0.5';
         btn.style.cursor = 'default';
         choicesEl.appendChild(btn);
+        // Beta access input
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'margin-top:0.5rem; display:flex; gap:0.4rem; align-items:center; justify-content:center;';
+        const input = document.createElement('input');
+        input.type = 'password';
+        input.placeholder = 'Beta access code';
+        input.style.cssText = 'background:transparent; border:1px solid var(--dark2); color:var(--sand); font-family:inherit; font-size:13px; padding:5px 10px; border-radius:3px; width:160px; text-align:center;';
+        const unlock = document.createElement('button');
+        unlock.textContent = 'Unlock';
+        unlock.style.cssText = 'background:transparent; border:1px solid var(--gold); color:var(--gold); font-family:inherit; font-size:12px; padding:4px 12px; border-radius:3px; cursor:pointer; transition:all 0.3s;';
+        const act = SCENE_ACTS[c.target];
+        async function tryUnlock() {
+          const hash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input.value.toLowerCase().trim()))))
+            .map(b => b.toString(16).padStart(2, '0')).join('');
+          if (hash === BETA_PASSWORD_HASH) {
+            ACT_CONFIG[act] = true;
+            showToast('Beta access granted — welcome, initiate', 'checkpoint');
+            renderScene(state.currentScene);
+          } else {
+            input.style.borderColor = 'var(--blood)';
+            input.value = '';
+            input.placeholder = 'Wrong code';
+            setTimeout(() => { input.style.borderColor = 'var(--dark2)'; input.placeholder = 'Beta access code'; }, 1500);
+          }
+        }
+        unlock.onclick = tryUnlock;
+        input.onkeydown = (e) => { if (e.key === 'Enter') tryUnlock(); };
+        wrap.appendChild(input);
+        wrap.appendChild(unlock);
+        choicesEl.appendChild(wrap);
         return;
       }
       const btn = document.createElement('button');

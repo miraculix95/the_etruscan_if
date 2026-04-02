@@ -5,6 +5,9 @@ const ACT_CONFIG = {
   act2: false,
 };
 
+// Beta access password hash (SHA-256). Change password: echo -n "yourpassword" | sha256sum
+const BETA_PASSWORD_HASH = '9c68ef0ca4ced6b8937371813b8a10772e1235d2ba2003161fb6d4bd8d19e0a2';
+
 const SCENE_ACTS = {
   // Act I — Delphi
   road_to_delphi: 'act1',
