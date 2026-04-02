@@ -19,6 +19,16 @@ const SCENE_ACTS = {
   priests_interrogation_2: 'act1',
   sardis_confession: 'act1',
   dove_feather_omen: 'act1',
+  pythia_aftermath: 'act1',
+  divine_recognition: 'act1',
+  winter_in_delphi: 'act1',
+  washing_by_brook: 'act1',
+  dorieus_story: 'act1',
+  turms_confession: 'act1',
+  dorieus_oracle: 'act1',
+  departure_preparations: 'act1',
+  the_road_south: 'act1',
+  coast_decision: 'act1',
   // Act I — Delphi (Side Quests)
   sq_egyptian_merchant: 'act1',
   sq_hecate_priestess: 'act1',
@@ -1139,6 +1149,107 @@ const SCENES = {
         text: 'Accept the Pythia\'s judgment — you are free',
         action: () => {
           addPebble('white', 'The Pythia knew me before I knew myself');
+          renderScene('pythia_aftermath');
+        }
+      }
+    ]
+  },
+
+  // ---- M10: THE PYTHIA FALLS ----
+  pythia_aftermath: {
+    title: 'The Pythia Falls',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The Pythia collapses into convulsion. Foam at her lips, eyes rolling. Her attendants catch her and carry her from the chamber.',
+        'The priests stand frozen. Whatever just happened — whether divine ecstasy or madness — it has shaken them.',
+        '<span class="italic">"She was not on the tripod,"</span> the eldest mutters. <span class="italic">"She was not chewing the bay leaf. She was not breathing the vapors. Yet the ecstasy seized her."</span>',
+        'They stare at you as though you are the cause. And perhaps you are.'
+      ];
+      if (cls === 'seer') lines.push('You felt the ecstasy echo through your own body — a sympathetic vibration, like two strings tuned to the same note. Whatever seized the Pythia tried to seize you too. You held on. Barely.');
+      else if (cls === 'warrior') lines.push('You are disturbed. You have seen men lose control in battle — the killing frenzy, the berserker rage. This was different. This was surrender, not fury. It frightens you more than any sword.');
+      else if (cls === 'seafarer') lines.push('You have seen storms take ships — the moment when the captain realizes that skill is irrelevant and only the sea decides. The Pythia\'s collapse has that same quality. Something larger than human will.');
+      else lines.push('The force that danced in the storm, the force that moved in the guardian spirit\'s wings — it was here, in this room, in this woman. And it knows you.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('sacred_ecstasy');
+    },
+    choices: [
+      {
+        text: '"What did she mean — \'You come from the West\'? I came from the East"',
+        action: () => {
+          state.flags.pythia_reaction = 'questioned';
+          renderScene('divine_recognition');
+        }
+      },
+      {
+        text: 'Stand in silence — let the power of the moment linger',
+        action: () => {
+          state.flags.pythia_reaction = 'silent';
+          updateStat('spirit', 1, 'Silence held more weight than words');
+          renderScene('divine_recognition');
+        }
+      },
+      {
+        text: '"Is she well? Will she recover?"',
+        action: () => {
+          state.flags.pythia_reaction = 'concerned';
+          state.flags.cared_for_pythia = true;
+          updateStat('fate', 1, 'Concern for the woman, not the oracle');
+          renderScene('divine_recognition');
+        }
+      }
+    ]
+  },
+
+  // ---- M11: THE DIVINE LIGHT ----
+  divine_recognition: {
+    title: 'The Divine Light',
+    text: () => {
+      const cls = state.charClass;
+      const deepFast = state.flags.deep_fast;
+      const lines = [
+        'The priests study you in the anteroom light. And then, one by one, they begin to blink and avert their eyes.',
+        'Something is happening to your face.' + (deepFast ? ' After weeks of intensive fasting and purification, a "divine fever" permeates you —' : ' The ecstasy of the oracle lingers on your skin —') + ' your eyes glow with an inner light that is not human.',
+        'The priests cannot look directly at you. You see through them: their doubts, their faded faith, their yearning for winter\'s peace. <span class="bold">Something in you is more powerful than they are. Something in you knows more.</span>'
+      ];
+      if (cls === 'storm_born') lines.push('The glow is strongest in you — it pulses with each heartbeat, casting faint shadows on the walls. The eldest priest crosses himself in a gesture older than Apollo.');
+      else if (cls === 'warrior') lines.push('The light manifests as an aura of command. The priests feel it as soldiers feel a general\'s presence — an involuntary straightening of the spine, a lowering of the eyes.');
+      else if (cls === 'seer') lines.push('The light is a halo of shifting visions — the priests see their own faces reflected in your glow, but aged, transformed, no longer quite their own.');
+      else lines.push('The light is faint but unmistakable, like phosphorescence on night waves. It clings to your skin, your hair, the tips of your fingers.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.priests_saw_light = true;
+    },
+    choices: [
+      {
+        text: '"Old men, give me peace and yourselves peace. Let us be done with this"',
+        action: () => {
+          updateStat('spirit', 1, 'You spoke with the authority of something beyond yourself');
+          renderScene('after_pythia');
+        }
+      },
+      {
+        text: '"You see what I am. Tell me what you see"',
+        roll: {
+          label: 'Demand the Truth',
+          stat: 'spirit',
+          success: () => {
+            state.flags.priests_revealed_truth = true;
+            updateStat('spirit', 1, 'The eldest whispered: "You are not Greek. Whatever you are, it is older than our gods"');
+            renderScene('after_pythia');
+          },
+          failure: () => {
+            renderScene('after_pythia');
+          }
+        }
+      },
+      {
+        text: 'Say nothing — let the glow speak for itself',
+        action: () => {
+          updateStat('fate', 1, 'The silence was answer enough');
           renderScene('after_pythia');
         }
       }
@@ -1148,15 +1259,62 @@ const SCENES = {
   after_pythia: {
     title: 'Free — But Where?',
     text: [
-      'The priests confer among themselves. The Pythia collapses into a convulsion and is carried away. When they return, their judgment is clear:',
+      'The priests return with their judgment:',
       '<span class="italic">"You are free to go where you will, Turms. The gods have given their signs. Not your will but that of the gods is fulfilled in you. Continue to worship Artemis. But the god of Delphi neither condemns you nor assumes your guilt."</span>',
       '"Where am I to go?" you ask.',
       '<span class="bold">"Go to the West whence you once came. So says the Pythia, and so say we."</span>',
-      'West. Everyone tells you to go west. The Pythia, the priests, even the dove feather that fluttered down from the sky during your trial. But the war rages in the East — in Ionia, where your guilt was born.',
-      'You are free, but freedom without direction is just another kind of prison. Days pass. You exercise in the deserted stadium of Delphi, running alone against yourself.'
+      'West. Everyone tells you to go west. The Pythia, the priests, even the dove feather. But the war rages in the East — in Ionia, where your guilt was born.',
+      'You are free. But freedom without direction is just another kind of prison.'
     ],
     choices: [
-      { text: 'Continue to the stadium...', action: () => renderScene('the_stadium') }
+      { text: 'Winter descends on Delphi...', action: () => renderScene('winter_in_delphi') }
+    ]
+  },
+
+  // ---- M12: WINTER IN DELPHI ----
+  winter_in_delphi: {
+    title: 'Winter in Delphi',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Winter descends. Apollo departs for the land of lakes and swans — Delphi belongs to Dionysus now. The sacred precinct empties. Snow dusts the monuments. Ships seek harbors; no pilgrims come.',
+        'You haunt the deserted grounds alone. Days are long and cold and luminous. The maxims on the temple walls blur into a single instruction: <span class="italic">wait.</span>',
+        'You do not yet know what you are waiting for. But the waiting itself feels purposeful — as though the mountain is holding you until someone else arrives.'
+      ];
+      if (cls === 'warrior') lines.push('The inaction is torture. You pace the empty stadium, throwing imaginary javelins, sparring with your shadow. A soldier without a war is just a man with callouses.');
+      else if (cls === 'seer') lines.push('Winter\'s silence is sacred to you. The visions come more often now — fragments of lives you have not lived, faces you have not met. The boundary between dream and waking thins like ice.');
+      else if (cls === 'seafarer') lines.push('You miss the sea desperately. At night you dream of tides, and your body rocks gently as though the temple floor were a deck. The mountain air feels wrong — too thin, too still.');
+      else lines.push('You feel the god\'s absence like a physical ache — a hollow space where the divine presence once pressed. In its place, something older stirs. The underworld gods who dwell in the rocks beneath Delphi do not leave for winter.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('dionysus_winter');
+    },
+    choices: [
+      {
+        text: 'Spend the winter training — exercise and run the stadium',
+        action: () => {
+          state.flags.winter_activity = 'training';
+          updateStat('body', 1, 'Winter training hardened your body');
+          renderScene('the_stadium');
+        }
+      },
+      {
+        text: 'Spend the winter in contemplation — meditate and read',
+        action: () => {
+          state.flags.winter_activity = 'contemplation';
+          updateStat('spirit', 1, 'Winter\'s silence deepened your understanding');
+          renderScene('the_stadium');
+        }
+      },
+      {
+        text: 'Explore Delphi\'s hidden corners — there is more to this place',
+        action: () => {
+          state.flags.winter_activity = 'exploration';
+          updateStat('fate', 1, 'Curiosity led you to unexpected places');
+          renderScene('the_stadium');
+        }
+      }
     ]
   },
 
@@ -1222,14 +1380,101 @@ const SCENES = {
           ? 'You beat him — barely, by a hand. He is breathless but hides it well. "You run well," he concedes.'
           : 'He beats you — his heavy stride more powerful than you expected. "Not bad," he says, barely winded. "For an Ionian."',
         'You compete through the afternoon. Javelin — his throw swoops far beyond yours like a hawk in flight. Broad jump — ' + (won ? 'you edge him by a hair.' : 'nearly equal.') + ' Wrestling — you look at his arms and wisely concede.',
-        'Afterward, you wash in the swollen brook, rubbing each other\'s backs with sand. He points to the lightning scar on your body. You point to the sword wound on his chest.',
-        '<span class="italic">"I am a Spartan,"</span> he says proudly. <span class="italic">"My name is Dorieus. My father was Dorieus too — the fairest man of his day. My uncle, King Cleomenes, had bad dreams about me and sent me away. I am also a prisoner of the oracle."</span>'
+        'The light turns golden. Sweat cools on your skin. For the first time in months, you feel something that is not guilt or fear or divine compulsion. You feel <span class="bold">alive</span>.'
       ];
     },
     choices: [
       {
-        text: '"I also am alone. I came to Delphi either to be purified or to die."',
-        action: () => renderScene('friendship')
+        text: 'Wash in the brook together...',
+        action: () => renderScene('washing_by_brook')
+      }
+    ]
+  },
+
+  // ---- M13: THE BROOK ----
+  washing_by_brook: {
+    title: 'The Brook',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You wash in the swollen brook, rubbing each other\'s backs with sand. The water is ice-cold from mountain snowmelt.',
+        'He points to the lightning scar on your body. You point to the sword wound on his chest. Two marks, two stories. The water is cold, the light is golden, and for this one moment the weight of exile lifts.',
+        'You are two young men, strong and alive, cleaning the honest sweat of competition from your skin. It is the simplest and purest moment you have experienced since Ephesus.'
+      ];
+      if (cls === 'warrior') lines.push('Two soldiers comparing battle marks. He traces his scar with a soldier\'s pride — no shame, only the proof of survival. You understand this language without translation.');
+      else if (cls === 'seer') lines.push('You see his fate-thread glowing around him — bright and short, ending in the west. The thread is beautiful. You say nothing of its brevity.');
+      else if (cls === 'seafarer') lines.push('"This brook," you say, "is trying to reach the sea. Everything flows downhill to the water." He looks at you strangely. "You think like a fish," he says. It is, you realize, a compliment.');
+      else lines.push('The lightning scar on your body pulses faintly in his presence — not pain, but recognition. Something in him resonates with whatever lives in you.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.brook_moment = true;
+    },
+    choices: [
+      {
+        text: '"What battle left that mark?" — ask about his scar',
+        action: () => renderScene('dorieus_story')
+      },
+      {
+        text: 'Show him your lightning scar — "Zeus himself tried to kill me and failed"',
+        action: () => {
+          state.flags.showed_scar = true;
+          updateStat('spirit', 1, 'Humor bridged the distance between strangers');
+          renderScene('dorieus_story');
+        }
+      },
+      {
+        text: 'Stay quiet — enjoy the silence between friends',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The silence spoke louder than words');
+          renderScene('dorieus_story');
+        }
+      }
+    ]
+  },
+
+  // ---- M14: THE SON OF DORIEUS ----
+  dorieus_story: {
+    title: 'The Son of Dorieus',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Clothed and walking down the mountain path, he speaks. His voice is different now — quieter, stripped of Spartan bravado.',
+        '<span class="italic">"I am a Spartan. My name is Dorieus. My father was Dorieus the Fair — the handsomest man of his day, who left Sparta to found a colony in the west and died there."</span>',
+        'His jaw tightens. <span class="italic">"My mother told me the truth before the state took me at age seven. My uncle, King Cleomenes, had bad dreams about me and sent me away. That is the Spartan way — bad dreams are taken seriously."</span>',
+        'You hear in his voice the same wound you carry: the child who does not know where he belongs.'
+      ];
+      if (cls === 'warrior') lines.push('You understand exile from a warrior\'s perspective — to be banished is to be stripped of purpose. A sword without a hand to wield it. His pain is your pain, refracted through a different culture.');
+      else if (cls === 'seer') lines.push('You see the tragic arc of his life stretching out before him like a road — westward, always westward, toward the grave his oracle described. The beauty of it breaks your heart.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.dorieus_backstory_heard = true;
+      unlockEncyclopedia('dorieus_historical');
+    },
+    choices: [
+      {
+        text: '"I was also sent away as a child — from Sybaris to Miletus, and beaten there"',
+        action: () => {
+          updateStat('spirit', 1, 'Shared vulnerability deepened the bond');
+          renderScene('friendship');
+        }
+      },
+      {
+        text: '"Your father died in the west. The oracle sends you west. Does that not trouble you?"',
+        action: () => {
+          state.flags.dorieus_fate_discussed = true;
+          renderScene('friendship');
+        }
+      },
+      {
+        text: '"You are stronger than any exile. Sparta\'s loss is my gain"',
+        action: () => {
+          updateStat('fate', 1, 'Encouragement forged a bond');
+          renderScene('friendship');
+        }
       }
     ]
   },
@@ -1237,20 +1482,108 @@ const SCENES = {
   friendship: {
     title: 'Two Exiles',
     text: [
-      'Walking down the mountain path, Dorieus glances at you from the corner of his eye.',
-      '<span class="italic">"I like you, although we Spartans usually shun strangers. But I am alone, and it is difficult to be without a companion. I would rather be dead with my name on a gravestone than here."</span>',
+      'Walking together, something shifts. The wariness between strangers dissolves into something rarer — trust.',
+      '<span class="italic">"I like you,"</span> Dorieus says, <span class="italic">"although we Spartans usually shun strangers. But I am alone, and it is difficult to be without a companion. I would rather be dead with my name on a gravestone than here."</span>',
       'Something in his words touches the lonely place inside you. Two exiles — one from the East, one from the West. Both rejected by their cities, both prisoners of the oracle.',
-      'You tell him about the burning of Sardis, the Pythia\'s vision, the priests\' verdict. He listens with the focused attention of a soldier receiving orders.',
-      '<span class="bold">"Go east with me,"</span> you suggest. <span class="bold">"To Ionia, where they have danced the dance of freedom. A trained soldier would be welcome there."</span>',
-      'He hesitates. "We Spartans do not love the sea."'
+      'The days that follow are the closest thing to peace you have known. You train together, eat together, argue about everything from the nature of the gods to the proper way to cook barley.'
     ],
     onEnter: () => {
       addPebble('red', 'Dorieus — the first true friend');
     },
     choices: [
       {
-        text: '"Let us each toss the sheep\'s bones to decide our direction."',
-        action: () => renderScene('the_bones')
+        text: 'Tell Dorieus about Sardis...',
+        action: () => renderScene('turms_confession')
+      }
+    ]
+  },
+
+  // ---- M15: THE CONFESSION BETWEEN FRIENDS ----
+  turms_confession: {
+    title: 'The Confession Between Friends',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Walking together one cold morning, you tell Dorieus about the burning of Sardis. You expect horror, disgust, the end of this fragile friendship.',
+        'Instead, his eyes begin to twinkle.',
+        '<span class="bold">"How can you consider yourself a criminal?"</span> he demands, clapping your shoulders. <span class="bold">"You are the hero of the Hellenes! The burning of Sardis has lit the flames of revolt all over Ionia!"</span>',
+        'His words fill you with new horror. Hero? For an act of destruction you cannot undo? But Dorieus sees the world simply: war is war, glory is glory. Perhaps that simplicity is its own kind of wisdom.'
+      ];
+      if (cls === 'warrior') lines.push('The military framing resonates differently coming from a soldier. You have both seen battle. But you cannot share his enthusiasm for the glory of it.');
+      else if (cls === 'seer') lines.push('You see the revolt spreading in vision — fire leaping from city to city across the Aegean, each flame lit by the first. Sardis was not an end. It was a beginning.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.sardis_told_dorieus = true;
+      unlockEncyclopedia('sardis_expedition');
+    },
+    choices: [
+      {
+        text: 'Accept his framing — perhaps you are a hero',
+        type: 'defy',
+        action: () => {
+          state.flags.accepted_hero = true;
+          state.omensDefied++;
+          updateStat('body', 1, 'You straightened your back and accepted the weight');
+          addPebble('red', 'Dorieus called me a hero — I am not sure he was wrong');
+          renderScene('dorieus_oracle');
+        }
+      },
+      {
+        text: '"No. Our expedition was shameful. I ran like everyone else"',
+        action: () => {
+          updateStat('spirit', 1, 'Truth preserved, even when a lie would feel better');
+          addPebble('red', 'Dorieus called me a hero — I am not sure he was wrong');
+          renderScene('dorieus_oracle');
+        }
+      },
+      {
+        text: '"You don\'t understand. War is not what the bards make of it"',
+        action: () => {
+          updateStat('spirit', 1, 'You spoke a truth Dorieus could not hear');
+          addPebble('red', 'Dorieus called me a hero — I am not sure he was wrong');
+          renderScene('dorieus_oracle');
+        }
+      }
+    ]
+  },
+
+  // ---- M16: DORIEUS BEFORE THE ORACLE ----
+  dorieus_oracle: {
+    title: 'Dorieus Before the Oracle',
+    text: [
+      'At last the temple servants come for Dorieus. His face lights up — rare, for that sullen mouth. He runs toward the temple. You wait by the great sacrificial altar, cold wind tugging at your cloak.',
+      'When he returns, his head is bowed.',
+      '<span class="italic">"The Pythia has spoken,"</span> he says quietly. <span class="italic">"Sparta is threatened by a curse should I ever return. I must sail beyond the sea. They recommend the west."</span>',
+      'He pauses. <span class="bold">"My grave will lie in the west, they said. And there too I will find undying fame."</span>',
+      'The words hang between you. Fame — and a grave.'
+    ],
+    onEnter: () => {
+      state.flags.dorieus_prophecy_heard = true;
+      unlockEncyclopedia('oracular_prophecy');
+    },
+    choices: [
+      {
+        text: '"Hence we shall sail east. You are still young — why hasten to your grave?"',
+        action: () => {
+          state.flags.suggested_east = true;
+          renderScene('the_bones');
+        }
+      },
+      {
+        text: '"Then the west it is. We go together"',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          renderScene('the_bones');
+        }
+      },
+      {
+        text: '"The oracle tells every exile to go west. Good advice, not prophecy"',
+        action: () => {
+          updateStat('fate', 1, 'Skepticism as a shield against fear');
+          renderScene('the_bones');
+        }
       }
     ]
   },
@@ -1313,7 +1646,7 @@ const SCENES = {
       addPebble('black', 'I defied every omen and walked east');
     },
     choices: [
-      { text: 'Continue to the coast...', action: () => renderScene('act1_end') }
+      { text: 'Prepare to leave Delphi...', action: () => renderScene('departure_preparations') }
     ]
   },
 
@@ -1331,7 +1664,7 @@ const SCENES = {
       addPebble('blue', 'I followed the omens westward');
     },
     choices: [
-      { text: 'Continue to the coast...', action: () => renderScene('act1_end') }
+      { text: 'Prepare to leave Delphi...', action: () => renderScene('departure_preparations') }
     ]
   },
 
@@ -1350,7 +1683,141 @@ const SCENES = {
       addPebble('white', 'The middle way — Corinth');
     },
     choices: [
-      { text: 'Continue toward Corinth...', action: () => renderScene('act1_end') }
+      { text: 'Prepare to leave Delphi...', action: () => renderScene('departure_preparations') }
+    ]
+  },
+
+  // ---- M18: DEPARTURE PREPARATIONS ----
+  departure_preparations: {
+    title: 'Preparations for Departure',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The morning of departure. You pack your few possessions: clean garments, a purse of coins lighter than when you arrived, the knucklebones, whatever else you have gathered.',
+        'Dorieus sharpens his javelin with a flat stone, testing the point against his thumb. The deserted buildings of Delphi watch you leave like old men who have seen too many young travelers go.',
+        'The temple servant at the gate nods. <span class="italic">"May the gods of whatever land you find protect you,"</span> he says. It is the kindest farewell you have received in a long time.'
+      ];
+      if (cls === 'warrior') lines.push('You leave like a soldier departing a posting — efficiently, without sentiment. But at the gate you pause and look back once. Just once.');
+      else if (cls === 'seer') lines.push('You feel the sacred ground recede like a tide. The visions that came so freely here will be harder to find on the road. You are leaving the center of the world for its edge.');
+      else if (cls === 'seafarer') lines.push('Finally — you are heading toward the sea. The mountain air that suffocated you for months begins to thin, and you can almost taste salt on the wind.');
+      else lines.push('The mountain where you danced in the storm rises behind you. Whatever answered your dance — the winged figure, the guardian spirit — does not speak now. Perhaps it is waiting at the other end of the road.');
+      return lines;
+    },
+    choices: [
+      {
+        text: 'Take one last look back at the temple',
+        action: () => {
+          state.flags.departure_manner = 'reflective';
+          updateStat('spirit', 1, 'The temple\'s image burned into your memory');
+          renderScene('the_road_south');
+        }
+      },
+      {
+        text: 'Walk away without looking — forward is the only direction',
+        action: () => {
+          state.flags.departure_manner = 'decisive';
+          updateStat('body', 1, 'You left the past behind');
+          renderScene('the_road_south');
+        }
+      },
+      {
+        text: '"What happens to the Pythia? Will she be all right?"',
+        action: () => {
+          state.flags.departure_manner = 'concerned';
+          if (state.flags.cared_for_pythia) {
+            updateStat('fate', 1, 'The servant smiled — "She speaks your name sometimes. In her sleep"');
+          } else {
+            updateStat('fate', 1, 'The servant shrugged — "The god takes care of his own"');
+          }
+          renderScene('the_road_south');
+        }
+      }
+    ]
+  },
+
+  // ---- M19: THE ROAD SOUTH ----
+  the_road_south: {
+    title: 'The Road South',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You and Dorieus descend from the mountains. The road to the coast passes through Megara, where shepherds watch you from hillsides and the sea glimmers in the distance.',
+        'Dorieus throws his javelin ahead of him as far as he can, then walks to retrieve it and throws again — the Spartan version of making a tedious road bearable.',
+        'When the javelin strikes something at the roadside, he pulls it free without comment. You both saw what it struck: a rotted piece of ship\'s rail, washed far inland by some ancient flood.',
+        '<span class="omen-text">An omen? Or just debris? You walk on without discussing it.</span>'
+      ];
+      if (cls === 'seer') lines.push('You see the omen clearly and it chills you. The ship\'s rail is old — decades, perhaps centuries. Whatever storm carried it this far inland was beyond human scale. The sea remembers what men forget.');
+      else if (cls === 'seafarer') lines.push('You recognize the timber — cedar, salt-eaten, the kind used for merchant galleys. You know what storm destroyed this ship. You know the sea that swallowed it. The sea is waiting.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.road_south_event = true;
+      unlockEncyclopedia('omens_road');
+    },
+    choices: [
+      {
+        text: '"That ship\'s rail. What do you think it means?"',
+        action: () => {
+          state.flags.acknowledged_rail_omen = true;
+          updateStat('spirit', 1, 'You spoke the omen aloud');
+          renderScene('coast_decision');
+        }
+      },
+      {
+        text: 'Say nothing — some signs are best left unread',
+        action: () => {
+          updateStat('fate', 1, 'Silence preserved the mystery');
+          renderScene('coast_decision');
+        }
+      },
+      {
+        text: 'Throw the javelin yourself — test your own luck',
+        roll: {
+          label: 'Javelin Throw',
+          stat: 'body',
+          success: () => {
+            updateStat('body', 1, 'The javelin flew true — Dorieus nodded with respect');
+            renderScene('coast_decision');
+          },
+          failure: () => {
+            renderScene('coast_decision');
+          }
+        }
+      }
+    ]
+  },
+
+  // ---- M20: THE SHORE OF DECISION ----
+  coast_decision: {
+    title: 'The Shore of Decision',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You reach the coast. The sea stretches before you — grey-green, restless, vast. Ships in the harbor creak against their moorings. The wind carries salt and the calls of gulls.',
+        'This is the edge of the world you know. Everything behind you — Ephesus, the storm, the oracle, the priests, the winter of purification — was preparation. Everything ahead is the unknown.',
+        'Dorieus stands beside you, his javelin over his shoulder, staring at the water he has been trained to distrust. Two exiles at the shoreline. The road ends here. The sea begins.'
+      ];
+      if (state.flags.chose_east) {
+        lines.push('<span class="omen-text">The wind blows against you. Good. You chose east, against every omen. Let the sea try to stop you.</span>');
+      } else if (state.flags.chose_west) {
+        lines.push('<span class="omen-text">The wind is at your backs. The gods approve — or at least, they do not object. The western sea awaits.</span>');
+      } else {
+        lines.push('<span class="omen-text">Corinth lies ahead — the city between worlds, where east meets west and strangers are judged by their coin, not their origin.</span>');
+      }
+      if (cls === 'seafarer') lines.push('Homecoming. The sea is where you belong. Your feet find the rhythm of the waves before you even board a ship.');
+      else if (cls === 'seer') lines.push('The sea surface shows flickering visions — sails, storms, a woman\'s face reflected in dark water. Act II of your story is already written. You just haven\'t read it yet.');
+      else if (cls === 'warrior') lines.push('The sea is an enemy to be conquered. Dorieus feels it too — the Spartan distrust of water deeper than a river. But the road leads only forward now.');
+      else lines.push('The waves echo the rhythm of the storm dance. The same force that moved through you on the mountain moves through the sea. It has been waiting.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.reached_coast = true;
+    },
+    choices: [
+      {
+        text: 'The journey continues...',
+        action: () => renderScene('act1_end')
+      }
     ]
   },
 

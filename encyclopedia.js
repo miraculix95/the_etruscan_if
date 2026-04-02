@@ -267,6 +267,48 @@ const ENCYCLOPEDIA = {
     scenes: []
   },
 
+  sacred_ecstasy: {
+    title: 'Sacred Ecstasy',
+    category: 'culture',
+    text: 'Divine ecstasy — the state of being "outside oneself" — was central to Greek religion. The Pythia\'s trance was the most famous example, but ecstatic states were associated with many cults: the Maenads of Dionysus, the Corybantes of Cybele, the mystery initiates at Eleusis. The Greeks distinguished between "madness" and "divine madness" (entheos — literally "god within"). An uninvited seizure, outside ritual protocol, was deeply alarming to the priests.',
+    scenes: []
+  },
+
+  dionysus_winter: {
+    title: 'Dionysus at Delphi (Winter)',
+    category: 'gods',
+    text: 'For three winter months, Apollo was believed to leave Delphi for the land of the Hyperboreans. During his absence, the sanctuary was given over to the worship of Dionysus — the god of wine, ecstasy, and the boundary between civilization and wildness. The Thyiads performed ecstatic dances on Parnassus. The Oracle fell silent. It was a season of transformation, when the orderly world of Apollo yielded to something older and wilder.',
+    scenes: []
+  },
+
+  dorieus_historical: {
+    title: 'Dorieus of Sparta (Historical)',
+    category: 'people',
+    text: 'The historical Dorieus was a Spartan prince, son of King Anaxandridas II. Passed over for the throne, he led colonizing expeditions to Libya and western Sicily, where he was killed by the Carthaginians around 510 BCE. His son — also named Dorieus — inherited his father\'s restless ambition and was reportedly banished from Sparta. The oracle of Delphi frequently advised exiled Spartans to "go west."',
+    scenes: []
+  },
+
+  sardis_expedition: {
+    title: 'The Expedition to Sardis',
+    category: 'culture',
+    text: 'The expedition against Sardis in 498 BCE was a joint operation by Athenian, Eretrian, and Ionian forces. The march from Ephesus took three days. The attacking force easily captured the lower city but failed to take the acropolis. The accidental burning — including the temple of Cybele — transformed a military operation into a religious catastrophe. The Persians pursued the retreating Greeks and inflicted heavy casualties.',
+    scenes: []
+  },
+
+  oracular_prophecy: {
+    title: 'Oracular Prophecy and Self-Fulfillment',
+    category: 'culture',
+    text: 'The Greeks were acutely aware that prophecy could be self-fulfilling. Oedipus\'s parents tried to prevent the oracle\'s prediction and thereby caused it. Croesus attacked Persia because the oracle said "a great empire will fall" — and it was his own. The Delphic oracle was deliberately ambiguous: the gods showed possibilities, not certainties. The human response to prophecy — whether to follow or defy — was itself part of the pattern.',
+    scenes: []
+  },
+
+  omens_road: {
+    title: 'Omens on the Road',
+    category: 'culture',
+    text: 'The ancient Greeks read omens constantly — in the flight of birds, the behavior of animals, the sound of thunder, and unexpected objects. A thrown javelin striking a piece of ship\'s wreckage far from the sea was a powerful omen, combining travel (the javelin), destruction (the wreck), and the sea (the destination). The Etruscans would develop this practice into the most elaborate system of divination in the ancient world.',
+    scenes: []
+  },
+
 };
 
 // Scenes → encyclopedia entries mapping (which entries unlock at which scene)
