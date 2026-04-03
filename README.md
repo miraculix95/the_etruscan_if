@@ -6,7 +6,7 @@
 
 ---
 
-![The Etruscan — A Solo Adventure](screenshots/promo.jpg)
+![The Etruscan — A Solo Adventure](promo/promo.jpg)
 
 ## Screenshots
 
