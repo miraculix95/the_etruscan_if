@@ -1,25 +1,41 @@
-# The Etruscan — A Solo Adventure
+# The Etruscan — An Interactive Fiction Adventure
 
-A self-contained interactive fiction game set in the 6th-century BCE Mediterranean, inspired by Mika Waltari's historical novel.
+> *The Mediterranean, 5th century BCE. Gods walk among mortals, oracles speak in riddles, and the great civilizations of Greece, Carthage and Etruria collide.*
 
-## Play
+**[Play Now](https://theetruscanif.vercel.app)** | [Download](https://github.com/miraculix95/the_etruscan_if/raw/main/dist/index.html) (single HTML file, works offline)
 
-Open `index.html` in any modern browser. No server, no dependencies, no installation.
+---
 
-**[Play online via GitHub Pages](https://miraculix95.github.io/the_etruscan_if/)** (once enabled)
+![Title Screen](screenshots/title.png)
 
-## What It Is
+## Screenshots
 
-A text adventure with illustrated scenes, sound effects, and a dice-based skill system — all in a single HTML file (~1.7 MB, zero external dependencies at runtime).
+| | |
+|---|---|
+| ![Character Selection](screenshots/character-select.png) | ![Gameplay](screenshots/gameplay.png) |
+| *Four character classes with unique abilities* | *Illustrated scenes with branching narrative* |
+| ![Choices](screenshots/choices-full.png) | ![Encyclopedia](screenshots/encyclopedia.png) |
+| *Omen and defy choices shape your story* | *Unlockable encyclopedia with lore entries* |
 
-**Features:**
-- Three character classes: Warrior, Seer, Merchant
-- Dice-based skill checks and a pebble resource economy
-- 46+ scenes across 2 acts with bottleneck narrative architecture
-- Illustrated scenes (AI-generated via Flux/Replicate)
-- Sound effects (AI-generated via ElevenLabs)
-- Checkpoint save system
-- Warm terracotta visual design (Cinzel + Crimson Text typography)
+## Features
+
+- **111 scenes** across Act I with branching paths, side quests, and skill checks
+- **4 character classes** — Storm-Born, Warrior, Seer, Seafarer — each with unique abilities and weaknesses
+- **87 illustrated scenes** (AI-generated via Flux/Replicate)
+- **Dice-based skill system** — 2d6 rolls against Spirit, Body, and Fate attributes
+- **Pebble economy** — collect inscribed stones at turning points that record your choices
+- **Omen/Defy system** — follow the gods' signs or defy them; neither is wrong, but the balance shapes your ending
+- **Encyclopedia** — unlockable lore entries for characters, places, gods, and cultures
+- **Inventory system** — collect and use story items
+- **Sound effects** (AI-generated via ElevenLabs)
+- **Checkpoint saves** — resume where you left off
+- **Single HTML file** (8 MB) — zero dependencies, works offline, runs in any browser
+
+## How to Play
+
+Open `index.html` in any modern browser. No server, no installation, no dependencies.
+
+Or **[play online](https://theetruscanif.vercel.app)** — the game is hosted on Vercel.
 
 ## Built With
 
@@ -28,23 +44,7 @@ This game was built as a human-AI collaboration:
 - **Text & logic:** Claude (Anthropic)
 - **Illustrations:** Flux via Replicate
 - **Sound effects:** ElevenLabs
-- **Design & direction:** Human
-
-## Color Palette
-
-| Name | Hex | Usage |
-|------|-----|-------|
-| Terra | `#B85042` | Accent, headings |
-| Sand | `#E7E8D1` | Body text |
-| Sage | `#A7BEAE` | Secondary accent |
-| Dark | `#2A1A0E` | Background |
-| Gold | `#C9A84C` | Highlights, rewards |
-
-## Technical Notes
-
-The entire game is a single HTML file containing inline CSS, JavaScript, and base64-encoded assets. This architecture was chosen deliberately: the game works offline, loads instantly, and can be distributed by simply sharing one file.
-
-For the technical analysis, design rationale, and business plan behind this project, see the companion document: *Ship the Story — An Interactive Fiction Handbook & Business Plan for The Etruscan*.
+- **Creative direction:** Human
 
 ## License
 
@@ -54,4 +54,4 @@ The game's narrative is inspired by Mika Waltari's *The Etruscan* (1955). The no
 
 ## Author
 
-Bastian Brand — built with AI assistance, March 2026.
+Bastian Brand — March 2026
