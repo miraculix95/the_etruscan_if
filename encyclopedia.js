@@ -309,6 +309,208 @@ const ENCYCLOPEDIA = {
     scenes: []
   },
 
+  // ──── SIDE QUESTS S14–S25 ────
+
+  pilgrim_graffiti: {
+    title: 'Pilgrim Graffiti at Delphi',
+    category: 'culture',
+    text: 'The walls of the sacred precinct at Delphi are covered with centuries of carved names — kings, generals, victorious athletes, and anonymous pilgrims who left only this trace. The practice was not vandalism but devotion: carving your name into sacred stone meant asking the god to remember you. Some inscriptions include prayers, dedications, or records of debts paid. Archaeologists have catalogued thousands of these graffiti, which provide invaluable evidence about who visited Delphi and why.',
+    scenes: []
+  },
+
+  phoenician_navigation: {
+    title: 'Phoenician Navigation',
+    category: 'culture',
+    text: 'The Phoenicians were the greatest navigators of the ancient world. Based in the coastal cities of Tyre, Sidon, and Byblos (modern Lebanon), they developed techniques that allowed them to sail at night using the constellation they called "the Tail" (Ursa Minor). They established trading posts across the entire Mediterranean and beyond — to the Atlantic coast of Africa, Spain, and possibly Britain. Their charts and routes were closely guarded commercial secrets, giving them a navigational monopoly that lasted centuries.',
+    scenes: []
+  },
+
+  chthonic_religion: {
+    title: 'Chthonic Religion at Delphi',
+    category: 'culture',
+    text: 'Before Apollo claimed Delphi, the site was sacred to older, chthonic ("of the earth") deities. Natural rock formations in the sacred precinct were worshipped as portals to the underworld long before any temple was built. The myth of Apollo slaying the serpent Python represents the Olympian gods displacing these older powers — but they were never fully erased. The Oracle itself drew its power from a chasm in the earth, and the Omphalos (navel stone) marked the intersection of upper and lower worlds.',
+    scenes: []
+  },
+
+  spartan_military: {
+    title: 'Spartan Military Training',
+    category: 'culture',
+    text: 'The Spartan agoge was the most demanding military training program in the ancient world. Boys were taken from their families at age seven and subjected to years of physical hardship, combat training, and psychological conditioning. They learned to fight with spear and shield, to endure pain without complaint, and to value the unit above the individual. The javelin throw was both a combat skill and a sport — Spartans threw with a leather thong (ankyle) wrapped around the shaft for extra spin and distance.',
+    scenes: []
+  },
+
+  // ──── SIDE QUESTS S26–S40 ────
+
+  corycian_cave: {
+    title: 'The Corycian Cave',
+    category: 'places',
+    text: 'High on the slopes of Mount Parnassus, some 1,300 metres above sea level, lies the Corycian Cave — a vast limestone cavern sacred to Pan, the Nymphs, and Dionysus. The cave stretches over 60 metres deep and was used for worship from at least the Neolithic period. During the Dionysian festivals, the Thyiads — ecstatic female worshippers — climbed from Delphi to perform their rites here by torchlight. Archaeological excavations have uncovered tens of thousands of offerings: clay figurines, terracotta masks, bronze pins, knucklebones, and miniature vessels. The cave was sacred long before Apollo claimed the lowlands — a reminder that the mountain gods do not answer to the oracle.',
+    scenes: ['sq_corycian_cave']
+  },
+
+  sacred_olives: {
+    title: 'The Sacred Olives of Delphi',
+    category: 'culture',
+    text: 'Olive trees were among the most sacred plants in the Greek world. Athena herself was said to have given the olive to Athens. At Delphi, ancient groves supplied the oil for the temple\'s eternal flame — a fire that was never permitted to go out. The oil was pressed from trees so old that their trunks had split and regrown multiple times. Olive cultivation was considered a sacred art: the trees took decades to mature, demanded patience, and rewarded care with fruit for centuries. To destroy an olive grove was a war crime; to tend one was an act of piety.',
+    scenes: ['sq_olive_grove']
+  },
+
+  commerce_delphi: {
+    title: 'Commerce at Delphi',
+    category: 'culture',
+    text: 'Delphi\'s economy depended almost entirely on pilgrims. Merchants, innkeepers, and artisans clustered around the sacred precinct, selling everything from sacrificial animals to souvenir miniatures of Apollo\'s tripod. The market operated year-round, though winter reduced it to essentials. Prices at Delphi were notoriously high — the priests took a cut, and the pilgrims, having traveled so far, had little choice but to pay. Specialty goods included honey cakes for offerings, woolen cloaks against the mountain cold, clay lamps, and pre-written prayer tablets for the illiterate.',
+    scenes: ['sq_marketplace']
+  },
+
+  pre_olympian_religion: {
+    title: 'Pre-Olympian Religion',
+    category: 'culture',
+    text: 'Before Apollo claimed Delphi, the site was sacred to Gaia — the Earth Mother — and guarded by the serpent Python. This older religion, focused on earth, fertility, and the cycle of seasons, was gradually absorbed by the Olympian gods but never fully replaced. Pan, the wild god of shepherds and mountain places, was worshipped alongside Apollo well into the classical period. The Corycian Cave, the deep clefts in the rock, and the vapours rising from the earth all pointed to a power older than any named god — the mountain itself, alive and breathing.',
+    scenes: ['sq_shepherd']
+  },
+
+  athena_pronaia: {
+    title: 'Athena Pronaia',
+    category: 'places',
+    text: 'The sanctuary of Athena Pronaia ("Before the Temple") lay below the main precinct at Delphi, on the road approaching from the east. It was the first sacred site pilgrims encountered and served as a kind of prelude to Apollo\'s domain. The sanctuary contained several temples and the famous Tholos — a circular marble building whose purpose remains debated. Some scholars believe it housed a hero cult; others that it was purely votive. The Tholos is one of the most photographed ruins in Greece, its three restored columns among the iconic images of the ancient world.',
+    scenes: ['sq_athena_pronaia']
+  },
+
+  charioteer_delphi: {
+    title: 'The Charioteer of Delphi',
+    category: 'culture',
+    text: 'The Bronze Charioteer is one of the finest surviving examples of ancient Greek sculpture. Cast around 470 BCE, it was dedicated by Polyzalus, tyrant of Gela in Sicily, to commemorate a victory in the Pythian Games\' chariot race. The life-sized figure stands in a long chiton, his right hand still holding the reins. His inlaid eyes — onyx and white stone — give the bronze an eerie lifelike quality. The statue survived because it was buried in a landslide caused by an earthquake in 373 BCE. It represents the connection between Sicily and Delphi — between the Greek west and the Greek heartland.',
+    scenes: ['sq_charioteer_ghost']
+  },
+
+  sybaris_city: {
+    title: 'Sybaris',
+    category: 'places',
+    text: 'Sybaris was a Greek colony in southern Italy, founded around 720 BCE and legendary for its wealth and luxury — the word "sybarite" still means a lover of pleasure. Located on the Gulf of Taranto, Sybaris controlled a vast territory and grew rich from trade with the Etruscans and other Italian peoples. Its coins were among the first in the western Greek world. The city\'s culture was cosmopolitan: Greek, Italian, and Etruscan influences mingled freely. At its height, Sybaris was said to have 300,000 inhabitants — one of the largest cities in the ancient world.',
+    scenes: ['sq_sybaris_dream']
+  },
+
+  sybaris_destruction: {
+    title: 'The Destruction of Sybaris',
+    category: 'culture',
+    text: 'In 510 BCE, Sybaris was destroyed by its rival Croton after a brief, savage war. The Crotoniates diverted the river Crathis to flood the ruins, ensuring the city could never be rebuilt. The destruction was total — Sybaris was literally wiped from the map. Refugees scattered across the Mediterranean, carrying their wealth, their culture, and their memories to new homes. The event shocked the Greek world: if a city so powerful could be erased overnight, no civilization was safe. Archaeological excavations have confirmed the ancient accounts — the ruins lie buried under metres of river sediment.',
+    scenes: ['sq_sybaris_dream']
+  },
+
+  ancient_navigation: {
+    title: 'Ancient Navigation',
+    category: 'culture',
+    text: 'Ancient sailors navigated by stars, landmarks, wind patterns, and hard-won experience. The Phoenicians used the constellation Ursa Minor (the "Phoenician star") to find north; the Greeks preferred Ursa Major. Latitude could be estimated by the height of the pole star above the horizon; longitude was essentially guesswork. Experienced navigators recognized coastal profiles, knew the colour and taste of water near different shores, and could read wave patterns to detect land beyond the horizon. Most voyages hugged the coast, but the bravest sailors — Phoenicians, Phocaeans, Etruscans — crossed open water by dead reckoning and prayer.',
+    scenes: ['sq_stars']
+  },
+
+  temple_healing: {
+    title: 'Temple Healing',
+    category: 'culture',
+    text: 'Healing in the ancient world was inseparable from religion. Temples of Asclepius offered "incubation" — patients slept in sacred dormitories, hoping the god would appear in a dream and prescribe treatment. Priest-physicians combined herbal remedies, surgery, and divine intervention. But alongside institutional healing, there existed a folk tradition of "holy men" and charismatic healers — individuals believed to channel divine power through touch. Such healers were both revered and feared: their gift was seen as proof of divine favor, but also as a mark that set them apart from ordinary mortals.',
+    scenes: ['sq_sick_pilgrim']
+  },
+
+  dionysian_rites: {
+    title: 'Dionysian Rites',
+    category: 'culture',
+    text: 'The worship of Dionysus was the ecstatic counterpart to Apollo\'s rational order. During winter festivals, when Apollo was believed absent from Delphi, Dionysus held sway. His rites involved masked processions, wine, dancing, and the deliberate dissolution of social boundaries. The Thyiads — female worshippers — climbed Parnassus to perform ecstatic dances in the Corycian Cave. The Dionysia festivals were also the origin of Greek theater: tragedy and comedy both emerged from choral performances in the god\'s honor. Dionysus represented transformation, intoxication, and the wildness that civilization suppresses but can never eliminate.',
+    scenes: ['sq_dionysus_festival']
+  },
+
+  homeric_recitation: {
+    title: 'Homeric Recitation',
+    category: 'culture',
+    text: 'In the 6th century BCE, Homer\'s epics were not read but performed — recited from memory by professional bards (rhapsodes) at festivals, banquets, and public gatherings. Knowing your Homer was a mark of education and culture. Poetry contests were common, with contestants competing to recite the longest passages, the most moving scenes, or the most technically demanding verses. The Athenian tyrant Peisistratus is credited with establishing the first official text of the Iliad and Odyssey, but oral performance remained the primary means of transmission. To recite Homer was to participate in a living tradition stretching back centuries.',
+    scenes: ['sq_poet_challenge']
+  },
+
+  pre_greek_burial: {
+    title: 'Pre-Greek Burial Practices',
+    category: 'culture',
+    text: 'Before the Greeks settled at Delphi, the region was inhabited by peoples whose identity remains debated. Their burial practices — rock-cut tombs decorated with painted figures, animal motifs, and abstract symbols — share striking similarities with Etruscan and other Italian funerary traditions. Some scholars argue for a common pre-Indo-European culture that once spanned the Mediterranean; others see the similarities as coincidence or trade contact. The dancing figures, elongated bodies, and processional scenes found in these tombs resemble nothing so much as the painted tombs of Tarquinia — raising tantalizing questions about the origins of the Etruscans themselves.',
+    scenes: ['sq_mountain_tomb']
+  },
+
+  etruscan_wine: {
+    title: 'Etruscan Wine',
+    category: 'culture',
+    text: 'The Etruscans were among the great winemakers of the ancient Mediterranean. Their wines — darker, heavier, and sweeter than Greek varieties — were exported in distinctive bucchero-ware amphorae across the western sea. Etruscan viticulture benefited from volcanic soil, which imparted a mineral richness Greek vineyards could not match. Wine played a central role in Etruscan social life: their banquets (at which, scandalously to Greek eyes, women reclined alongside men) were famous for their luxury. The Greeks both envied and disparaged Etruscan wines — a cultural tension that mirrored broader rivalries between East and West.',
+    scenes: ['sq_wine_merchant']
+  },
+
+  // ──── SIDE QUESTS S01–S13 ────
+
+  ephesus: {
+    title: 'Ephesus',
+    category: 'places',
+    text: 'One of the greatest cities of the ancient world, Ephesus sat on the coast of Ionia (modern western Turkey). Its Temple of Artemis was one of the Seven Wonders — an enormous marble structure that served as sanctuary, treasury, and asylum. The city was a hub of trade between Greece, Persia, and the East. In the aftermath of the Ionian Revolt and the burning of Sardis, Ephesus became a dangerous place for anyone associated with the rebellion. The bee was its symbol, stamped on coins and worn as an emblem of Artemis.',
+    scenes: ['sq_ephesus_flashback']
+  },
+
+  treasuries_delphi: {
+    title: 'The Treasuries of Delphi',
+    category: 'places',
+    text: 'The Sacred Way at Delphi was lined with treasuries — small temple-like buildings erected by Greek city-states to house their offerings to Apollo. Each treasury was a statement of wealth, piety, and political power. The Athenian Treasury, built from Marathon spoils, celebrated victory over Persia. The Siphnian Treasury, funded by silver mines, was among the most ornate. The treasuries competed in grandeur, turning the Sacred Way into a gallery of Greek art and interstate rivalry. When a city\'s fortunes declined, its treasury fell into disrepair — a visible mark of shame.',
+    scenes: ['sq_sacred_way_monuments']
+  },
+
+  hyampeia: {
+    title: 'Hyampeia (The Black Cliff)',
+    category: 'places',
+    text: 'Hyampeia was the name given to one of the twin Phaedriades cliffs at Delphi — specifically the cliff from which those condemned for sacrilege were hurled to their deaths. The drop was several hundred feet onto jagged rocks. Execution by precipitation was reserved for the worst religious crimes: temple robbery, violation of sacred truces, and blasphemy against Apollo. The cliff served as both punishment and warning — visible from the Sacred Way, it reminded every pilgrim that Delphi\'s justice was absolute and final.',
+    scenes: ['sq_black_cliff']
+  },
+
+  seven_sages: {
+    title: 'The Seven Sages of Greece',
+    category: 'people',
+    text: 'The Seven Sages were legendary wise men of the 7th-6th centuries BCE whose maxims were inscribed at Delphi. The traditional list includes Thales of Miletus, Solon of Athens, Pittacus of Mytilene, Bias of Priene, Cleobulus of Lindos, Periander of Corinth, and Chilon of Sparta. Their sayings — "Know thyself," "Nothing in excess," "Surety brings ruin" — became the foundational principles of Greek ethics. The maxims were carved into the pronaos (entrance hall) of the Temple of Apollo, where every supplicant would read them before approaching the oracle.',
+    scenes: ['sq_anteroom']
+  },
+
+  croesus_delphi: {
+    title: 'Croesus and the Oracle',
+    category: 'culture',
+    text: 'Croesus, the fabulously wealthy king of Lydia, was the most famous — and most cautionary — of Delphi\'s patrons. He tested all the oracles of the Greek world before trusting Delphi, then lavished the sanctuary with gold offerings. When he asked whether he should attack Persia, the oracle replied that "a great empire would fall." Encouraged, Croesus invaded — and it was his own empire that fell. His treasures remained at Delphi for centuries, a monument to the dangers of hearing what you want to hear in divine pronouncements.',
+    scenes: ['sq_anteroom']
+  },
+
+  succession_pythias: {
+    title: 'Succession of the Pythias',
+    category: 'culture',
+    text: 'The Pythia was not a single woman but a succession of oracles who served for life. Originally young virgins, after an incident of abduction the requirement changed to women over fifty who dressed as maidens. They were chosen from the local peasantry of Delphi — ordinary women called to extraordinary service. Upon taking the role, a Pythia gave up her name, her family, and her former life. When a Pythia could no longer serve — due to age, illness, or loss of the prophetic gift — she was quietly retired. Former Pythias lived out their days near the sanctuary, revered but isolated, unable to return to ordinary life.',
+    scenes: ['sq_former_pythia']
+  },
+
+  priestly_hierarchy: {
+    title: 'The Priestly Hierarchy of Delphi',
+    category: 'culture',
+    text: 'The administration of Delphi was a complex bureaucracy disguised as divine service. The four senior priests (hosioi) handled judicial matters and interpreted the Pythia\'s utterances. Below them, prophets (prophetai) managed the daily consultations. Temple servants maintained the sacred flame, prepared sacrificial animals, and guarded the treasury. The priests wielded enormous political influence — they could delay or expedite consultations, shape the interpretation of prophecies, and grant or deny asylum. Their deliberations were private, conducted behind closed doors, and their decisions were presented as divine will.',
+    scenes: ['sq_priests_council']
+  },
+
+  greek_athletics: {
+    title: 'Greek Athletics',
+    category: 'culture',
+    text: 'Athletic training was central to Greek male identity. The gymnasium (from gymnos, "naked" — athletes trained unclothed) was both training ground and social club. Events included the stadion (sprint), diaulos (double sprint), dolichos (long distance), wrestling, boxing, pankration (a brutal combination of both), and the pentathlon. Athletes trained under professional coaches, followed strict diets, and were celebrated as near-divine figures. The Pythian Games at Delphi ranked second only to Olympia in prestige, and the gymnasium at Delphi served as a training ground for athletes from across the Greek world.',
+    scenes: ['sq_gymnasium']
+  },
+
+  greek_theater_delphi: {
+    title: 'The Theater at Delphi',
+    category: 'places',
+    text: 'The theater at Delphi was built into the slope above the Temple of Apollo, seating approximately 5,000 spectators with a commanding view of the valley below. It hosted the musical and dramatic competitions of the Pythian Games — the only Panhellenic festival to include artistic events alongside athletics. Tragedies, comedies, and dithyrambs (choral hymns to Dionysus) were performed here, making Delphi a crucible of Greek theatrical tradition. The theater\'s acoustics were engineered so precisely that a coin dropped on the orchestra floor could be heard in the highest seats.',
+    scenes: ['sq_theater']
+  },
+
+  spartan_diplomacy: {
+    title: 'Spartan Diplomacy at Delphi',
+    category: 'culture',
+    text: 'Sparta maintained a uniquely close relationship with the Delphic oracle. Spartan kings consulted the Pythia before every major military campaign, and Sparta\'s dual kingship, its constitution (the Great Rhetra), and its colonizing expeditions were all attributed to oracular guidance. Spartan delegations at Delphi were conspicuous — red-cloaked warriors who carried themselves with the disciplined arrogance of men who considered themselves the finest soldiers in Greece. The oracle, in turn, showed Sparta notable favoritism, a political alliance disguised as divine preference.',
+    scenes: ['sq_spartan_delegation']
+  },
+
 };
 
 // Scenes → encyclopedia entries mapping (which entries unlock at which scene)

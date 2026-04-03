@@ -32,6 +32,50 @@ const SCENE_ACTS = {
   // Act I — Delphi (Side Quests)
   sq_egyptian_merchant: 'act1',
   sq_hecate_priestess: 'act1',
+  sq_pythia_attendant: 'act1',
+  sq_night_vigil: 'act1',
+  sq_carving_names: 'act1',
+  sq_phoenician_sailor: 'act1',
+  sq_moonlight_delphi: 'act1',
+  sq_wrestling: 'act1',
+  sq_javelin: 'act1',
+  sq_underworld_rocks: 'act1',
+  sq_dorieus_javelin_omen: 'act1',
+  sq_farewell_priests: 'act1',
+  sq_last_castalia: 'act1',
+  sq_megara: 'act1',
+  sq_ephesus_flashback: 'act1',
+  sq_souvenir_seller: 'act1',
+  sq_spartan_delegation: 'act1',
+  sq_sacred_way_monuments: 'act1',
+  sq_black_cliff: 'act1',
+  sq_anteroom: 'act1',
+  sq_treasury_visit: 'act1',
+  sq_theater: 'act1',
+  sq_gymnasium: 'act1',
+  sq_delphi_exploration: 'act1',
+  sq_former_pythia: 'act1',
+  sq_priests_council: 'act1',
+  // Act I — Delphi (Side Quests S26–S40)
+  sq_fasting_explore: 'act1',
+  sq_winter_explore: 'act1',
+  sq_winter_explore_2: 'act1',
+  sq_winter_explore_3: 'act1',
+  sq_corycian_cave: 'act1',
+  sq_olive_grove: 'act1',
+  sq_gambling: 'act1',
+  sq_wine_merchant: 'act1',
+  sq_marketplace: 'act1',
+  sq_shepherd: 'act1',
+  sq_athena_pronaia: 'act1',
+  sq_charioteer_ghost: 'act1',
+  sq_spartan_drill: 'act1',
+  sq_sybaris_dream: 'act1',
+  sq_stars: 'act1',
+  sq_sick_pilgrim: 'act1',
+  sq_dionysus_festival: 'act1',
+  sq_poet_challenge: 'act1',
+  sq_mountain_tomb: 'act1',
   // Act I — Delphi (Existing)
   road_to_delphi: 'act1',
   village_rest: 'act1',
@@ -268,6 +312,18 @@ const SCENES = {
       {
         text: 'Pay the villagers for information about the road ahead',
         action: () => { updateStat('spirit', 1, 'Sought knowledge before acting'); renderScene('village_info'); }
+      },
+      {
+        text: 'Close your eyes — the memory of Ephesus rises unbidden',
+        action: () => renderScene('sq_ephesus_flashback')
+      },
+      {
+        text: 'An old woman by the roadside catches your eye — she sells carved tokens',
+        action: () => renderScene('sq_souvenir_seller')
+      },
+      {
+        text: 'A shepherd watches you from a rocky outcrop — he seems to know this mountain',
+        action: () => renderScene('sq_shepherd')
       }
     ]
   },
@@ -451,6 +507,18 @@ const SCENES = {
         text: 'Splash quickly and move on — the temple awaits',
         action: () => { state.flags.purified_castalia = true; renderScene('temple_calm'); }
       },
+      {
+        text: 'Notice a group of Spartans in red cloaks near the spring',
+        action: () => { state.flags.purified_castalia = true; renderScene('sq_spartan_delegation'); }
+      },
+      {
+        text: 'Walk the Sacred Way and study the monuments',
+        action: () => { state.flags.purified_castalia = true; renderScene('sq_sacred_way_monuments'); }
+      },
+      {
+        text: 'Climb toward the black cliff above the sanctuary',
+        action: () => { state.flags.purified_castalia = true; renderScene('sq_black_cliff'); }
+      },
       ...(state.flags.danced_in_storm ? [{
         text: '"The storm already cleansed me" — refuse to purify',
         type: 'defy',
@@ -559,6 +627,560 @@ const SCENES = {
           updateStat('spirit', 1, 'The priestess smiled — "The dog guards the threshold. You are closer to crossing than you know"');
           awardItem('hecate_torch');
           renderScene('approach_delphi');
+        }
+      }
+    ]
+  },
+
+  // ---- S01: THE EPHESUS FLASHBACK ----
+  sq_ephesus_flashback: {
+    title: 'The Ephesus Flashback',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Before the road, there was Ephesus. The memory rises like bile — the marketplace, the midday heat, the faces twisted with rage. You were standing near the temple precinct when the first stone struck your shoulder.',
+        'You remember the crowd — fishermen, potters, a woman with a child on her hip screaming that you were cursed. The Athenian soldiers pushed through, dragging you toward the harbor. Behind you, the stink of burning thatch from the roofs you had helped set alight at Sardis still clung to the city\'s memory.',
+        'Why did they hate you? Because you came back. Because you survived what others did not. Because the temple of Cybele burned and someone had to pay.'
+      ];
+      if (cls === 'warrior') lines.push('You remember the stones as a soldier remembers arrows — trajectory, weight, the sound of impact on flesh. You did not raise your hands. A warrior does not flinch from punishment he has earned.');
+      else if (cls === 'seer') lines.push('Even then, you saw it — the pattern behind the fury. They were afraid, not angry. Afraid of what you represented: that a man could burn a temple and walk away alive. That the gods had not struck you down.');
+      else if (cls === 'seafarer') lines.push('You remember the harbor — the Athenian trireme riding low, the gangplank slick with spray. The sea was your escape, as it always is. The crowd stopped at the waterline, as though an invisible wall separated land-rage from sea-mercy.');
+      else lines.push('The stones. The voices. The taste of blood in your mouth. And beneath it all, a strange calm — as though something inside you had already accepted this exile. Had been waiting for it.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.ephesus_remembered = true;
+      unlockEncyclopedia('ephesus');
+    },
+    choices: [
+      {
+        text: 'Remember every detail — the faces, the words, the pain',
+        action: () => {
+          updateStat('spirit', 1, 'Memory is a wound that teaches');
+          renderScene('road_to_delphi');
+        }
+      },
+      {
+        text: 'Push the memory away — you are not that man anymore',
+        action: () => {
+          updateStat('body', 1, 'You walled off the past with sheer will');
+          renderScene('road_to_delphi');
+        }
+      },
+      {
+        text: 'Examine what you carry from Ephesus — the few possessions in your pack',
+        action: () => {
+          state.flags.ephesus_inventory_checked = true;
+          renderScene('road_to_delphi');
+        }
+      }
+    ]
+  },
+
+  // ---- S02: THE SOUVENIR SELLER ----
+  sq_souvenir_seller: {
+    title: 'The Souvenir Seller',
+    text: [
+      'An old woman sits by the roadside on a woven mat, her wares spread before her: carved wooden tokens, bone amulets threaded on gut, clay figurines of Apollo with chipped noses. The usual pilgrim-trade — sacred enough to feel meaningful, cheap enough to afford.',
+      'But one item catches your eye. Half-buried under a pile of clay doves, a bronze ring stamped with a bee. The bee of Ephesus — the symbol of Artemis\'s temple, the city you fled.',
+      '"You have a sharp eye, pilgrim," the old woman says, watching you. "That one came from a sailor who needed wine more than memories. It is real bronze, not pot-metal. Ephesian work."',
+      'She names a price — modest, but not nothing. The ring gleams dully in the mountain light.'
+    ],
+    choices: [
+      {
+        text: 'Buy the ring — a piece of the home you can never return to',
+        action: () => {
+          state.flags.bought_bee_ring = true;
+          updateStat('fate', -1, 'The ring binds you to your past');
+          awardItem('ephesian_ring');
+          renderScene('village_rest');
+        }
+      },
+      {
+        text: 'Haggle — offer half her price and a story from the east',
+        roll: {
+          label: 'Haggle with the Seller',
+          stat: 'spirit',
+          dc: 5,
+          success: () => {
+            state.flags.bought_bee_ring = true;
+            awardItem('ephesian_ring');
+            renderScene('village_rest');
+          },
+          failure: () => {
+            renderScene('village_rest');
+          }
+        }
+      },
+      {
+        text: 'Walk away — you carry enough of Ephesus already',
+        action: () => renderScene('village_rest')
+      }
+    ]
+  },
+
+  // ---- S05: THE SPARTAN DELEGATION ----
+  sq_spartan_delegation: {
+    title: 'The Spartan Delegation',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Near the spring, a knot of men in red cloaks stand apart from the other pilgrims. Spartans — you recognize them by their bearing before you see the lambda on their shields. Five warriors and an older man who carries no weapon but commands more attention than the rest.',
+        'They have come to consult the oracle. About what, you cannot say, but their faces are grim. One of them — young, with the build of a wrestler and a scar across his jaw — watches the spring with an expression that might be reverence or contempt.',
+        'The Spartans notice you watching. The older man\'s gaze is measured, appraising.'
+      ];
+      if (cls === 'warrior') {
+        lines.push('The young Spartan straightens when he sees you. He recognizes a fellow soldier — the way you stand, the way your eyes scan for exits. He nods, once. A warrior\'s greeting.');
+        lines.push('<span class="italic">"You carry yourself like a man who has seen battle,"</span> the older Spartan says. <span class="italic">"From where do you come, soldier?"</span>');
+      } else {
+        lines.push('The Spartans regard you with polite indifference — you are not a warrior, and therefore not worth their sustained attention. But the older man\'s eyes linger. He is reading you the way a general reads terrain.');
+      }
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.saw_spartans = true;
+      unlockEncyclopedia('spartan_diplomacy');
+    },
+    choices: [
+      {
+        text: 'Approach and speak — mention the name Dorieus',
+        action: () => {
+          if (state.charClass === 'warrior') {
+            state.flags.spartan_contact = true;
+            updateStat('spirit', 1, 'The Spartans share stories of Dorieus — a prince who went west');
+          }
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Observe from a distance — learn what you can without risking attention',
+        action: () => {
+          updateStat('fate', 1, 'Patience reveals what boldness cannot');
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Avoid them entirely — Spartans bring trouble',
+        action: () => renderScene('temple_calm')
+      }
+    ]
+  },
+
+  // ---- S06: THE MONUMENTS OF THE SACRED WAY ----
+  sq_sacred_way_monuments: {
+    title: 'Monuments of the Sacred Way',
+    text: [
+      'You walk the Sacred Way slowly, reading the inscriptions carved into stone and bronze. The treasuries of the Greek city-states line the path — each one a small temple stuffed with offerings, each one a boast carved in marble.',
+      'The Athenian Treasury gleams with fresh paint, its metopes depicting the labors of Heracles and the deeds of Theseus. Below the Marathon monument, an inscription reads: <span class="italic">"The Athenians to Apollo, from the spoils of the Medes."</span> Victory over Persia, rendered in stone.',
+      'The Siphnian Treasury is older, its caryatid columns worn smooth by centuries of pilgrim hands. And everywhere, bronze statues — charioteers frozen mid-race, warriors mid-thrust, athletes mid-leap. Delphi is a museum of Greek ambition.',
+      'You think of Sardis. The Persians built nothing like this. They built gardens. The difference says everything about the two civilizations — one builds monuments to victory, the other cultivates paradise.'
+    ],
+    onEnter: () => {
+      unlockEncyclopedia('treasuries_delphi');
+    },
+    choices: [
+      {
+        text: 'Study the Marathon monument — the victory that changed everything',
+        action: () => {
+          updateStat('spirit', 1, 'The weight of history deepened your understanding');
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Examine the bronze charioteer — the artistry is breathtaking',
+        action: () => {
+          updateStat('fate', 1, 'Beauty has its own kind of truth');
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Read the victory inscriptions aloud — feel their power',
+        action: () => {
+          updateStat('body', 1, 'The words of victors kindled fire in your blood');
+          renderScene('temple_calm');
+        }
+      }
+    ]
+  },
+
+  // ---- S07: THE BLACK CLIFF ----
+  sq_black_cliff: {
+    title: 'The Black Cliff',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Above the sanctuary, a goat track leads to Hyampeia — the black cliff. You climb through scrub and loose stones until the path ends at a precipice that drops straight into the gorge below. The fall is hundreds of feet. Nothing survives it.',
+        'Black birds wheel in the updraft. The wind moans through crevices in the rock face. This is where Delphi executes its condemned — sacrilegious criminals hurled from the cliff\'s edge, their bodies broken on the rocks below.',
+        'This is where Epenides wants you to die. His letter was clear: <span class="italic">"let Turms be cast from the cliff."</span> You stand at the very edge and look down.'
+      ];
+      if (cls === 'warrior') lines.push('You have stood on battlements and siege towers. Heights do not frighten you. But the emptiness below this cliff is different — it is not a fall to be survived, but a judgment to be endured.');
+      else if (cls === 'seer') lines.push('You see them — ghost-shapes tumbling through the air, mouths open in silent screams. The cliff remembers every body it has claimed. Their terror lingers like a stain on the wind.');
+      else lines.push('The void pulls at you. Not with malice — with indifference. The cliff does not care whether you are guilty or innocent. It only cares that you fall.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.visited_cliff = true;
+      unlockEncyclopedia('hyampeia');
+    },
+    choices: [
+      {
+        text: 'Stand at the very edge — look death in the face',
+        roll: {
+          label: 'Face the Abyss',
+          stat: 'body',
+          dc: 7,
+          success: () => {
+            updateStat('body', 1, 'You stood where others tremble');
+            updateStat('spirit', 1, 'Confronting death clarified your will to live');
+            renderScene('temple_calm');
+          },
+          failure: () => {
+            updateStat('body', -1, 'Vertigo seized you — you crawled back from the edge');
+            renderScene('temple_calm');
+          }
+        }
+      },
+      {
+        text: 'Pray to Apollo — ask for protection from this fate',
+        action: () => {
+          updateStat('spirit', 1, 'Prayer steadied your trembling hands');
+          renderScene('temple_calm');
+        }
+      },
+      {
+        text: 'Turn away — you have seen enough',
+        action: () => {
+          updateStat('fate', 1, 'Wisdom is knowing when not to look');
+          renderScene('temple_calm');
+        }
+      }
+    ]
+  },
+
+  // ---- S08: THE ANTEROOM OF WISDOM ----
+  sq_anteroom: {
+    title: 'The Anteroom of Wisdom',
+    text: [
+      'While the four priests confer in low voices, you study the anteroom. The walls are covered with inscriptions — the maxims of the Seven Sages of Greece, carved into the stone in letters that have been retraced so many times each word sits in a groove worn smooth as a riverbed.',
+      '<span class="omen-text">"Know thyself."</span> <span class="omen-text">"Nothing in excess."</span> <span class="omen-text">"Surety brings ruin."</span>',
+      'In an alcove stands a golden figure of Homer — or the man the Greeks call Homer. Blind, bearded, his bronze lips parted as though about to speak. Beside him, the treasures of Croesus fill a wooden case: gold bowls, a lion of electrum, offerings from a king who asked the oracle whether he should make war on Persia. The oracle said a great empire would fall. It was his own.',
+      'The irony is not lost on you. You, too, came here seeking clarity. You, too, may find an answer that destroys you.'
+    ],
+    onEnter: () => {
+      unlockEncyclopedia('seven_sages');
+      unlockEncyclopedia('croesus_delphi');
+    },
+    choices: [
+      {
+        text: 'Meditate on "Know thyself" — what does it mean for you?',
+        action: () => {
+          updateStat('spirit', 1, 'The oldest wisdom cut the deepest');
+          renderScene('priests_question');
+        }
+      },
+      {
+        text: 'Study the treasures of Croesus — the gifts of a doomed king',
+        action: () => {
+          updateStat('fate', 1, 'Croesus\'s fate illuminated your own');
+          renderScene('priests_question');
+        }
+      },
+      {
+        text: 'Examine the figure of Homer — the blind poet who saw everything',
+        action: () => {
+          updateStat('spirit', 1, 'Homer\'s empty eyes seemed to look through you');
+          renderScene('priests_question');
+        }
+      }
+    ]
+  },
+
+  // ---- DELPHI EXPLORATION HUB ----
+  sq_delphi_exploration: {
+    title: 'Exploring Delphi',
+    text: [
+      'Between the rituals of fasting and purification, you find hours of empty time. The servants do not watch you closely — they assume a pilgrim under the temple\'s authority will not stray far. But Delphi is a small city unto itself, and your legs ache for movement after days of sitting.',
+      'The sacred precinct offers several diversions for a restless exile.'
+    ],
+    choices: [
+      {
+        text: 'Visit the Treasury of the Siphnians — you heard it holds unusual bronzes',
+        action: () => renderScene('sq_treasury_visit')
+      },
+      {
+        text: 'Find the Theater of Dionysus — you could use the solitude',
+        action: () => renderScene('sq_theater')
+      },
+      {
+        text: 'Seek out the Gymnasium — your body craves exertion',
+        action: () => renderScene('sq_gymnasium')
+      },
+      {
+        text: 'Return to the temple — the priests will summon you soon enough',
+        action: () => renderScene('priests_interrogation_2')
+      }
+    ]
+  },
+
+  // ---- S09: TREASURY OF THE SIPHNIANS ----
+  sq_treasury_visit: {
+    title: 'Treasury of the Siphnians',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The Treasury of the Siphnians is cool and dim, its marble walls carved with scenes of the Trojan War. The Siphnians built it with the wealth of their silver mines — before the mines flooded and their prosperity vanished overnight. Another lesson in the impermanence of fortune.',
+        'You move through the collection slowly. Gold bowls from Corinth. An ivory comb from Egypt. And then — half-hidden behind a row of painted vases — a small bronze figure that stops you cold.',
+        'It is not Greek. The proportions are wrong — the torso longer, the smile wider, the eyes larger. The figure wears a conical cap and holds what might be a lyre or a divination tool. It is western. It is old. It is, unmistakably, Etruscan.'
+      ];
+      if (cls === 'seer') lines.push('The figure pulses with something — not warmth, not light, but presence. As though the bronze remembers the hands that shaped it. As though it has been waiting here, in this Greek treasury, for someone who would recognize it.');
+      else if (cls === 'storm_born') lines.push('Your scar tingles. The bronze figure\'s smile is knowing — the expression of someone who understands what you are before you do.');
+      else lines.push('You stare at the figure for a long time. It is the first Etruscan thing you have seen since — since when? Since before memory, perhaps. The recognition is not intellectual. It is physical, visceral, like hearing your mother tongue after years abroad.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.saw_etruscan_figure = true;
+    },
+    choices: [
+      {
+        text: 'Ask the treasury keeper about the figure\'s origin',
+        action: () => {
+          updateStat('spirit', 1, 'The keeper knew little — "from the west, they say" — but the question itself felt important');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      {
+        text: 'Touch the bronze figure — feel if it responds',
+        roll: {
+          label: 'Touch the Etruscan Bronze',
+          stat: 'fate',
+          dc: 6,
+          success: () => {
+            state.flags.touched_etruscan_bronze = true;
+            updateStat('fate', 1, 'The bronze was warm — impossibly warm — and for a heartbeat you heard a word in a language you almost knew');
+            renderScene('priests_interrogation_2');
+          },
+          failure: () => {
+            state.flags.touched_etruscan_bronze = true;
+            updateStat('fate', -1, 'A chill ran through you — the figure\'s smile seemed to shift');
+            renderScene('priests_interrogation_2');
+          }
+        }
+      },
+      {
+        text: 'Admire it from a distance and move on',
+        action: () => {
+          updateStat('fate', 1, 'Some things are best observed, not grasped');
+          renderScene('priests_interrogation_2');
+        }
+      }
+    ]
+  },
+
+  // ---- S10: THEATER OF DIONYSUS ----
+  sq_theater: {
+    title: 'The Theater of Dionysus',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The theater is empty. Cut into the mountainside, its stone seats rise in a great half-circle facing the orchestra floor below. The acoustics are uncanny — a whisper from the center of the stage reaches the highest row as clearly as if spoken beside your ear.',
+        'You stand in the orchestra, alone. Above you, six thousand empty seats. Below, the valley of Delphi falling away to the distant sea. The silence is enormous — not empty, but full, as though the theater is holding its breath between performances.',
+        'You imagine the tragedies that have echoed here. Prometheus chained. Oedipus blinded. Medea with her children\'s blood still wet on her hands. This is where the Greeks confront what they cannot face in daylight — the truth that the gods are not just.'
+      ];
+      if (cls === 'warrior') lines.push('The empty seats remind you of a formation waiting for orders. You could command from this stage — every word would carry, every gesture would be seen. The theater is a battlefield of a different kind.');
+      else if (cls === 'seer') lines.push('The ghosts of performances past shimmer at the edges of your vision. Masked figures moving through choreographed grief. The theater is a temple to a different kind of prophecy — the kind that reveals truth through fiction.');
+      else lines.push('The silence presses against you. In this place, every human emotion has been performed, rehearsed, amplified. Your own story — exile, guilt, the search for identity — is not original. It is the oldest story the Greeks know how to tell.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.visited_theater = true;
+      unlockEncyclopedia('greek_theater_delphi');
+    },
+    choices: [
+      {
+        text: 'Recite a passage from tragedy — let the theater carry your voice',
+        roll: {
+          label: 'Recite Tragedy',
+          stat: 'spirit',
+          dc: 5,
+          success: () => {
+            updateStat('spirit', 2, 'Your voice filled the theater — for a moment, you were not an exile but a performer, and the emptiness listened');
+            renderScene('priests_interrogation_2');
+          },
+          failure: () => {
+            updateStat('spirit', 1, 'The words faltered, but the attempt itself was a kind of prayer');
+            renderScene('priests_interrogation_2');
+          }
+        }
+      },
+      {
+        text: 'Sit in silence and let the theater\'s emptiness wash over you',
+        action: () => {
+          updateStat('spirit', 1, 'In the silence, something unknotted inside your chest');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      ...(state.charClass === 'warrior' ? [{
+        text: 'Practice combat forms in the orchestra — your body needs the work',
+        action: () => {
+          updateStat('body', 1, 'The movement felt ceremonial in this sacred space');
+          renderScene('priests_interrogation_2');
+        }
+      }] : [])
+    ]
+  },
+
+  // ---- S11: THE GYMNASIUM ----
+  sq_gymnasium: {
+    title: 'The Gymnasium',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The gymnasium lies below the sanctuary, near the road. A palaestra — a wrestling yard — opens onto a colonnaded track where athletes train for the Pythian Games. Even now, weeks from the next festival, a handful of men exercise: stretching, wrestling, throwing javelins at straw targets.',
+        'A veteran athlete with a crooked nose and shoulders like an ox watches you enter. He has the loose, confident stance of a man who has won enough contests to stop counting.',
+        '<span class="italic">"You are the exile,"</span> he says flatly. <span class="italic">"The one the priests are holding. I heard you were a soldier."</span> He looks you over. <span class="italic">"Your body is wasting under their fast. Come — train with me. The priests feed your soul; I will feed your strength."</span>'
+      ];
+      if (cls === 'warrior') lines.push('You recognize his type — a professional athlete, but one who has also seen combat. The way he shifts his weight, the old knife scar on his forearm. He is testing you with his eyes before he tests you with his hands.');
+      else lines.push('The offer is unexpected. The gymnasium is a place of honor in Greek life — for citizens, not exiles. That he offers to train you is a courtesy, perhaps even a kindness.');
+      return lines;
+    },
+    onEnter: () => {
+      unlockEncyclopedia('greek_athletics');
+    },
+    choices: [
+      {
+        text: 'Train with the veteran — accept his instruction',
+        action: () => {
+          state.flags.gymnasium_trained = true;
+          updateStat('body', 1, 'The veteran\'s drills honed your reflexes');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      {
+        text: 'Spar cautiously — do not reveal your full strength',
+        action: () => {
+          state.flags.gymnasium_trained = true;
+          updateStat('fate', 1, 'You held back, and the veteran noticed — and respected it');
+          renderScene('priests_interrogation_2');
+        }
+      },
+      {
+        text: 'Challenge him to a sprint — settle it with speed',
+        roll: {
+          label: 'Race the Veteran',
+          stat: 'body',
+          dc: 7,
+          success: () => {
+            state.flags.gymnasium_trained = true;
+            updateStat('body', 2, 'You outran a Pythian athlete — he laughed and clasped your hand');
+            renderScene('priests_interrogation_2');
+          },
+          failure: () => {
+            state.flags.gymnasium_trained = true;
+            updateStat('body', 1, 'He beat you, but the effort rekindled something in your legs');
+            renderScene('priests_interrogation_2');
+          }
+        }
+      }
+    ]
+  },
+
+  // ---- S12: THE FORMER PYTHIA ----
+  sq_former_pythia: {
+    title: 'The Former Pythia',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Near the Castalian Spring, sitting on a stone worn smooth by decades of use, an old woman watches the water. She is thin, white-haired, and her eyes have the unfocused quality of someone who has spent too long staring into other worlds.',
+        'The temple servants give her a wide berth. A younger priestess brings her food and water without being asked. The old woman eats mechanically, her attention somewhere else entirely.',
+        'She speaks before you can decide whether to approach. <span class="italic">"You are the one they argue about. The exile from the east."</span> Her voice is hoarse but precise. <span class="italic">"I know because the walls of this temple have ears, and for thirty years those ears were mine."</span>',
+        'A former Pythia. Retired — or replaced. The oracle\'s voice, silenced by age or by politics, but still listening.'
+      ];
+      if (cls === 'seer') lines.push('You feel the residue of power clinging to her like perfume. Whatever gift the Pythia possesses, this woman still carries its echo. Her eyes find yours, and for a moment you see yourself reflected in them — not as you are, but as you will be.');
+      else lines.push('She fixes you with a gaze that sees through flesh and bone. Whatever the vapors showed her during her years on the tripod, the vision has not entirely faded.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_former_pythia = true;
+      unlockEncyclopedia('succession_pythias');
+    },
+    choices: [
+      {
+        text: '"What did you see, when you sat on the tripod?"',
+        action: () => {
+          updateStat('spirit', 1, 'She smiled — "Everything. And nothing I could keep"');
+          renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: '"What do you know of the current Pythia?"',
+        action: () => {
+          state.flags.pythia_insight = true;
+          renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: '"Are the vapors real? Or is the oracle a performance?"',
+        action: () => {
+          updateStat('fate', 1, 'She laughed — "The vapors are real. The performance is also real. The gods do not distinguish"');
+          renderScene('dove_feather_omen');
+        }
+      }
+    ]
+  },
+
+  // ---- S13: EAVESDROPPING ON THE COUNCIL ----
+  sq_priests_council: {
+    title: 'Eavesdropping on the Council',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You cannot sleep. The temple walls are thick, but sound travels through stone in strange ways — through cracks, through the channels cut for water, through the hollow spaces behind the painted plaster.',
+        'Voices. The four priests, arguing. You press your ear to the wall and listen.',
+        '<span class="italic">"He is dangerous,"</span> says one — the youngest, you think. <span class="italic">"A temple-burner. If we shelter him and Persia hears of it—"</span>',
+        '<span class="italic">"Persia hears everything,"</span> the eldest interrupts. <span class="italic">"The question is not what Persia thinks. The question is what the goddess wants. The dove feather was clear."</span>',
+        '<span class="italic">"Dove feathers fall from the sky every day!"</span>',
+        '<span class="italic">"Not into the outstretched palm of a man who just confessed to burning a temple. That is not coincidence. That is an answer."</span>',
+        'Silence. Then the youngest priest again, quieter: <span class="italic">"And if the Pythia confirms it? If she tells us to send him west?"</span>',
+        '<span class="italic">"Then we send him west,"</span> the eldest says. <span class="italic">"And let the western gods deal with whatever he is."</span>'
+      ];
+      if (cls === 'seer') lines.push('You sense the currents beneath their words — fear, obligation, a genuine uncertainty about what you represent. The eldest believes. The youngest is afraid. The others are calculating the political cost.');
+      else lines.push('Your heart hammers against the wall. They are deciding your fate in a back room, the way men have always decided fates — with arguments, compromises, and the invocation of signs they half-believe.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.overheard_priests = true;
+      unlockEncyclopedia('priestly_hierarchy');
+    },
+    choices: [
+      {
+        text: 'Keep listening — learn everything you can',
+        action: () => {
+          state.flags.overheard_priests_detail = true;
+          renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: 'Knock on the door and confront them — "I heard everything"',
+        roll: {
+          label: 'Confront the Priests',
+          stat: 'spirit',
+          dc: 8,
+          success: () => {
+            updateStat('spirit', 2, 'The priests were startled — but the eldest nodded slowly, as though he had expected this');
+            renderScene('dove_feather_omen');
+          },
+          failure: () => {
+            updateStat('spirit', -1, 'The priests were furious at the intrusion — trust eroded');
+            updateStat('fate', -1, 'You showed your hand too soon');
+            renderScene('dove_feather_omen');
+          }
+        }
+      },
+      {
+        text: 'Walk away — some things are better not known',
+        action: () => {
+          updateStat('fate', 1, 'You chose ignorance as armor');
+          renderScene('dove_feather_omen');
         }
       }
     ]
@@ -833,6 +1455,10 @@ const SCENES = {
             renderScene('priests_question');
           }
         }
+      },
+      {
+        text: 'While the priests confer, study the anteroom\'s inscriptions',
+        action: () => renderScene('sq_anteroom')
       }
     ]
   },
@@ -939,7 +1565,7 @@ const SCENES = {
         text: 'Use the time between rituals to explore Delphi',
         action: () => {
           state.flags.explored_during_fast = true;
-          renderScene('priests_interrogation_2');
+          renderScene('sq_fasting_explore');
         }
       }
     ]
@@ -1048,6 +1674,20 @@ const SCENES = {
           updateStat('body', 1, 'Pragmatic acceptance steadied your resolve');
           addPebble('black', 'Sardis burns in my memory');
           renderScene('dove_feather_omen');
+        }
+      },
+      {
+        text: 'Before the priests dismiss you, an old woman by the spring catches your eye',
+        action: () => {
+          addPebble('black', 'Sardis burns in my memory');
+          renderScene('sq_former_pythia');
+        }
+      },
+      {
+        text: 'That night, you hear voices through the temple walls — priests arguing',
+        action: () => {
+          addPebble('black', 'Sardis burns in my memory');
+          renderScene('sq_priests_council');
         }
       }
     ]
@@ -1199,6 +1839,14 @@ const SCENES = {
           updateStat('fate', 1, 'Concern for the woman, not the oracle');
           renderScene('divine_recognition');
         }
+      },
+      {
+        text: 'An attendant catches your arm in the corridor...',
+        action: () => renderScene('sq_pythia_attendant')
+      },
+      {
+        text: 'Return to the temple tonight — the Omphalos calls',
+        action: () => renderScene('sq_night_vigil')
       }
     ]
   },
@@ -1312,8 +1960,20 @@ const SCENES = {
         action: () => {
           state.flags.winter_activity = 'exploration';
           updateStat('fate', 1, 'Curiosity led you to unexpected places');
-          renderScene('the_stadium');
+          renderScene('sq_winter_explore');
         }
+      },
+      {
+        text: 'Carve your name into the temple wall with a friend',
+        action: () => renderScene('sq_carving_names')
+      },
+      {
+        text: 'Seek out the Phoenician sailor stranded by winter',
+        action: () => renderScene('sq_phoenician_sailor')
+      },
+      {
+        text: 'Walk the sacred precinct by moonlight',
+        action: () => renderScene('sq_moonlight_delphi')
       }
     ]
   },
@@ -1431,6 +2091,14 @@ const SCENES = {
           updateStat('fate', 1, 'The silence spoke louder than words');
           renderScene('dorieus_story');
         }
+      },
+      {
+        text: '"Dorieus — wrestle me. I want to see if I can take a Spartan"',
+        action: () => renderScene('sq_wrestling')
+      },
+      {
+        text: 'Pick up his javelin — "Teach me to throw like that"',
+        action: () => renderScene('sq_javelin')
       }
     ]
   },
@@ -1494,6 +2162,10 @@ const SCENES = {
       {
         text: 'Tell Dorieus about Sardis...',
         action: () => renderScene('turms_confession')
+      },
+      {
+        text: 'Sit among the bare rocks where the underworld gods dwell',
+        action: () => renderScene('sq_underworld_rocks')
       }
     ]
   },
@@ -1626,6 +2298,10 @@ const SCENES = {
         action: () => {
           renderScene('choose_corinth');
         }
+      },
+      {
+        text: 'Watch as Dorieus hurls his javelin toward Corinth...',
+        action: () => renderScene('sq_dorieus_javelin_omen')
       }
     ]
   },
@@ -1731,6 +2407,14 @@ const SCENES = {
           }
           renderScene('the_road_south');
         }
+      },
+      {
+        text: 'Say farewell to the priests of Apollo',
+        action: () => renderScene('sq_farewell_priests')
+      },
+      {
+        text: 'Visit the Castalian Spring one last time',
+        action: () => renderScene('sq_last_castalia')
       }
     ]
   },
@@ -1783,6 +2467,10 @@ const SCENES = {
             renderScene('coast_decision');
           }
         }
+      },
+      {
+        text: 'The road forks at Megara — pause and consider',
+        action: () => renderScene('sq_megara')
       }
     ]
   },
@@ -2457,6 +3145,1459 @@ const SCENES = {
       {
         text: '"I don\'t know what comes next. But I know it comes with you."',
         action: () => { state.flags.promised_together = true; renderScene('act2_end'); }
+      }
+    ]
+  },
+
+  // ---- S14: THE PYTHIA'S ATTENDANT ----
+  sq_pythia_attendant: {
+    title: 'The Pythia\'s Attendant',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'One of the Pythia\'s attendants finds you in the corridor. She is young, nervous, and clearly acting without permission.',
+        '<span class="italic">"She asked me to find you,"</span> the attendant whispers. <span class="italic">"The Pythia. She is awake now but... changed. Since she saw you, she speaks of nothing else."</span>',
+        'The attendant glances behind her, afraid of being caught. <span class="bold">"She says you are not what you think you are. She says the face she saw was not Greek."</span>',
+        'The attendant looks at you with fear and fascination. "What are you?"'
+      ];
+      if (cls === 'seer') lines.push('You feel the Pythia\'s presence through the walls — a faint pulse, like a second heartbeat. She is reaching for you with something that is not hands.');
+      else if (cls === 'storm_born') lines.push('The lightning scar on your body warms. Whatever the Pythia saw in you, it recognizes her recognition.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.pythia_message_received = true;
+    },
+    choices: [
+      {
+        text: '"I don\'t know. That\'s why I came to Delphi"',
+        action: () => {
+          updateStat('spirit', 1, 'Honesty in the face of mystery');
+          renderScene('divine_recognition');
+        }
+      },
+      {
+        text: '"Tell her I will come to see her"',
+        action: () => {
+          state.flags.promised_pythia_visit = true;
+          renderScene('divine_recognition');
+        }
+      },
+      {
+        text: '"Tell her to forget me. For her own safety"',
+        action: () => {
+          state.flags.cared_for_pythia = true;
+          updateStat('fate', 1, 'You chose to protect her from whatever you are');
+          renderScene('divine_recognition');
+        }
+      }
+    ]
+  },
+
+  // ---- S15: NIGHT VIGIL AT THE OMPHALOS ----
+  sq_night_vigil: {
+    title: 'Night Vigil at the Omphalos',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Unable to sleep, you return to the inner temple at night. The eternal flame casts shifting shadows on the Omphalos. The stone is warm to the touch — warmer than it should be.',
+        'You sit beside it, and the silence of the temple becomes a presence, not an absence. Something speaks to you without words. Not the Pythia\'s god — something older, something that was here before Apollo, when these were just rocks worshipped by forgotten people.',
+        'The stone hums beneath your palm.'
+      ];
+      if (cls === 'seer') lines.push('The hum resolves into images — not visions but memories. Not yours. The stone\'s. You see a thousand years of hands pressing against this surface, a thousand prayers in a hundred languages, and beneath them all a single question: <span class="italic">who am I?</span>');
+      else if (cls === 'storm_born') lines.push('The hum matches the frequency of the storm — the same vibration that shook the mountain, the same force that moved through the guardian spirit\'s wings. The Omphalos remembers a time before names.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.night_vigil = true;
+    },
+    choices: [
+      {
+        text: 'Place both hands on the Omphalos and open your mind',
+        roll: {
+          label: 'Touch the Center of the World',
+          stat: 'spirit',
+          success: () => {
+            updateStat('spirit', 2, 'The stone showed you a glimpse of your origin');
+            addPebble('white', 'The stone remembers what I have forgotten');
+            renderScene('divine_recognition');
+          },
+          failure: () => {
+            updateStat('body', -1, 'The vision overwhelmed you — dizziness, nausea');
+            renderScene('divine_recognition');
+          }
+        }
+      },
+      {
+        text: 'Simply sit and absorb the peace',
+        action: () => {
+          updateStat('spirit', 1, 'The temple\'s silence filled you');
+          updateStat('fate', 1, 'You accepted what the stone offered freely');
+          renderScene('divine_recognition');
+        }
+      },
+      {
+        text: 'Speak aloud into the darkness — "Who am I?"',
+        action: () => {
+          state.flags.asked_the_stone = true;
+          updateStat('spirit', 1, 'The question echoed. No answer came. But the stone grew warmer');
+          renderScene('divine_recognition');
+        }
+      }
+    ]
+  },
+
+  // ---- S16: CARVING NAMES IN STONE ----
+  sq_carving_names: {
+    title: 'Carving Names in Stone',
+    text: [
+      'By the temple wall, you and Dorieus carve your names into the soft stone. The walls are already covered with centuries of names — kings, generals, poets, and countless anonymous pilgrims who left only this trace of their passage.',
+      'Dorieus carves with fierce precision: <span class="bold">DORIEUS, SON OF DORIEUS</span>.',
+      'You carve more slowly: <span class="bold">TURMS OF EPHESUS</span>.',
+      'Both of you stare at the names. They look permanent. They are not.'
+    ],
+    onEnter: () => {
+      state.flags.carved_names = true;
+      unlockEncyclopedia('pilgrim_graffiti');
+    },
+    choices: [
+      {
+        text: 'Add an inscription — "Two exiles who chose the road together"',
+        action: () => {
+          state.flags.carved_inscription = true;
+          updateStat('spirit', 1, 'Words carved in stone carry weight');
+          renderScene('the_stadium');
+        }
+      },
+      ...(typeof state !== 'undefined' && state.flags && state.flags.bought_bee_ring ? [{
+        text: 'Carve the Ephesian bee symbol beside your name',
+        action: () => {
+          state.flags.carved_bee = true;
+          updateStat('spirit', 1, 'The bee of Ephesus — your first home');
+          renderScene('the_stadium');
+        }
+      }] : []),
+      {
+        text: 'Let Dorieus carve alone — names are vanity',
+        action: () => {
+          updateStat('fate', 1, 'You let the stone speak for itself');
+          renderScene('the_stadium');
+        }
+      }
+    ]
+  },
+
+  // ---- S17: THE PHOENICIAN SAILOR ----
+  sq_phoenician_sailor: {
+    title: 'The Phoenician Sailor',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'A Phoenician sailor, stranded in Delphi by winter storms, drinks alone at a pilgrim inn. He is dark-skinned, sharp-eyed, and speaks broken Greek.',
+        'He has sailed to places the Greeks only whisper about — Carthage, the Pillars of Herakles, the tin islands in the north. He has a map. Not a proper chart, but scratched lines on leather showing coastlines, harbors, and danger points between Corinth and Sicily.',
+        '<span class="italic">"The western sea,"</span> he says, tracing a line with a stained finger, <span class="italic">"is not like your little pond. It has teeth."</span>'
+      ];
+      if (cls === 'seafarer') lines.push('You lean in. This is your language — currents, harbors, windward approaches. The Phoenician recognizes a fellow sailor and his manner changes from guarded to conspiratorial.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_phoenician = true;
+      unlockEncyclopedia('phoenician_navigation');
+    },
+    choices: [
+      {
+        text: 'Trade for the map — offer coins',
+        action: () => {
+          updateStat('fate', -1, 'Knowledge costs');
+          awardItem('phoenician_chart');
+          renderScene('the_stadium');
+        }
+      },
+      {
+        text: '"What lies beyond Sicily?" — ask about the western sea',
+        action: () => {
+          updateStat('spirit', 1, 'He spoke of Etruria — cities older than Athens, tombs painted with dancers');
+          renderScene('the_stadium');
+        }
+      },
+      {
+        text: 'Share wine and stories — build rapport',
+        action: () => {
+          updateStat('fate', 1, 'The Phoenician warmed to you — a rare thing for his kind');
+          renderScene('the_stadium');
+        }
+      }
+    ]
+  },
+
+  // ---- S18: DELPHI BY MOONLIGHT ----
+  sq_moonlight_delphi: {
+    title: 'Delphi by Moonlight',
+    text: [
+      'On a clear winter night, you walk alone through the sacred precinct. The moon turns the marble silver. The monuments cast long shadows.',
+      'Delphi is a different place at night — older, stranger, more honest. The monuments are not trophies but gravestones of ambition. The temple is not a house of god but a wound in the earth from which the divine bleeds.',
+      'You feel, for the first time, that you could stay here forever. And you know, with equal certainty, that you must leave.'
+    ],
+    onEnter: () => {
+      state.flags.moonlight_walk = true;
+    },
+    choices: [
+      {
+        text: 'Climb to the theater and look at the stars',
+        action: () => {
+          updateStat('spirit', 1, 'The stars above Delphi are closer than anywhere else');
+          updateStat('fate', 1, 'The constellations spell a direction: west');
+          renderScene('the_stadium');
+        }
+      },
+      {
+        text: 'Visit the Castalian Spring by moonlight',
+        roll: {
+          label: 'Moonlit Vision',
+          stat: 'spirit',
+          success: () => {
+            updateStat('spirit', 1, 'In the water you saw a face — beautiful and dangerous. A woman on a distant shore, watching ships');
+            renderScene('the_stadium');
+          },
+          failure: () => {
+            updateStat('spirit', 1, 'The water showed you only your own face — thinner, older, no longer the man who left Ephesus');
+            renderScene('the_stadium');
+          }
+        }
+      },
+      {
+        text: 'Simply walk and think — let the night do its work',
+        action: () => {
+          updateStat('spirit', 1, 'The night asked nothing and gave everything');
+          renderScene('the_stadium');
+        }
+      }
+    ]
+  },
+
+  // ---- S19: THE WRESTLING CHALLENGE ----
+  sq_wrestling: {
+    title: 'The Wrestling Challenge',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Dorieus strips to his waist, crouches, and extends his arms. His body is a weapon — every muscle defined, every movement economy.',
+        '<span class="italic">"I will not be gentle,"</span> he warns. <span class="italic">"A Spartan does not know how."</span>'
+      ];
+      if (cls === 'warrior') lines.push('You recognize his stance — the Spartan wrestler\'s guard. You have seen it break men\'s arms. But you have your own training, and his arrogance might be his weakness.');
+      else lines.push('You look at those arms and consider your options. In a fair wrestling match against a trained Spartan, you would lose. But who said anything about fair?');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.wrestled_dorieus = true;
+    },
+    choices: [
+      {
+        text: 'Accept the challenge',
+        roll: {
+          label: 'Wrestle a Spartan',
+          stat: 'body',
+          target: 9,
+          success: () => {
+            updateStat('body', 2, 'You defeated a Spartan at wrestling — a feat few can claim');
+            addPebble('red', 'I defeated a Spartan at wrestling — once');
+            renderScene('dorieus_story');
+          },
+          failure: () => {
+            updateStat('body', -1, 'He pinned you in moments — but gently, for a Spartan');
+            renderScene('dorieus_story');
+          }
+        }
+      },
+      {
+        text: '"You are better than I" — decline wisely',
+        action: () => {
+          updateStat('fate', 1, 'Dorieus respects honesty more than foolish bravery');
+          renderScene('dorieus_story');
+        }
+      },
+      {
+        text: 'Propose a different contest — knucklebones instead of fists',
+        action: () => {
+          updateStat('spirit', 1, 'Dorieus laughed — the first real laugh you\'ve heard from him');
+          renderScene('dorieus_story');
+        }
+      }
+    ]
+  },
+
+  // ---- S20: THE JAVELIN CONTEST ----
+  sq_javelin: {
+    title: 'The Javelin Contest',
+    text: [
+      'Dorieus hands you his Spartan javelin. It is heavier than you expected.',
+      'He throws first — the javelin arcs through the air <span class="italic">"like a hawk in flight,"</span> far beyond any mark you could hope to match.',
+      'But you try anyway. You gather momentum, feel the weight, and release. It flies farther than you dared hope.',
+      'Dorieus nods. <span class="italic">"You throw like a man who has been taught by no one. Raw talent. Dangerous."</span>'
+    ],
+    onEnter: () => {
+      state.flags.javelin_contest = true;
+    },
+    choices: [
+      {
+        text: 'Try one more throw — push your limits',
+        roll: {
+          label: 'Javelin Throw',
+          stat: 'body',
+          success: () => {
+            updateStat('body', 1, 'The second throw flew true — Dorieus raised an eyebrow');
+            renderScene('dorieus_story');
+          },
+          failure: () => {
+            updateStat('body', -1, 'Your shoulder strained on the follow-through');
+            renderScene('dorieus_story');
+          }
+        }
+      },
+      {
+        text: '"The javelin is yours. I\'ll stick to running"',
+        action: () => {
+          updateStat('spirit', 1, 'Grace in concession');
+          renderScene('dorieus_story');
+        }
+      },
+      {
+        text: '"Show me the Spartan technique"',
+        action: () => {
+          state.flags.javelin_trained = true;
+          updateStat('body', 1, 'He taught you the wrist-snap that gives the throw its spin');
+          unlockEncyclopedia('spartan_military');
+          renderScene('dorieus_story');
+        }
+      }
+    ]
+  },
+
+  // ---- S21: THE ROCKS OF THE UNDERWORLD GODS ----
+  sq_underworld_rocks: {
+    title: 'The Rocks of the Underworld Gods',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You and Dorieus sit among the bare, natural rocks that were worshipped a thousand years before Apollo came. Dorieus lashes at them with a willow switch, restless and impatient.',
+        '<span class="italic">"These rocks,"</span> he mutters. <span class="italic">"They look like nothing. But the old men say they are doors to the underworld."</span>',
+        'You place your palm on the nearest stone. It is cold — colder than stone should be. Something stirs beneath. Not a sound, not a movement, but a presence. The underworld gods do not speak. They simply watch.'
+      ];
+      if (cls === 'seer') lines.push('You feel them clearly — ancient, patient, indifferent to Apollo and his bright architecture. These gods were old when the mountain was young.');
+      else if (cls === 'storm_born') lines.push('The lightning scar aches near these stones. Whatever lives beneath them knows the storm. Knows the force that dances in you. It is the same force, seen from below instead of above.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.felt_underworld = true;
+      unlockEncyclopedia('chthonic_religion');
+    },
+    choices: [
+      {
+        text: 'Press your ear to the stone — listen for the underworld',
+        roll: {
+          label: 'Listen to the Deep',
+          stat: 'spirit',
+          success: () => {
+            updateStat('spirit', 1, 'You heard it — a low hum, like the earth breathing');
+            renderScene('dorieus_oracle');
+          },
+          failure: () => {
+            renderScene('dorieus_oracle');
+          }
+        }
+      },
+      {
+        text: 'Tell Dorieus about Hecate\'s dog in your dreams',
+        action: () => {
+          updateStat('spirit', 1, 'He listened without understanding — but he listened');
+          renderScene('dorieus_oracle');
+        }
+      },
+      {
+        text: 'Leave an offering — a pebble from your pouch',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The offering vanished into a crack in the stone');
+          renderScene('dorieus_oracle');
+        }
+      }
+    ]
+  },
+
+  // ---- S22: DORIEUS' JAVELIN OMEN ----
+  sq_dorieus_javelin_omen: {
+    title: 'Dorieus\' Javelin at the Crossroads',
+    text: [
+      'Before you leave, Dorieus suggests one more test. He throws his javelin in the direction of Corinth — as far as he can.',
+      'You both watch it arc through the air. When you reach it, the point is embedded in a rotted piece of ship\'s rail, washed far inland by some ancient flood. The wood is grey and salt-eaten.',
+      '<span class="omen-text">Neither of you speaks. The omen is clear — and unfavorable.</span>',
+      'Dorieus pulls the javelin free without looking at you. You walk on.'
+    ],
+    onEnter: () => {
+      state.flags.javelin_omen_seen = true;
+    },
+    choices: [
+      {
+        text: '"That was a ship once. Ships mean the sea. The sea means west"',
+        action: () => {
+          updateStat('spirit', 1, 'You spoke the omen aloud');
+          renderScene('departure_preparations');
+        }
+      },
+      {
+        text: 'Say nothing — the silence is its own acknowledgment',
+        action: () => {
+          updateStat('fate', 1, 'Some omens need no interpreter');
+          renderScene('departure_preparations');
+        }
+      },
+      {
+        text: '"It\'s just wood. Let\'s go"',
+        action: () => {
+          updateStat('body', 1, 'Pragmatism has its own strength');
+          renderScene('departure_preparations');
+        }
+      }
+    ]
+  },
+
+  // ---- S23: FAREWELL TO THE PRIESTS ----
+  sq_farewell_priests: {
+    title: 'Farewell to the Priests',
+    text: [
+      'Before leaving, you return to the temple one last time. The eldest priest meets you at the anteroom.',
+      '<span class="italic">"You are going, then,"</span> he says. It is not a question.',
+      'He returns your purse of coins — lighter now, but they withheld only the cost of maintenance and purification.',
+      '<span class="bold">"Send no offering to the Delphic god,"</span> he says firmly. <span class="bold">"We will not accept it."</span>',
+      'His words carry a finality that hurts more than rejection: the god of Delphi wants nothing to do with you. You are free — and utterly alone.'
+    ],
+    onEnter: () => {
+      state.flags.farewell_priests = true;
+    },
+    choices: [
+      {
+        text: 'Accept the rejection with dignity',
+        action: () => {
+          updateStat('spirit', 1, 'You bowed once and walked away');
+          renderScene('the_road_south');
+        }
+      },
+      {
+        text: '"Will I ever return to Delphi?"',
+        roll: {
+          label: 'One Final Question',
+          stat: 'fate',
+          success: () => {
+            updateStat('fate', 1, 'The priest paused. "The stones will remember you. Whether you return... that is not for me to say"');
+            renderScene('the_road_south');
+          },
+          failure: () => {
+            renderScene('the_road_south');
+          }
+        }
+      },
+      {
+        text: '"Your god is a coward" — leave in anger',
+        type: 'defy',
+        action: () => {
+          state.omensDefied++;
+          updateStat('spirit', -1, 'Anger is not strength');
+          renderScene('the_road_south');
+        }
+      }
+    ]
+  },
+
+  // ---- S24: LAST VISIT TO THE SPRING ----
+  sq_last_castalia: {
+    title: 'Last Visit to the Spring',
+    text: [
+      'You return to the Castalian Spring one final time. The water is colder now — deep winter. No other pilgrims.',
+      'You wash your hands and face. The water carries away nothing this time; you are already clean.',
+      'But you feel the spring say goodbye. Not in words — in the way the water flows over your knuckles, cold and certain and indifferent. You have been purified. What you do with that purity is no longer Delphi\'s concern.'
+    ],
+    onEnter: () => {
+      state.flags.last_spring_visit = true;
+    },
+    choices: [
+      {
+        text: 'Drink deeply — carry the water\'s blessing with you',
+        action: () => {
+          updateStat('spirit', 1, 'The cold water settled in your chest like a prayer');
+          renderScene('the_road_south');
+        }
+      },
+      {
+        text: 'Fill a small flask to take on the journey',
+        action: () => {
+          awardItem('castalian_water');
+          renderScene('the_road_south');
+        }
+      },
+      {
+        text: 'Whisper a prayer to Aphrodite at the water\'s edge',
+        action: () => {
+          updateStat('fate', 1, 'The dove\'s feather warmed in your pouch');
+          renderScene('the_road_south');
+        }
+      }
+    ]
+  },
+
+  // ---- S25: THE MEGARA CROSSROADS ----
+  sq_megara: {
+    title: 'The Megara Crossroads',
+    text: [
+      'At Megara, the road forks. One path leads to Athens — where you have friends from the Sardis expedition, but where a conservative faction now rules and those friends might prefer to forget you.',
+      'The other leads to Corinth — the most hospitable of Greek cities, where money is the only passport.',
+      'Dorieus defers to you, then regrets it. <span class="italic">"This is my decision and not yours,"</span> he insists, though you both know it was your suggestion.'
+    ],
+    onEnter: () => {
+      state.flags.megara_decision = true;
+    },
+    choices: [
+      {
+        text: '"I have friends in Athens" — suggest the eastern road',
+        action: () => {
+          state.flags.considered_athens = true;
+          renderScene('coast_decision');
+        }
+      },
+      {
+        text: '"Corinth — where ships sail and strangers are welcome"',
+        action: () => {
+          updateStat('fate', 1, 'The practical choice — and the right one');
+          renderScene('coast_decision');
+        }
+      },
+      {
+        text: 'Toss the bones one more time at the crossroads',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The bones pointed west. Again. Always west');
+          renderScene('coast_decision');
+        }
+      }
+    ]
+  },
+
+  // ---- HUB: FASTING EXPLORATION (S27, S30, S35, S37) ----
+  sq_fasting_explore: {
+    title: 'Between the Rituals',
+    text: [
+      'The hours between purification rites are long and luminous. The priests do not watch you every moment — there are gaps in the day when you can slip away from the temple precinct and explore.',
+      'Delphi in this liminal time is a different place. The pilgrims move slowly, weakened by fasting. The merchants lower their voices. Even the birds seem subdued, as though the mountain itself is holding its breath.'
+    ],
+    choices: () => {
+      const c = [];
+      if (!state.flags.olive_grove) c.push({
+        text: 'Walk among the olive groves below the precinct',
+        action: () => renderScene('sq_olive_grove')
+      });
+      if (!state.flags.visited_marketplace) c.push({
+        text: 'Browse the winter market near the Sacred Way',
+        action: () => renderScene('sq_marketplace')
+      });
+      if (!state.flags.sybaris_dream) c.push({
+        text: 'Rest your eyes — the fasting brings strange dreams',
+        action: () => renderScene('sq_sybaris_dream')
+      });
+      if (!state.flags.sick_pilgrim_encounter) c.push({
+        text: 'A commotion near the pilgrim quarters — someone is ill',
+        action: () => renderScene('sq_sick_pilgrim')
+      });
+      c.push({
+        text: 'Return to the purification rituals',
+        action: () => renderScene('priests_interrogation_2')
+      });
+      return c;
+    }
+  },
+
+  // ---- HUB: WINTER EXPLORATION PAGE 1 (S26, S32, S33, S34 + more) ----
+  sq_winter_explore: {
+    title: 'Winter\'s Hidden Delphi',
+    text: [
+      'The snow transforms Delphi into something ancient and strange. Without the press of pilgrims, the sanctuary reveals its older face — the face it wore before Apollo, before the Greeks, before names.',
+      'You wander the deserted grounds, breath steaming in the cold air. There is more to discover here than the priests would have you believe.'
+    ],
+    choices: () => {
+      const c = [];
+      if (!state.flags.visited_corycian) c.push({
+        text: 'Climb to the Corycian Cave on the slopes of Parnassus',
+        action: () => renderScene('sq_corycian_cave')
+      });
+      if (!state.flags.visited_athena) c.push({
+        text: 'Visit the Temple of Athena Pronaia below the precinct',
+        action: () => renderScene('sq_athena_pronaia')
+      });
+      if (!state.flags.charioteer_encounter) c.push({
+        text: 'Walk among the monuments at night — the Bronze Charioteer waits',
+        action: () => renderScene('sq_charioteer_ghost')
+      });
+      if (!state.flags.spartan_trained) c.push({
+        text: 'Dorieus offers to teach you Spartan combat drills',
+        action: () => renderScene('sq_spartan_drill')
+      });
+      c.push({
+        text: 'There is more to see...',
+        action: () => renderScene('sq_winter_explore_2')
+      });
+      c.push({
+        text: 'Head to the stadium — enough exploring',
+        action: () => renderScene('the_stadium')
+      });
+      return c;
+    }
+  },
+
+  // ---- HUB: WINTER EXPLORATION PAGE 2 (S28, S29, S36, S38 + more) ----
+  sq_winter_explore_2: {
+    title: 'Winter\'s Hidden Delphi',
+    text: [
+      'The cold air sharpens your senses. Even in winter, Delphi hums with quiet activity — pilgrims who could not leave before the passes closed, merchants wintering over, temple servants going about their duties.'
+    ],
+    choices: () => {
+      const c = [];
+      if (!state.flags.gambled_at_delphi) c.push({
+        text: 'Follow the sound of laughter to a back room — a gambling den',
+        action: () => renderScene('sq_gambling')
+      });
+      if (!state.flags.met_wine_merchant) c.push({
+        text: 'A merchant offers you wine from a familiar-looking amphora',
+        action: () => renderScene('sq_wine_merchant')
+      });
+      if (!state.flags.stargazing) c.push({
+        text: 'Join Dorieus in the stadium at night — the stars are brilliant',
+        action: () => renderScene('sq_stars')
+      });
+      if (!state.flags.dionysus_festival) c.push({
+        text: 'Torches and drums — the festival of Dionysus approaches',
+        action: () => renderScene('sq_dionysus_festival')
+      });
+      c.push({
+        text: 'There is more to see...',
+        action: () => renderScene('sq_winter_explore_3')
+      });
+      c.push({
+        text: 'Head to the stadium — enough exploring',
+        action: () => renderScene('the_stadium')
+      });
+      return c;
+    }
+  },
+
+  // ---- HUB: WINTER EXPLORATION PAGE 3 (S39, S40) ----
+  sq_winter_explore_3: {
+    title: 'Winter\'s Hidden Delphi',
+    text: [
+      'The mountain holds its secrets loosely in winter. With fewer eyes watching, the wilder corners of Parnassus reveal themselves to those willing to look.'
+    ],
+    choices: () => {
+      const c = [];
+      if (!state.flags.poetry_contest) c.push({
+        text: 'An Ionian poet by the fire challenges you to a verse contest',
+        action: () => renderScene('sq_poet_challenge')
+      });
+      if (!state.flags.found_tomb) c.push({
+        text: 'A goat track leads to something ancient on the mountain slopes',
+        action: () => renderScene('sq_mountain_tomb')
+      });
+      if (!state.flags.olive_grove) c.push({
+        text: 'Walk among the olive groves below the precinct',
+        action: () => renderScene('sq_olive_grove')
+      });
+      if (!state.flags.sick_pilgrim_encounter) c.push({
+        text: 'A commotion near the pilgrim quarters — someone is ill',
+        action: () => renderScene('sq_sick_pilgrim')
+      });
+      c.push({
+        text: 'Back to the first choices...',
+        action: () => renderScene('sq_winter_explore')
+      });
+      c.push({
+        text: 'Head to the stadium — enough exploring',
+        action: () => renderScene('the_stadium')
+      });
+      return c;
+    }
+  },
+
+  // ---- S26: THE CORYCIAN CAVE ----
+  sq_corycian_cave: {
+    title: 'The Corycian Cave',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'High on the slopes of Parnassus, above the tree line where the wind cuts like a blade, you find the cave. The Corycian Cave — sacred to Pan and the mountain nymphs since before memory.',
+        'The entrance is vast, a dark mouth in the grey rock fringed with ice. Inside, stalactites hang like the fingers of sleeping giants. Offerings litter the floor: clay masks with hollow eyes, terracotta figurines, shards of pottery inscribed with prayers. Some are centuries old.',
+        'Deeper in, the cave narrows. The air grows thick and warm — impossibly warm for a mountain winter. And from somewhere in the darkness, you hear breathing. Slow, heavy, rhythmic. Something is alive down there.'
+      ];
+      if (cls === 'seer') lines.push('Your inner sight flares. The cave is not empty — it teems with presences. Old gods, older than Apollo, older than names. They do not threaten. They <span class="italic">observe</span>.');
+      else if (cls === 'warrior') lines.push('Every soldier\'s instinct screams to retreat from an unscouted position. But the breathing is too steady, too deep. Whatever lives here is not ambushing. It is waiting.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.visited_corycian = true;
+      unlockEncyclopedia('corycian_cave');
+    },
+    choices: [
+      {
+        text: 'Go deeper into the darkness — face whatever breathes',
+        roll: {
+          label: 'Descend into the Cave',
+          stat: 'spirit',
+          dc: 8,
+          success: () => {
+            updateStat('spirit', 2, 'You touched the cave\'s deepest secret and emerged changed');
+            renderScene('sq_winter_explore');
+          },
+          failure: () => {
+            updateStat('spirit', -1, 'Panic seized you in the dark — you fled');
+            renderScene('sq_winter_explore');
+          }
+        }
+      },
+      {
+        text: 'Leave an offering to Pan at the cave mouth',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'Pan accepts offerings from those who respect the wild places');
+          renderScene('sq_winter_explore');
+        }
+      },
+      {
+        text: 'Stay near the entrance — study the ancient masks',
+        action: () => {
+          updateStat('spirit', 1, 'The masks told stories older than the Greek alphabet');
+          renderScene('sq_winter_explore');
+        }
+      }
+    ]
+  },
+
+  // ---- S27: THE OLIVE GROVE ----
+  sq_olive_grove: {
+    title: 'The Olive Grove',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Below the sacred precinct, ancient olive trees stand in crooked rows. Their trunks are gnarled and split, some so old they must have been planted when the first temple was built — or before.',
+        'An old gardener works among them, pruning with a curved bronze knife. He does not look up as you approach.',
+        '<span class="italic">"The olive is the wisest tree,"</span> he says, as though continuing a conversation already begun. <span class="italic">"It grows slowly. It endures drought. It gives oil for lamps, food for the hungry, and balm for the wounded. What more could a god ask of any living thing?"</span>'
+      ];
+      if (cls === 'seafarer') lines.push('You think of olive oil in the holds of merchant ships — the most traded commodity in the Mediterranean. Every port smells of it. The gardener\'s wisdom is also commerce.');
+      else if (cls === 'seer') lines.push('The trees shimmer in your vision. Each one holds decades of sunlight in its rings — a library of seasons, readable to those who know the language of growing things.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.olive_grove = true;
+      unlockEncyclopedia('sacred_olives');
+    },
+    choices: [
+      {
+        text: 'Help the gardener prune — honest work for idle hands',
+        action: () => {
+          updateStat('body', 1, 'The labor of the groves strengthened your arms');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      },
+      {
+        text: 'Sit beneath the oldest tree and meditate',
+        action: () => {
+          updateStat('spirit', 1, 'The olive\'s patience seeped into your bones');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      },
+      {
+        text: 'Ask about the oil that feeds the eternal flame',
+        action: () => {
+          updateStat('fate', 1, 'The gardener smiled — "The flame remembers every tree that fed it"');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      }
+    ]
+  },
+
+  // ---- S28: PILGRIMS' GAMBLING DEN ----
+  sq_gambling: {
+    title: 'The Gambling Den',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Behind a wine shop near the pilgrim quarters, a back room hums with low voices and the rattle of knucklebones on stone. A Thessalian with quick eyes and quicker hands spots you at the threshold.',
+        '<span class="italic">"Sit, stranger. The gods love a game of chance — why shouldn\'t we?"</span>',
+        'The room is thick with smoke and the smell of cheap wine. Pilgrims, merchants, even a temple servant or two — all bent over their astragaloi, reading fate in the fall of bone.'
+      ];
+      if (cls === 'seafarer') lines.push('You have played in every port from Ephesus to Corcyra. The Thessalian\'s quick hands do not worry you — you have quicker eyes.');
+      else if (cls === 'warrior') lines.push('Spartans do not gamble. But Spartans also do not run from a challenge, and the Thessalian\'s smile is unmistakably a challenge.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.gambled_at_delphi = true;
+    },
+    choices: [
+      {
+        text: 'Play a few rounds — test your luck',
+        roll: {
+          label: 'Knucklebones',
+          stat: 'fate',
+          dc: 5,
+          success: () => {
+            updateStat('fate', 1, 'The bones fell in your favor');
+            renderScene('sq_winter_explore_2');
+          },
+          failure: () => {
+            updateStat('fate', -1, 'The Thessalian swept your coins away with a grin');
+            renderScene('sq_winter_explore_2');
+          }
+        }
+      },
+      {
+        text: 'Watch the game — observe the players, gather rumors',
+        action: () => {
+          updateStat('spirit', 1, 'The gamblers\' gossip held grains of truth');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'High stakes — wager everything on a single throw',
+        roll: {
+          label: 'High-Stakes Throw',
+          stat: 'fate',
+          dc: 8,
+          success: () => {
+            awardItem('lucky_astragalos');
+            updateStat('fate', 1, 'The Venus throw — the Thessalian stared in disbelief');
+            renderScene('sq_winter_explore_2');
+          },
+          failure: () => {
+            updateStat('fate', -1, 'You lost your purse — the Thessalian bought you a drink out of pity');
+            renderScene('sq_winter_explore_2');
+          }
+        }
+      }
+    ]
+  },
+
+  // ---- S29: WINE MERCHANT OF CORINTH ----
+  sq_wine_merchant: {
+    title: 'The Wine Merchant of Corinth',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'A Corinthian merchant has set up a modest stall near the pilgrim quarters, clay amphorae arranged by region. He pours samples with the practiced hand of a man who has made wine his life\'s work.',
+        '<span class="italic">"Try this,"</span> he says, pushing a cup toward you. The wine is rich and dark — not the thin, resinous Greek wine you have grown accustomed to. It tastes like earth and sun and something you cannot name.',
+        '<span class="italic">"Etruscan. From Caere. They make it differently in the west — heavier, darker, with a sweetness the Greeks cannot replicate. It is the soil, they say. Volcanic."</span>'
+      ];
+      if (cls === 'storm_born') lines.push('The word <span class="italic">volcanic</span> resonates in your chest. Fire beneath the earth, rising. You know that taste — not from memory, but from somewhere deeper.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_wine_merchant = true;
+      unlockEncyclopedia('etruscan_wine');
+    },
+    choices: [
+      {
+        text: 'Buy a cup of the Etruscan wine — drink deeply',
+        action: () => {
+          state.flags.tasted_etruscan_wine = true;
+          updateStat('spirit', 1, 'The wine tasted like a country you have never visited — and yet');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: '"Tell me about Etruria — what is it like?"',
+        action: () => {
+          updateStat('spirit', 1, 'The merchant\'s descriptions stirred something in you');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'Stick with the Greek wine — the familiar is safer',
+        action: () => {
+          updateStat('body', 1, 'The Greek wine warmed your belly without troubling your mind');
+          renderScene('sq_winter_explore_2');
+        }
+      }
+    ]
+  },
+
+  // ---- S30: DELPHI MARKETPLACE ----
+  sq_marketplace: {
+    title: 'The Winter Market',
+    text: [
+      'Even in winter, the market near the Sacred Way persists — reduced to a handful of hardy vendors selling essentials to those pilgrims who could not leave before the passes closed.',
+      'Honey cakes wrapped in fig leaves. Heavy woolen cloaks dyed in mountain saffron. Small clay lamps shaped like animals. Miniature bronze tripods — souvenirs of Apollo\'s oracle, mass-produced and sold by the hundred.',
+      'The vendors call out in a dozen dialects, their breath steaming in the cold.'
+    ],
+    onEnter: () => {
+      state.flags.visited_marketplace = true;
+      unlockEncyclopedia('commerce_delphi');
+    },
+    choices: [
+      {
+        text: 'Buy a heavy winter cloak — the mountain cold is merciless',
+        action: () => {
+          awardItem('winter_cloak');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      },
+      {
+        text: 'Buy a clay lamp — light for the long nights',
+        action: () => {
+          awardItem('clay_lamp');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      },
+      {
+        text: 'Browse without buying — let the market wash over you',
+        action: () => {
+          updateStat('fate', 1, 'You watched the world trade its wares and learned something about value');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
+        }
+      }
+    ]
+  },
+
+  // ---- S31: THE SHEPHERD'S TALE ----
+  sq_shepherd: {
+    title: 'The Shepherd\'s Tale',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'An old shepherd sits on a rock above the road, watching his goats pick their way across a scree slope. His face is weathered to the color and texture of the mountain itself.',
+        '<span class="italic">"You are going to the oracle,"</span> he says. It is not a question. <span class="italic">"Everyone who takes this road is going to the oracle. But the mountain was here before the oracle, and it will be here after."</span>',
+        'He speaks of Parnassus as though it were a living thing — its moods, its seasons, its sacred places that existed long before Apollo claimed the shrine. <span class="italic">"The Pythia sits on the mountain\'s breath. She does not command it."</span>'
+      ];
+      if (cls === 'seer') lines.push('His words confirm something you have felt since setting foot on this slope — the mountain is aware. Not as men are aware, but as the earth is aware: slowly, deeply, with a memory measured in millennia.');
+      else if (cls === 'seafarer') lines.push('You are a man of the sea, and mountains unsettle you. But this shepherd speaks of Parnassus the way an old captain speaks of the ocean — with love, respect, and healthy fear.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.met_shepherd = true;
+      unlockEncyclopedia('pre_olympian_religion');
+    },
+    choices: [
+      {
+        text: '"What gods lived here before Apollo?"',
+        action: () => {
+          updateStat('spirit', 1, 'The old gods have old names — and the shepherd knew them all');
+          renderScene('approach_delphi');
+        }
+      },
+      {
+        text: '"Which paths are safe in this weather?"',
+        action: () => {
+          updateStat('body', 1, 'The shepherd\'s knowledge of the mountain saved you hours of climbing');
+          renderScene('approach_delphi');
+        }
+      },
+      {
+        text: 'Share your food with the old man',
+        action: () => {
+          updateStat('fate', 1, 'Generosity on the mountain road — the gods see such things');
+          renderScene('approach_delphi');
+        }
+      }
+    ]
+  },
+
+  // ---- S32: TEMPLE OF ATHENA PRONAIA ----
+  sq_athena_pronaia: {
+    title: 'The Temple of Athena Pronaia',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Below the main precinct, half-hidden by olive trees, stands the sanctuary of Athena Pronaia — "Athena Before the Temple." It is smaller than Apollo\'s domain but infinitely more graceful. The famous tholos — a circular marble building with slender columns — catches the winter light like a jewel.',
+        'A priestess tends the altar, a woman of middle years with calm, intelligent eyes. She notices you and smiles.',
+        '<span class="italic">"Most pilgrims rush past us to reach Apollo,"</span> she says. <span class="italic">"They forget that wisdom is quieter than prophecy. Athena does not shout. She <span class="bold">thinks</span>."</span>'
+      ];
+      if (cls === 'seer') lines.push('The tholos hums with a different frequency than Apollo\'s temple — not the wild surge of prophecy, but the steady light of reason. You feel your scattered visions settling, ordering themselves.');
+      else if (cls === 'warrior') lines.push('Athena is a warrior\'s goddess too — but of strategy, not brute force. You feel a kinship with this quiet place that surprises you.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.visited_athena = true;
+      unlockEncyclopedia('athena_pronaia');
+    },
+    choices: [
+      {
+        text: 'Ask Athena for wisdom — kneel at her altar',
+        action: () => {
+          updateStat('spirit', 1, 'The owl-eyed goddess grants clarity to those who ask quietly');
+          renderScene('sq_winter_explore');
+        }
+      },
+      {
+        text: 'Make an offering at the tholos',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The circular temple accepted your offering — a good sign');
+          renderScene('sq_winter_explore');
+        }
+      },
+      {
+        text: 'Ask the priestess what she has seen in her years at Delphi',
+        action: () => {
+          updateStat('spirit', 1, 'Her stories were worth more than any oracle\'s riddling');
+          renderScene('sq_winter_explore');
+        }
+      }
+    ]
+  },
+
+  // ---- S33: THE CHARIOTEER'S GHOST ----
+  sq_charioteer_ghost: {
+    title: 'The Charioteer\'s Ghost',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'You cannot sleep. The moon is full over Delphi, and you find yourself walking among the monuments — the bronze statues and stone dedications that line the Sacred Way.',
+        'Then you see it. The Charioteer.',
+        'A life-sized bronze figure of a young man in a long chariot-driver\'s robe, his right hand still holding invisible reins. In the moonlight, the bronze seems to breathe. And the eyes — inlaid with onyx and white stone — the eyes are <span class="bold">alive</span>.',
+        'A dedication at the base reads: <span class="italic">From Polyzalus of Gela, in Sicily.</span> From the west. From the direction you will go.'
+      ];
+      if (cls === 'seer') lines.push('You see the charioteer\'s spirit still bound to the bronze — a young man who won his race and died young, preserved in metal for eternity. He turns his inlaid eyes toward you. He has been waiting.');
+      else if (cls === 'storm_born') lines.push('The lightning scar on your body pulses. The bronze was forged in fire — you feel a kinship with this figure, this man trapped between the living and the eternal.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.charioteer_encounter = true;
+      unlockEncyclopedia('charioteer_delphi');
+    },
+    choices: () => {
+      const c = [];
+      if (state.charClass === 'seer') {
+        c.push({
+          text: 'Speak to the statue — your seer\'s sight pierces the veil',
+          action: () => {
+            state.flags.charioteer_spoke = true;
+            updateStat('spirit', 2, 'The charioteer whispered: "The west remembers what the east forgets"');
+            renderScene('sq_winter_explore');
+          }
+        });
+      } else {
+        c.push({
+          text: 'Speak to the statue — ask what the west holds',
+          roll: {
+            label: 'Commune with Bronze',
+            stat: 'spirit',
+            dc: 7,
+            success: () => {
+              state.flags.charioteer_spoke = true;
+              updateStat('spirit', 2, 'A voice in your mind: "The west remembers what the east forgets"');
+              renderScene('sq_winter_explore');
+            },
+            failure: () => {
+              updateStat('spirit', 1, 'The statue was silent — but the moonlight on its face seemed almost like a smile');
+              renderScene('sq_winter_explore');
+            }
+          }
+        });
+      }
+      c.push({
+        text: 'Touch the bronze hand — feel what time has left in the metal',
+        action: () => {
+          state.flags.touched_charioteer = true;
+          updateStat('spirit', 1, 'The bronze was warm. It should not have been warm.');
+          renderScene('sq_winter_explore');
+        }
+      });
+      c.push({
+        text: 'Bow and move on — some things are best left undisturbed',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'You honored the dead and the dead honored you in return');
+          renderScene('sq_winter_explore');
+        }
+      });
+      return c;
+    }
+  },
+
+  // ---- S34: SPARTAN DRILL ----
+  sq_spartan_drill: {
+    title: 'Spartan Drill',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [];
+      if (cls === 'warrior') {
+        lines.push('Dorieus grins when you ask to train. "Finally — an Ionian who understands that the body is a weapon." But his drills are different from what you know. Harder. More precise. Brutally efficient.');
+        lines.push('He teaches you the Spartan way: shield high, strike low, never overextend. <span class="italic">"A dead hero is still dead,"</span> he says. <span class="italic">"Spartans prefer living victories."</span>');
+        lines.push('You spar until your arms burn. For the first time, you face someone whose combat instincts are genuinely superior to yours. It is humbling — and exhilarating.');
+      } else {
+        lines.push('Dorieus takes one look at your fighting stance and shakes his head.');
+        lines.push('<span class="italic">"Who taught you to hold a shield? A baker?"</span> he says. <span class="italic">"We will start from the beginning."</span>');
+        lines.push('The drills are merciless. Shield position. Footwork. The precise angle of a counterattack. Dorieus corrects you with sharp blows — not cruel, but not gentle either. The Spartan way.');
+        lines.push('<span class="italic">"Again. Faster. The Persians will not wait for you to find your balance."</span>');
+      }
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.spartan_trained = true;
+    },
+    choices: () => {
+      const cls = state.charClass;
+      const c = [];
+      if (cls === 'warrior') {
+        c.push({
+          text: 'Match his intensity — train until you cannot stand',
+          action: () => {
+            updateStat('body', 2, 'Spartan training pushed beyond your limits');
+            updateStat('spirit', -1, 'Your body broke before your will did');
+            renderScene('sq_winter_explore');
+          }
+        });
+        c.push({
+          text: 'Trade techniques — your eastern style for his western discipline',
+          action: () => {
+            updateStat('body', 1, 'Two fighting styles merged into something new');
+            updateStat('spirit', 1, 'Teaching is its own form of learning');
+            renderScene('sq_winter_explore');
+          }
+        });
+      } else {
+        c.push({
+          text: 'Train until you drop — earn his respect through endurance',
+          action: () => {
+            updateStat('body', 2, 'Spartan training pushed beyond your limits');
+            updateStat('spirit', -1, 'Your body broke before your will did');
+            renderScene('sq_winter_explore');
+          }
+        });
+        c.push({
+          text: 'Train at a measured pace — learn the basics well',
+          action: () => {
+            updateStat('body', 1, 'The fundamentals of Spartan combat lodged in your muscles');
+            renderScene('sq_winter_explore');
+          }
+        });
+      }
+      c.push({
+        text: 'Ask Dorieus about Spartan strategy instead of fighting',
+        action: () => {
+          state.flags.learned_tactics = true;
+          updateStat('spirit', 1, 'Spartan tactics are simple — and devastatingly effective');
+          renderScene('sq_winter_explore');
+        }
+      });
+      return c;
+    }
+  },
+
+  // ---- S35: DREAM OF SYBARIS ----
+  sq_sybaris_dream: {
+    title: 'Dream of Sybaris',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'The fast pulls you under. You dream.',
+        'You are a child — very small — in a city of white stone and green gardens. The sun is warm. Bread bakes in an oven nearby. A woman sings in a language that is not Greek. The melody is familiar in a way that aches.',
+        'Then soldiers. Shouting. The sound of things breaking. Fire climbing the white walls. The woman scoops you up and runs. A ship. The sea. Days of salt and terror. Then a new city — Miletus, someone says — and a flash of lightning that splits the sky above your cradle.',
+        'You wake gasping, the taste of ash and bread still in your mouth. The dream was not a dream. It was a <span class="bold">memory</span>.'
+      ];
+      if (cls === 'seer') lines.push('The vision is sharp — sharper than waking life. You see the city\'s name written in flame: <span class="bold">Sybaris</span>. Destroyed. Erased. But not forgotten — not by your blood, not by the gods who watched it burn.');
+      else if (cls === 'storm_born') lines.push('The lightning in the dream was real. You know it in your scar, in the electricity that crackles at the edge of your awareness. You were marked before you were named.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.sybaris_dream = true;
+      unlockEncyclopedia('sybaris_city');
+      unlockEncyclopedia('sybaris_destruction');
+    },
+    choices: [
+      {
+        text: 'Focus on the woman\'s voice — try to remember the language',
+        action: () => {
+          state.flags.sybaris_language_hint = true;
+          updateStat('spirit', 1, 'The language hovered at the edge of understanding — not Greek, not Persian, something else');
+          renderScene('sq_fasting_explore');
+        }
+      },
+      {
+        text: 'Push the dream away — you cannot afford to break now',
+        action: () => {
+          updateStat('body', 1, 'You buried the memory and steadied your hands');
+          renderScene('sq_fasting_explore');
+        }
+      },
+      {
+        text: 'Scratch the details into the wall before they fade',
+        action: () => {
+          state.flags.recorded_dream = true;
+          updateStat('spirit', 1, 'The scratched words preserved what the mind would forget');
+          renderScene('sq_fasting_explore');
+        }
+      }
+    ]
+  },
+
+  // ---- S36: READING THE STARS ----
+  sq_stars: {
+    title: 'Reading the Stars',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'A clear winter night. You and Dorieus lie on the cold stone seats of the stadium, wrapped in cloaks, staring up at a sky so dense with stars it seems to press down on you.',
+        '<span class="italic">"That one,"</span> says Dorieus, pointing. <span class="italic">"The Spartan navigators call it the Soldier\'s Star. It points south — toward Libya, toward the lands the oracle told my father to colonize."</span>',
+        'You know the same stars by different names — Ionian names, learned from sailors in Miletus and Ephesus. The same lights, different stories. The sky is a text that every people reads differently.'
+      ];
+      if (cls === 'seafarer') lines.push('You know these stars as no landsman can. They are your charts, your compass, your companions on the night watch. You could sail to Egypt by starlight alone. You show Dorieus the Phoenician star — <span class="italic">"They call it the Sailor\'s Eye. It never moves."</span>');
+      else if (cls === 'seer') lines.push('The stars pulse gently in your vision — not cold and distant, but alive. Each one a story, a god, a fate. You see the threads of destiny strung between them like a vast celestial loom.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.stargazing = true;
+      unlockEncyclopedia('ancient_navigation');
+    },
+    choices: [
+      {
+        text: 'Teach Dorieus the Ionian names for the constellations',
+        action: () => {
+          updateStat('spirit', 1, 'Sharing knowledge under the stars deepened the bond between you');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'Learn the Spartan navigation stars — useful for the voyage west',
+        action: () => {
+          updateStat('body', 1, 'Practical star-knowledge for the journey ahead');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'Lie in silence together — some things need no words',
+        action: () => {
+          updateStat('fate', 1, 'The silence between friends is its own language');
+          renderScene('sq_winter_explore_2');
+        }
+      }
+    ]
+  },
+
+  // ---- S37: THE SICK PILGRIM ----
+  sq_sick_pilgrim: {
+    title: 'The Sick Pilgrim',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Near the pilgrim quarters, a Thessalian man lies on a pallet, shaking with fever. His wife kneels beside him, weeping quietly. The temple servants have done what they can — cold water, prayers to Asclepius — but the fever will not break.',
+        'As you approach, something strange happens. Your hands grow warm — not from the fire, not from exertion. A deep, internal heat that rises from your core and concentrates in your palms. Your lightning scar tingles.',
+        'The wife looks up at you with desperate eyes. <span class="italic">"Please,"</span> she whispers. <span class="italic">"The healers say it is in the gods\' hands now."</span>'
+      ];
+      if (cls === 'seer') lines.push('You see the sickness — a dark cloud around his body, thickest at his chest. And you see something else: a thread of light running from your hands to his fever. You could pull the darkness out. You have never done this before. But you know you can.');
+      else if (cls === 'storm_born') lines.push('The lightning that lives in you reaches toward the sick man like a hand. Not to strike — to <span class="italic">heal</span>. The force that destroys can also mend. You feel this truth in your blood.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.sick_pilgrim_encounter = true;
+      unlockEncyclopedia('temple_healing');
+    },
+    choices: [
+      {
+        text: 'Place your hands on his forehead — let the warmth flow',
+        roll: {
+          label: 'Healing Touch',
+          stat: 'spirit',
+          dc: 7,
+          success: () => {
+            state.flags.healed_pilgrim = true;
+            state.flags.has_healing_gift = true;
+            updateStat('spirit', 2, 'The fever broke under your hands — a gift you did not know you had');
+            renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore_3');
+          },
+          failure: () => {
+            updateStat('spirit', 1, 'The heat faded before it could take hold — but the attempt itself was not nothing');
+            renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore_3');
+          }
+        }
+      },
+      {
+        text: 'Help practically — fresh water, clean cloths, broth',
+        action: () => {
+          updateStat('body', 1, 'Practical compassion is its own form of healing');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore_3');
+        }
+      },
+      {
+        text: 'Pray to Artemis — the healer, the protector',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The prayer rose like smoke — and the sick man\'s breathing eased');
+          renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore_3');
+        }
+      }
+    ]
+  },
+
+  // ---- S38: FESTIVAL OF DIONYSUS ----
+  sq_dionysus_festival: {
+    title: 'The Festival of Dionysus',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Torches blaze along the Sacred Way. Drums pound a rhythm that bypasses the mind and strikes directly at the blood. Masked figures process through the sanctuary — animal faces, god faces, faces that are neither human nor divine.',
+        'This is Dionysus\'s night. Apollo is gone, and the rules that govern the sanctuary dissolve for these hours. Wine flows freely. Voices rise in song. The boundary between sacred and profane, between self and other, melts like snow.',
+        'A dancer in a fox mask pulls at your arm. <span class="italic">"Come! Tonight the god permits everything!"</span>'
+      ];
+      if (cls === 'seer') lines.push('The ecstasy calls to you — the same force that drives the Pythia\'s visions. Dionysus and Apollo are brothers in madness. One channels it into prophecy; the other into <span class="italic">becoming</span>.');
+      else if (cls === 'warrior') lines.push('The wildness offends your Spartan discipline. And yet — something in the drums speaks to the part of you that screams in battle. The berserker\'s rage and the dancer\'s ecstasy are not so different.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.dionysus_festival = true;
+      unlockEncyclopedia('dionysian_rites');
+    },
+    choices: [
+      {
+        text: 'Join the revelers — let the god take you',
+        action: () => {
+          state.flags.danced_for_dionysus = true;
+          updateStat('spirit', 1, 'The dance dissolved every boundary you had built');
+          updateStat('body', -1, 'The ecstasy left your body wrung out and trembling');
+          addPebble('black', 'I danced for Dionysus in the god\'s own precinct');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'Watch from the edges — observe the sacred madness',
+        action: () => {
+          updateStat('fate', 1, 'The observer sees what the participant cannot');
+          renderScene('sq_winter_explore_2');
+        }
+      },
+      {
+        text: 'Perform — recite, sing, give yourself to the art',
+        roll: {
+          label: 'Dionysian Performance',
+          stat: 'spirit',
+          dc: 6,
+          success: () => {
+            updateStat('spirit', 1, 'Your performance drew cheers from the masked crowd');
+            updateStat('fate', 1, 'The god of theater smiled on your art');
+            renderScene('sq_winter_explore_2');
+          },
+          failure: () => {
+            updateStat('spirit', 1, 'The performance faltered — but the attempt was its own offering');
+            renderScene('sq_winter_explore_2');
+          }
+        }
+      }
+    ]
+  },
+
+  // ---- S39: THE POET'S CHALLENGE ----
+  sq_poet_challenge: {
+    title: 'The Poet\'s Challenge',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'An Ionian poet — sharp-eyed, wine-flushed, with the competitive gleam of a man who lives by his words — blocks your path near the fire.',
+        '<span class="italic">"You have the look of a man who knows his Homer,"</span> he declares. <span class="italic">"I challenge you. Verse for verse, line for line. The loser buys the wine."</span>',
+        'A small crowd gathers. In the Greek world, poetry is not a pastime — it is combat by other means. The man who can recite the most Homer, improvise the cleverest verse, or tell the most moving story commands respect that no sword can earn.'
+      ];
+      if (cls === 'seer') lines.push('Words are your element. You feel them gathering in your chest like a storm — the old verses, the ancient cadences, the rhythm of the hexameter that predates writing itself. This is a contest you were born for.');
+      else if (cls === 'warrior') lines.push('Spartans are taught to speak briefly and strike hard — with words as with weapons. You know your Homer, but not as a poet does. Still, brevity has its own power.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.poetry_contest = true;
+      unlockEncyclopedia('homeric_recitation');
+    },
+    choices: () => {
+      const c = [];
+      const dc = state.charClass === 'seer' ? 5 : 6;
+      c.push({
+        text: 'Recite from the Iliad — the shield of Achilles, the death of Hector',
+        roll: {
+          label: 'Homeric Recitation',
+          stat: 'spirit',
+          dc: dc,
+          success: () => {
+            updateStat('spirit', 1, 'Your Homer drew silence, then applause — the poet conceded with grace');
+            renderScene('sq_winter_explore_3');
+          },
+          failure: () => {
+            updateStat('spirit', 0, 'You stumbled over the hexameters — the poet won, but not by much');
+            renderScene('sq_winter_explore_3');
+          }
+        }
+      });
+      c.push({
+        text: 'Improvise a verse about Sardis — the city that burned',
+        roll: {
+          label: 'Improvised Verse',
+          stat: 'spirit',
+          dc: 8,
+          success: () => {
+            updateStat('spirit', 2, 'Your verse silenced the crowd — truth spoken in meter cuts deeper than any blade');
+            renderScene('sq_winter_explore_3');
+          },
+          failure: () => {
+            updateStat('spirit', 0, 'The verse broke under the weight of its subject — some truths resist meter');
+            renderScene('sq_winter_explore_3');
+          }
+        }
+      });
+      c.push({
+        text: 'Decline the contest — tell a story instead',
+        action: () => {
+          updateStat('fate', 1, 'The poet frowned, but the crowd leaned in — a good story outranks clever verse');
+          renderScene('sq_winter_explore_3');
+        }
+      });
+      return c;
+    }
+  },
+
+  // ---- S40: THE MOUNTAIN TOMB ----
+  sq_mountain_tomb: {
+    title: 'The Mountain Tomb',
+    text: () => {
+      const cls = state.charClass;
+      const lines = [
+        'Following a goat track up the mountain slopes, you find it: a tomb cut into the rock face, half-hidden by scrub and snow. The entrance is narrow but passable. Inside, the air is dry and still.',
+        'The tomb is ancient — far older than anything Greek. Faded paintings cover the walls: figures with elongated bodies and oversized eyes, dancing or processing toward a door that leads nowhere. Animals that are not quite horses, not quite deer. Symbols that tug at something deep in your memory.',
+        'This is not Greek work. It predates the colony at Delphi by centuries. The style is — you cannot name it, but your hands tremble when you touch the painted stone.'
+      ];
+      if (cls === 'seer') lines.push('Your inner sight blazes. These paintings are <span class="italic">Etruscan</span> — or something that came before the Etruscans, something they inherited and carried west. The dancing figures are performing a funeral rite you have seen in visions but never in life.');
+      else if (cls === 'storm_born') lines.push('The symbols on the wall include a jagged line — lightning. Your scar burns. Whoever painted this tomb knew about the thunderbolt-born. You are not the first.');
+      return lines;
+    },
+    onEnter: () => {
+      state.flags.found_tomb = true;
+      unlockEncyclopedia('pre_greek_burial');
+    },
+    choices: [
+      {
+        text: 'Study the paintings carefully — commit every detail to memory',
+        action: () => {
+          state.flags.saw_ancient_tomb_art = true;
+          updateStat('spirit', 1, 'The painted figures danced behind your eyelids long after you left');
+          renderScene('sq_winter_explore_3');
+        }
+      },
+      {
+        text: 'Take a painted shard from the crumbling wall — evidence',
+        action: () => {
+          awardItem('ancient_shard');
+          renderScene('sq_winter_explore_3');
+        }
+      },
+      {
+        text: 'Seal the entrance with stones — this place should rest undisturbed',
+        type: 'omen',
+        action: () => {
+          state.omensFollowed++;
+          updateStat('fate', 1, 'The dead rest easier when the living show respect');
+          renderScene('sq_winter_explore_3');
+        }
       }
     ]
   },

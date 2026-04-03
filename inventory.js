@@ -108,6 +108,61 @@ const ITEMS = {
     icon: '🔥',
     description: 'A tiny clay torch-shaped amulet, warm to the touch at night. Given by a priestess of Hecate at a mountain crossroads.',
     lore: 'Hecate was worshipped at crossroads where three roads met. Her priestesses carried torches and performed divination by firelight. Small clay torches were left as offerings — or given to travelers as tokens of the goddess\'s protection on dark roads.'
+  },
+
+  // ──── SIDE QUESTS S14–S25 ────
+
+  phoenician_chart: {
+    name: 'Phoenician Chart',
+    icon: '🗺️',
+    description: 'A rough sketch on leather showing coastlines, harbors, and danger points between Corinth and Sicily.',
+    lore: 'Phoenician navigators guarded their charts jealously — maritime knowledge was a commercial advantage worth killing for. A Phoenician chart, even a rough one, was worth more than gold to any sailor heading west.'
+  },
+
+  castalian_water: {
+    name: 'Castalian Water',
+    icon: '💧',
+    description: 'A small flask of water from the sacred spring at Delphi. Cold even in summer.',
+    lore: 'Water from the Castalian Spring was believed to carry prophetic and purifying power. Carrying it away from Delphi was unusual — the spring\'s power was thought to be tied to the place itself.'
+  },
+
+  // ──── SIDE QUESTS S26–S40 ────
+
+  lucky_astragalos: {
+    name: 'Lucky Knucklebone',
+    icon: '🎲',
+    description: 'A single polished knucklebone won from a Thessalian gambler in Delphi. It has an uncanny tendency to land on its best face.',
+    lore: 'A knucklebone that consistently throws well was considered touched by Hermes — god of luck, travelers, and thieves. Professional gamblers treasured such bones and often had them buried with them, ensuring good fortune in the afterlife\'s gambling dens.'
+  },
+
+  winter_cloak: {
+    name: 'Mountain Cloak',
+    icon: '🧥',
+    description: 'A heavy woolen cloak dyed with mountain saffron, bought from a Delphi vendor. It smells of lanolin and wood smoke.',
+    lore: 'The mountain cloaks of Parnassus were woven from the wool of goats that grazed above the tree line. Dyed with wild saffron — one of the few plants that grew at altitude — they were prized for their warmth and their golden-brown color.'
+  },
+
+  clay_lamp: {
+    name: 'Clay Lamp',
+    icon: '🪔',
+    description: 'A small terra-cotta oil lamp shaped like a crouching lion. Its wick-hole is worn smooth from use.',
+    lore: 'Clay lamps were essential items in the ancient world, providing the only reliable light after sundown. The finest were made in Athens and Corinth, but local potters at Delphi produced their own — often shaped like animals sacred to Apollo. A lion lamp symbolized courage in the dark.'
+  },
+
+  ancient_shard: {
+    name: 'Painted Shard',
+    icon: '🏺',
+    description: 'A fragment of painted plaster from an ancient mountain tomb. The faded image shows a dancing figure with elongated limbs and oversized eyes.',
+    lore: 'Pre-Greek tomb paintings in the Parnassus region share striking similarities with Etruscan funerary art — dancing figures, processional scenes, and symbols associated with the passage between life and death. Whether this represents a common origin or parallel development remains one of archaeology\'s great unsolved questions.'
+  },
+
+  // ──── SIDE QUESTS S01–S13 ────
+
+  ephesian_ring: {
+    name: 'Ephesian Bee Ring',
+    icon: '🐝',
+    description: 'A bronze ring stamped with the bee of Ephesus — the symbol of Artemis\'s great temple. Bought from a roadside seller on the way to Delphi.',
+    lore: 'The bee was the sacred symbol of Ephesus, appearing on its coins and associated with the cult of Artemis. Priestesses of the temple were called "Melissae" (bees), and the insect represented industry, community, and the goddess\'s nurturing power. To carry this ring far from Ephesus is to carry a piece of a world you can never return to.'
   }
 
 };
