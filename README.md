@@ -6,7 +6,7 @@
 
 ---
 
-![Title Screen](screenshots/title.png)
+![The Etruscan — A Solo Adventure](screenshots/promo.jpg)
 
 ## Screenshots
 
