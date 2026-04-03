@@ -453,27 +453,33 @@ const SCENES = {
       {
         text: 'Press on through the storm — guilt drives you forward',
         type: 'defy',
+        outcome: 'You turn your back on the villagers and walk into the wind. Lightning splits the sky above Mount Parnassus, and the rain comes like a wall of cold needles. The road narrows to a goat track. You climb blind, driven by something stronger than reason — the burning memory of what you left behind.',
         action: () => { state.omensDefied++; updateStat('fate', 1, 'Defied the storm warning'); renderScene('the_storm'); }
       },
       {
         text: 'Wait for the storm to pass — heed the warning',
         type: 'omen',
+        outcome: 'You accept the villagers\' hospitality. The storm rages through the night, shaking the stone walls, but inside the fire is warm and the bread is fresh. Perhaps the gods reward patience as much as courage.',
         action: () => { state.omensFollowed++; renderScene('village_rest'); }
       },
       {
         text: 'Pay the villagers for information about the road ahead',
+        outcome: 'You press a silver coin into the merchant\'s weathered palm. His eyes sharpen — he leans closer and speaks freely about the road, the oracle, and the strange omens that have troubled Delphi. Knowledge is never wasted.',
         action: () => { updateStat('spirit', 1, 'Sought knowledge before acting'); renderScene('village_info'); }
       },
       {
         text: 'Close your eyes — the memory of Ephesus rises unbidden',
+        outcome: 'The mountain wind carries the smell of burning thatch, and suddenly you are back in Ephesus. The stones flying. The blood on your brow. The soldiers dragging you from the mob. You open your eyes, trembling. The past is never truly behind you.',
         action: () => renderScene('sq_ephesus_flashback')
       },
       {
         text: 'An old woman by the roadside catches your eye — she sells carved tokens',
+        outcome: 'She sits cross-legged on a rough cloth, her wares spread before her like offerings — bone charms, clay figurines, bronze rings with symbols you almost recognize. Her eyes follow you with quiet knowing.',
         action: () => renderScene('sq_souvenir_seller')
       },
       {
         text: 'A shepherd watches you from a rocky outcrop — he seems to know this mountain',
+        outcome: 'The old man leans on his crook and studies you the way a hawk studies the ground below. He has no interest in gods or oracles — only the mountain, the flock, and the weather. But he knows things the priests have forgotten.',
         action: () => renderScene('sq_shepherd')
       }
     ]
@@ -488,8 +494,8 @@ const SCENES = {
     ],
     onEnter: () => { updateStat('body', 1, 'A night of rest restored your strength'); },
     choices: [
-      { text: 'Join the other pilgrims by the fire before sleeping', action: () => renderScene('pilgrims_fire') },
-      { text: 'Set out at dawn, rested and ready', action: () => renderScene('approach_delphi') }
+      { text: 'Join the other pilgrims by the fire before sleeping', outcome: 'The fire draws you in. Strange faces flicker in the light — fellow seekers, each carrying their own unanswered question to the oracle. You settle among them and listen.', action: () => renderScene('pilgrims_fire') },
+      { text: 'Set out at dawn, rested and ready', outcome: 'You rise before the others. The storm has washed the world clean. The road to Delphi gleams in the morning light, and for the first time in weeks, the weight on your chest feels lighter.', action: () => renderScene('approach_delphi') }
     ]
   },
 
@@ -505,11 +511,13 @@ const SCENES = {
       {
         text: 'Walk into the storm — you will not be slowed by fear',
         type: 'defy',
+        outcome: 'The merchant\'s warning echoes in your ears as you step into the downpour. Let the oracle know your guilt — you will not add cowardice to it. The mountain path turns to mud beneath your feet, but you climb.',
         action: () => { state.omensDefied++; updateStat('fate', 1, 'Defied the merchant\'s warning'); renderScene('the_storm'); }
       },
       {
         text: 'Wait until morning — join the pilgrims by the fire',
         type: 'omen',
+        outcome: 'The merchant\'s words settle into you like cold water. You choose patience over haste, warmth over wilderness. Around the pilgrim fire, you find unexpected comfort — and unexpected knowledge.',
         action: () => { state.omensFollowed++; updateStat('body', 1, 'Patience preserved your strength'); renderScene('pilgrims_fire'); }
       }
     ]
@@ -542,14 +550,17 @@ const SCENES = {
     choices: [
       {
         text: 'Listen to the Egyptian\'s tale of ancient oracles',
+        outcome: 'The Egyptian\'s voice drops to a whisper as the other pilgrims lean in. He speaks of temples older than memory — of oracles that answered not with words but with the flight of birds, the pattern of entrails, the dreams of sleeping children. Your understanding of the divine world deepens.',
         action: () => { updateStat('spirit', 1, 'Ancient wisdom broadened your understanding'); renderScene('sq_egyptian_merchant'); }
       },
       {
         text: 'Step outside into the moonlight — you sense something watching',
+        outcome: 'You leave the warmth of the fire and step into the silver night. The air is cold and sharp. At the crossroads where three paths meet, a shadow waits — neither hostile nor friendly, but ancient beyond imagining.',
         action: () => renderScene('sq_hecate_priestess')
       },
       {
         text: 'Sleep and conserve your strength for tomorrow',
+        outcome: 'You wrap yourself in your cloak and let the fire\'s warmth pull you under. Sleep comes quickly, deep and dreamless. When you wake, your limbs feel strong and your mind is clear. The mountain road awaits.',
         action: () => { updateStat('body', 1, 'A full night\'s rest restored your strength'); renderScene('approach_delphi'); }
       }
     ]
