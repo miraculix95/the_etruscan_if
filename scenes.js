@@ -612,6 +612,7 @@ const SCENES = {
       {
         text: 'Accept the mystery and continue walking',
         type: 'omen',
+        outcome: 'You lower your hand and let the vision fade. She dissolves into the storm like smoke, but the certainty she left behind remains — lodged beneath your ribs, warm and immovable. You walk on through the rain, trusting the path without needing to see its end.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'You trusted the vision without demanding answers');
@@ -622,6 +623,7 @@ const SCENES = {
       {
         text: '"I am no one\'s puppet" — reject the vision',
         type: 'defy',
+        outcome: 'You clench your fists and turn away. The winged figure flickers, dims, and is gone — swallowed by the storm as though she were never there. The rain strikes harder now, and you welcome the cold. Whatever the gods want from you, they will have to earn it.',
         action: () => {
           state.omensDefied++;
           updateStat('body', 1, 'You chose your own strength over divine whispers');
@@ -658,6 +660,7 @@ const SCENES = {
       {
         text: 'Perform the full ritual: drink, wash face, hands, and feet',
         type: 'omen',
+        outcome: 'You kneel at the spring and follow the ancient steps — drinking first, then washing your face, your hands, your feet. The ice-cold water strips away more than dust. Something loosens in your chest, a tightness you had carried so long you forgot it was there.',
         action: () => {
           state.omensFollowed++;
           state.flags.purified_castalia = true;
@@ -714,6 +717,7 @@ const SCENES = {
     choices: [
       {
         text: '"Have you met people from the west — the Etruscans?"',
+        outcome: 'The Egyptian\'s eyes narrow with interest. He speaks of traders from the western sea — people with oval faces and strange funeral customs who build cities of painted tombs. His words plant a seed you will not recognize until much later.',
         action: () => {
           updateStat('spirit', 1, 'Ancient wisdom broadened your understanding');
           renderScene('approach_delphi');
@@ -721,6 +725,7 @@ const SCENES = {
       },
       {
         text: 'Challenge his skepticism — "Then why do men still travel to oracles?"',
+        outcome: 'The Egyptian pauses mid-sip and regards you with something like respect. "Because," he admits at last, "the journey itself changes the seeker. By the time you arrive, you are no longer the person who left." He raises his cup in a toast to your stubbornness.',
         action: () => {
           updateStat('fate', 1, 'You held your ground against cynicism');
           renderScene('approach_delphi');
@@ -728,6 +733,7 @@ const SCENES = {
       },
       {
         text: 'Ask about temple sleep — could the gods speak through dreams?',
+        outcome: 'The Egyptian lowers his voice and describes the incubation rites of Thebes — pilgrims who sleep in darkened chambers, fasting for days, until the gods enter their dreams with answers. His words settle into you like water into dry earth. You will remember them.',
         action: () => {
           unlockEncyclopedia('temple_incubation');
           updateStat('spirit', 1, 'New knowledge settled into you');
@@ -778,6 +784,7 @@ const SCENES = {
       },
       {
         text: 'Decline respectfully — "I seek Apollo\'s judgment, not Hecate\'s"',
+        outcome: 'The priestess inclines her head, unsurprised. "Apollo\'s light is strong," she says, "but it casts deep shadows. When you stand in those shadows, remember that Hecate walks there." She steps aside, and the crossroads opens before you like three answers to a question not yet asked.',
         action: () => {
           updateStat('fate', 1, 'You stayed true to your purpose');
           renderScene('approach_delphi');
@@ -785,6 +792,7 @@ const SCENES = {
       },
       {
         text: '"I dreamed of a black dog. What does it mean?"',
+        outcome: 'The priestess\'s eyes widen behind the veil. She reaches into her robes and presses a small clay torch into your hand — warm, as though it had been baked that very hour. "The dog guards the threshold," she whispers. "You are closer to crossing than you know."',
         action: () => {
           updateStat('spirit', 1, 'The priestess smiled — "The dog guards the threshold. You are closer to crossing than you know"');
           awardItem('hecate_torch');
@@ -817,6 +825,7 @@ const SCENES = {
     choices: [
       {
         text: 'Remember every detail — the faces, the words, the pain',
+        outcome: 'You hold the memory open like a wound you refuse to let close. Every stone, every scream, the taste of blood and dust. The pain is real, but so is the clarity it brings. You will not let Ephesus become a story you tell yourself — it will remain the truth.',
         action: () => {
           updateStat('spirit', 1, 'Memory is a wound that teaches');
           renderScene('road_to_delphi');
@@ -824,6 +833,7 @@ const SCENES = {
       },
       {
         text: 'Push the memory away — you are not that man anymore',
+        outcome: 'You slam the door shut on Ephesus. The stones, the mob, the burning — all of it recedes behind a wall of sheer will. Your hands stop trembling. Your jaw sets. Whatever you were in that city, the road ahead demands someone different.',
         action: () => {
           updateStat('body', 1, 'You walled off the past with sheer will');
           renderScene('road_to_delphi');
@@ -851,6 +861,7 @@ const SCENES = {
     choices: [
       {
         text: 'Buy the ring — a piece of the home you can never return to',
+        outcome: 'You press the coins into the old woman\'s palm and slide the ring onto your finger. The bronze bee catches the mountain light. Ephesus — the city that stoned you, the city you cannot forget. The ring is heavy with memory, and it will not let you pretend the past is past.',
         action: () => {
           state.flags.bought_bee_ring = true;
           updateStat('fate', -1, 'The ring binds you to your past');
@@ -906,6 +917,7 @@ const SCENES = {
     choices: [
       {
         text: 'Approach and speak — mention the name Dorieus',
+        outcome: 'You step forward and speak the name aloud. The Spartans stiffen — the name of their exiled prince carries weight even here. The older man studies you with renewed interest, and for a moment the distance between exile and delegation narrows to nothing.',
         action: () => {
           if (state.charClass === 'warrior') {
             state.flags.spartan_contact = true;
@@ -916,6 +928,7 @@ const SCENES = {
       },
       {
         text: 'Observe from a distance — learn what you can without risking attention',
+        outcome: 'You settle against a column and watch. The Spartans move with the economy of men who have been trained since childhood — every gesture purposeful, every word measured. You learn more from their silence than most men reveal in conversation.',
         action: () => {
           updateStat('fate', 1, 'Patience reveals what boldness cannot');
           renderScene('temple_calm');
@@ -943,6 +956,7 @@ const SCENES = {
     choices: [
       {
         text: 'Study the Marathon monument — the victory that changed everything',
+        outcome: 'You stand before the monument and read the inscription until the words blur. Marathon — where a handful of Athenians broke the Persian tide. The enormity of that victory, carved in stone, makes your own troubles feel small and strangely bearable.',
         action: () => {
           updateStat('spirit', 1, 'The weight of history deepened your understanding');
           renderScene('temple_calm');
@@ -950,6 +964,7 @@ const SCENES = {
       },
       {
         text: 'Examine the bronze charioteer — the artistry is breathtaking',
+        outcome: 'The charioteer\'s inlaid eyes seem to follow you as you circle the statue. The bronze holds a stillness that is not death but perfect composure — the instant before victory, frozen for eternity. You feel, inexplicably, that the figure is trying to tell you something.',
         action: () => {
           updateStat('fate', 1, 'Beauty has its own kind of truth');
           renderScene('temple_calm');
@@ -957,6 +972,7 @@ const SCENES = {
       },
       {
         text: 'Read the victory inscriptions aloud — feel their power',
+        outcome: 'Your voice echoes among the treasuries as you read the dedications — kings and generals and free cities, all declaring their triumphs before the god. The words are brazen with pride, and something in their cadence kindles a fire in your blood that the mountain cold cannot extinguish.',
         action: () => {
           updateStat('body', 1, 'The words of victors kindled fire in your blood');
           renderScene('temple_calm');
@@ -1004,6 +1020,7 @@ const SCENES = {
       },
       {
         text: 'Pray to Apollo — ask for protection from this fate',
+        outcome: 'You kneel on the black rock and whisper a prayer into the wind. The words are simple — not a priest\'s polished invocation, but a frightened man\'s honest plea. The wind carries your prayer into the gorge, and when it returns, your hands have stopped trembling.',
         action: () => {
           updateStat('spirit', 1, 'Prayer steadied your trembling hands');
           renderScene('temple_calm');
@@ -1011,6 +1028,7 @@ const SCENES = {
       },
       {
         text: 'Turn away — you have seen enough',
+        outcome: 'You step back from the edge. The gorge exhales cold air against your face, and you let it push you away. Not every abyss demands to be stared into. Some truths are better acknowledged from a distance.',
         action: () => {
           updateStat('fate', 1, 'Wisdom is knowing when not to look');
           renderScene('temple_calm');
@@ -1035,6 +1053,7 @@ const SCENES = {
     choices: [
       {
         text: 'Meditate on "Know thyself" — what does it mean for you?',
+        outcome: 'You trace the worn letters with your fingertip and close your eyes. Know thyself. But what if the self is a stranger? The question circles your mind like a hawk, and when it settles, you feel the first tremor of an answer you are not yet ready to speak.',
         action: () => {
           updateStat('spirit', 1, 'The oldest wisdom cut the deepest');
           renderScene('priests_question');
@@ -1042,6 +1061,7 @@ const SCENES = {
       },
       {
         text: 'Study the treasures of Croesus — the gifts of a doomed king',
+        outcome: 'The gold bowls gleam dully in the lamplight. Croesus, richest king in the world, who asked the oracle if he should make war — and destroyed his own empire with the answer. You stare at his offerings and feel the weight of your own question, still unasked.',
         action: () => {
           updateStat('fate', 1, 'Croesus\'s fate illuminated your own');
           renderScene('priests_question');
@@ -1049,6 +1069,7 @@ const SCENES = {
       },
       {
         text: 'Examine the figure of Homer — the blind poet who saw everything',
+        outcome: 'Homer\'s bronze lips are parted, mid-word, mid-verse — as though death interrupted the song but could not end it. His blind eyes see nothing and everything. You stand before the father of all stories and wonder what verse he would compose for yours.',
         action: () => {
           updateStat('spirit', 1, 'Homer\'s empty eyes seemed to look through you');
           renderScene('priests_question');
@@ -1105,6 +1126,7 @@ const SCENES = {
     choices: [
       {
         text: 'Ask the treasury keeper about the figure\'s origin',
+        outcome: 'The keeper shrugs. "From the west, they say. A Corinthian trader brought it decades ago." His indifference only deepens the mystery. The bronze figure watches you leave with its knowing, un-Greek smile, and you carry the question with you like a splinter beneath the skin.',
         action: () => {
           updateStat('spirit', 1, 'The keeper knew little — "from the west, they say" — but the question itself felt important');
           renderScene('priests_interrogation_2');
@@ -1130,6 +1152,7 @@ const SCENES = {
       },
       {
         text: 'Admire it from a distance and move on',
+        outcome: 'You step back and let the bronze figure keep its silence. Some mysteries are not meant to be solved by force of will — they unfold in their own time, like flowers that bloom only in the dark. You carry the image of that strange, western smile with you as you leave.',
         action: () => {
           updateStat('fate', 1, 'Some things are best observed, not grasped');
           renderScene('priests_interrogation_2');
@@ -1176,6 +1199,7 @@ const SCENES = {
       },
       {
         text: 'Sit in silence and let the theater\'s emptiness wash over you',
+        outcome: 'You climb to the highest row and sit among the cold stone seats. The valley spreads below you, the sea a distant glimmer. Six thousand empty places hold the memory of every tragedy ever performed here. In the enormous silence, something unknotted inside your chest finally lets go.',
         action: () => {
           updateStat('spirit', 1, 'In the silence, something unknotted inside your chest');
           renderScene('priests_interrogation_2');
@@ -1183,6 +1207,7 @@ const SCENES = {
       },
       ...(state.charClass === 'warrior' ? [{
         text: 'Practice combat forms in the orchestra — your body needs the work',
+        outcome: 'You descend to the orchestra floor and begin the drills — thrust, parry, advance, retreat. Your movements echo in the acoustics, amplified into something grander than exercise. In this space built for performance, even a soldier\'s drill becomes a kind of sacred dance.',
         action: () => {
           updateStat('body', 1, 'The movement felt ceremonial in this sacred space');
           renderScene('priests_interrogation_2');
@@ -1211,6 +1236,7 @@ const SCENES = {
     choices: [
       {
         text: 'Train with the veteran — accept his instruction',
+        outcome: 'He works you hard — footwork drills, grappling positions, the precise angle at which to brace a shield. Your muscles burn, your lungs ache, but when the session ends you feel more alive than you have in weeks. The veteran nods once. It is enough.',
         action: () => {
           state.flags.gymnasium_trained = true;
           updateStat('body', 1, 'The veteran\'s drills honed your reflexes');
@@ -1219,6 +1245,7 @@ const SCENES = {
       },
       {
         text: 'Spar cautiously — do not reveal your full strength',
+        outcome: 'You match his movements carefully, holding back just enough to observe without revealing. The veteran\'s eyes narrow — he sees what you are doing and his crooked mouth twists into something that might be a smile. A man who hides his strength is either wise or dangerous. He respects both.',
         action: () => {
           state.flags.gymnasium_trained = true;
           updateStat('fate', 1, 'You held back, and the veteran noticed — and respected it');
@@ -1268,6 +1295,7 @@ const SCENES = {
     choices: [
       {
         text: '"What did you see, when you sat on the tripod?"',
+        outcome: 'The old woman\'s gaze drifts to the water. "Everything," she says softly. "And nothing I could keep." Her voice carries the weight of decades spent at the threshold between mortal sight and divine revelation. The loss in her eyes tells you more than her words.',
         action: () => {
           updateStat('spirit', 1, 'She smiled — "Everything. And nothing I could keep"');
           renderScene('dove_feather_omen');
@@ -1282,6 +1310,7 @@ const SCENES = {
       },
       {
         text: '"Are the vapors real? Or is the oracle a performance?"',
+        outcome: 'She laughs — a dry, papery sound. "The vapors are real. The performance is also real. The gods do not distinguish between the two." She turns back to the water, still laughing softly. You are left with the unsettling sense that the truth is wider than you imagined.',
         action: () => {
           updateStat('fate', 1, 'She laughed — "The vapors are real. The performance is also real. The gods do not distinguish"');
           renderScene('dove_feather_omen');
@@ -1340,6 +1369,7 @@ const SCENES = {
       },
       {
         text: 'Walk away — some things are better not known',
+        outcome: 'You peel your ear from the wall and step back into the corridor. The priests\' voices fade behind you, muffled by stone. Whatever they decide, it will be decided without your interference. Some knowledge is a burden, and you carry enough already.',
         action: () => {
           updateStat('fate', 1, 'You chose ignorance as armor');
           renderScene('dove_feather_omen');
@@ -1412,6 +1442,7 @@ const SCENES = {
     choices: [
       {
         text: 'Continue dancing until you reach the valley of Delphi',
+        outcome: 'Your feet carry you down the mountain in steps you never learned. The rain parts around you. The lightning illuminates your path like a god\'s lantern. You dance through the storm and into the valley below, and for the first time in your life, you are not running from something — you are running toward it.',
         action: () => {
           addPebble('black', 'The Storm Dance — I knew myself for the first time');
           renderScene('storm_vision');
@@ -1585,6 +1616,7 @@ const SCENES = {
     choices: [
       {
         text: 'Tell the complete truth — the lightning, the stoning, everything',
+        outcome: 'The words pour from you like water breaking through a dam. The thunderbolt birth. The exile from Sybaris. The burning of Sardis. The stoning in Ephesus. You hold nothing back, and the weight that lifts from your chest is almost physical.',
         action: () => {
           state.flags.interrogation_approach = 'honest';
           state.flags.fully_honest = true;
@@ -1594,6 +1626,7 @@ const SCENES = {
       },
       {
         text: 'Tell a careful version — truth, but shaped',
+        outcome: 'You speak the truth, but you choose which truths to speak. The lightning birth, yes. The exile, yes. But the burning of Sardis you frame as circumstance, not choice. The priests listen, and you watch their faces for the flicker of suspicion or acceptance.',
         action: () => {
           state.flags.interrogation_approach = 'careful';
           state.flags.spoke_carefully = true;
@@ -1670,6 +1703,7 @@ const SCENES = {
       },
       {
         text: 'Let the letters speak for themselves — silence is its own argument',
+        outcome: 'You fold your arms and say nothing. Artemisia\'s defense and Epenides\' condemnation hang in the air, contradicting each other. The priests exchange glances, expecting you to tip the balance. Your silence forces them to judge the words alone, stripped of performance.',
         action: () => {
           updateStat('fate', 1, 'You trusted the evidence to carry your case');
           renderScene('fasting_begins');
@@ -1677,6 +1711,7 @@ const SCENES = {
       },
       {
         text: '"Epenides writes from cowardice, not righteousness"',
+        outcome: 'Your voice rings against the stone walls. The youngest priest flinches. You speak with the conviction of a man who has nothing left to lose, denouncing Epenides as a political creature hiding behind piety. The words feel righteous in your mouth — but the eldest priest\'s expression warns you that fire burns the hand that wields it.',
         action: () => {
           state.flags.denounced_epenides = true;
           updateStat('spirit', 1, 'You spoke with fire');
@@ -1709,6 +1744,7 @@ const SCENES = {
     choices: [
       {
         text: 'Embrace the fast completely — let the visions come',
+        outcome: 'You surrender to the fast. Days blur together. Your body thins to wire and bone, but your mind sharpens to a blade\'s edge. The visions arrive in waves — painted cities, shifting faces, a language that lives in your throat but will not reach your tongue. You let them come, and you do not flinch.',
         action: () => {
           state.flags.deep_fast = true;
           updateStat('spirit', 2, 'The visions came, and you did not flinch');
@@ -1718,6 +1754,7 @@ const SCENES = {
       },
       {
         text: 'Maintain your strength — eat when the servants aren\'t looking',
+        outcome: 'You fast in public and eat in private — dried figs hidden in your cloak, a handful of barley stolen from the kitchen stores. The servants suspect nothing. Your body keeps its edge while the other pilgrims grow gaunt and glassy-eyed around you.',
         action: () => {
           updateStat('body', 1, 'You kept your strength through quiet disobedience');
           renderScene('priests_interrogation_2');
@@ -1755,6 +1792,7 @@ const SCENES = {
     choices: [
       {
         text: 'Describe the burning in full honesty — the chaos, the shame',
+        outcome: 'You speak of the fire with the raw clarity of a man confessing before the gods. The chaos, the screaming, the way the flames leapt from roof to roof faster than men could run. Your voice breaks twice, and you let it break. The priests lean forward, and for the first time, you see something other than suspicion in their eyes.',
         action: () => {
           state.flags.shame_confessed = true;
           updateStat('spirit', 1, 'The truth, even the ugly truth, has weight');
@@ -1778,6 +1816,7 @@ const SCENES = {
       },
       {
         text: 'Break down — the guilt overwhelms you',
+        outcome: 'The tears come without warning. Weeks of fasting, weeks of waiting, and the memory of Sardis breaks you open like a clay vessel dropped on stone. You weep before the priests of Apollo, and the sound echoes in the anteroom like a prayer in a language older than shame.',
         action: () => {
           updateStat('spirit', 2, 'Vulnerability is its own kind of strength');
           updateStat('fate', -1, 'The priests see your weakness');
@@ -1810,6 +1849,7 @@ const SCENES = {
       {
         text: '"I accept full responsibility — the fire was my hand, my choice"',
         type: 'omen',
+        outcome: 'The words come out steady and clear, and they cost you everything. You own the fire. You own the screaming. You own every charred beam and every displaced family. The priests watch you carry the weight, and the eldest nods slowly — not forgiving, but acknowledging.',
         action: () => {
           state.flags.sardis_stance = 'responsible';
           state.omensFollowed++;
@@ -1821,6 +1861,7 @@ const SCENES = {
       {
         text: '"The goddess used me — I was her instrument, not the author"',
         type: 'defy',
+        outcome: 'You shift the weight from your shoulders to the divine. The fire was Artemis\'s will, channeled through mortal hands. The priests exchange sharp glances — this is either blasphemy or the deepest kind of faith, and they cannot agree which.',
         action: () => {
           state.flags.sardis_stance = 'instrument';
           state.omensDefied++;
@@ -1831,6 +1872,7 @@ const SCENES = {
       },
       {
         text: '"It was war. War burns. I am neither hero nor monster"',
+        outcome: 'You speak without ceremony or self-pity. War is fire, and fire does not ask permission. The priests are neither satisfied nor offended — your pragmatism deprives them of the drama they expected. The youngest one almost smiles.',
         action: () => {
           state.flags.sardis_stance = 'pragmatic';
           updateStat('body', 1, 'Pragmatic acceptance steadied your resolve');
@@ -1840,6 +1882,7 @@ const SCENES = {
       },
       {
         text: 'Before the priests dismiss you, an old woman by the spring catches your eye',
+        outcome: 'As the priests confer in low voices, you glance through the doorway. An old woman sits alone by the Castalian Spring, her white hair catching the light. Something about her stillness draws you — the quality of someone who has spent a lifetime listening to what others cannot hear.',
         action: () => {
           addPebble('black', 'Sardis burns in my memory');
           renderScene('sq_former_pythia');
@@ -1847,6 +1890,7 @@ const SCENES = {
       },
       {
         text: 'That night, you hear voices through the temple walls — priests arguing',
+        outcome: 'In the dark of your cell, unable to sleep, you press your ear to the wall. Muffled voices rise and fall — the priests, still debating your fate long after the lamps have been dimmed. Your name drifts through the stone like smoke.',
         action: () => {
           addPebble('black', 'Sardis burns in my memory');
           renderScene('sq_priests_council');
@@ -1881,6 +1925,7 @@ const SCENES = {
       {
         text: 'Hold the feather aloft — "This is the sign. Let the Pythia speak"',
         type: 'omen',
+        outcome: 'You raise the feather above your head. It catches the grey light like a small white flame. The priests stumble back, eyes wide. Even the youngest — the skeptic — cannot deny what he has just witnessed. The sky above Delphi darkens, and thunder rolls from the western peaks like a second confirmation.',
         action: () => {
           state.omensFollowed++;
           state.flags.dove_omen_response = 'proclaimed';
@@ -1891,6 +1936,7 @@ const SCENES = {
       },
       {
         text: 'Pocket the feather quietly — trust the sign, but need no spectacle',
+        outcome: 'You close your fingers around the feather and slip it into your cloak without a word. The priests saw it fall — that is enough. The sign is between you and the goddess who sent it. Some things lose their power when displayed for approval.',
         action: () => {
           state.flags.dove_omen_response = 'quiet';
           updateStat('fate', 1, 'You kept the sign between yourself and the goddess');
@@ -1949,6 +1995,7 @@ const SCENES = {
     choices: [
       {
         text: 'Accept the Pythia\'s judgment — you are free',
+        outcome: 'The word settles over you like a warm cloak — free. After the stoning, the exile, the storm, the fasting, the interrogation — free. The priests step aside and the chamber air feels lighter. But freedom, you realize, is not the end of the journey. It is only the end of the cage.',
         action: () => {
           addPebble('white', 'The Pythia knew me before I knew myself');
           renderScene('pythia_aftermath');
@@ -1987,6 +2034,7 @@ const SCENES = {
       },
       {
         text: 'Stand in silence — let the power of the moment linger',
+        outcome: 'You say nothing. The echo of the Pythia\'s voice still reverberates in the stone chamber, and anything you might add would diminish it. The priests watch you standing motionless in the lamplight, and for once they do not fill the silence with arguments.',
         action: () => {
           state.flags.pythia_reaction = 'silent';
           updateStat('spirit', 1, 'Silence held more weight than words');
@@ -1995,6 +2043,7 @@ const SCENES = {
       },
       {
         text: '"Is she well? Will she recover?"',
+        outcome: 'The priests stare at you, caught off guard. They expected questions about prophecy, about destiny — not concern for the woman herself. An attendant nods hesitantly. "She rests. She always recovers." But something in his voice suggests that each recovery takes a little more from her.',
         action: () => {
           state.flags.pythia_reaction = 'concerned';
           state.flags.cared_for_pythia = true;
@@ -2036,6 +2085,7 @@ const SCENES = {
     choices: [
       {
         text: '"Old men, give me peace and yourselves peace. Let us be done with this"',
+        outcome: 'The words come from you but sound like they belong to someone else — someone older, someone who speaks with an authority you have never claimed. The priests lower their eyes. The eldest bows his head. The interrogation, at last, is over.',
         action: () => {
           updateStat('spirit', 1, 'You spoke with the authority of something beyond yourself');
           renderScene('after_pythia');
@@ -2058,6 +2108,7 @@ const SCENES = {
       },
       {
         text: 'Say nothing — let the glow speak for itself',
+        outcome: 'You stand before them and let the light do what words cannot. One by one, the priests avert their gaze — not in fear, but in the instinctive deference of men who recognize something that exceeds their understanding. The chamber fills with a warmth that has no source.',
         action: () => {
           updateStat('fate', 1, 'The silence was answer enough');
           renderScene('after_pythia');
@@ -2103,6 +2154,7 @@ const SCENES = {
     choices: [
       {
         text: 'Spend the winter training — exercise and run the stadium',
+        outcome: 'You run the empty stadium each morning, breath steaming in the mountain air. The stone track is cold and unforgiving beneath your feet. Weeks of this — the same track, the same mountains, the same solitary effort — strip away the softness the fast left behind.',
         action: () => {
           state.flags.winter_activity = 'training';
           updateStat('body', 1, 'Winter training hardened your body');
@@ -2111,6 +2163,7 @@ const SCENES = {
       },
       {
         text: 'Spend the winter in contemplation — meditate and read',
+        outcome: 'You spend the grey days reading the temple inscriptions, meditating in the empty theater, watching the snow fall on the monuments. The silence of a deserted Delphi teaches what the crowded sanctuary could not — that the divine is not in the spectacle, but in the stillness between.',
         action: () => {
           state.flags.winter_activity = 'contemplation';
           updateStat('spirit', 1, 'Winter\'s silence deepened your understanding');
@@ -2119,6 +2172,7 @@ const SCENES = {
       },
       {
         text: 'Explore Delphi\'s hidden corners — there is more to this place',
+        outcome: 'With the pilgrims gone and the priests drowsy with winter wine, Delphi reveals its hidden face. You find paths the guidebooks do not mention, chambers the servants have forgotten, inscriptions in languages older than Greek. The mountain keeps its secrets loosely when no one is watching.',
         action: () => {
           state.flags.winter_activity = 'exploration';
           updateStat('fate', 1, 'Curiosity led you to unexpected places');
@@ -2239,6 +2293,7 @@ const SCENES = {
       },
       {
         text: 'Show him your lightning scar — "Zeus himself tried to kill me and failed"',
+        outcome: 'You turn and show him the jagged mark that runs across your ribs. Dorieus whistles through his teeth. "Zeus himself tried to kill me and failed," you say, and he laughs — a real laugh, rare and unguarded. The joke breaks something open between you, a wall neither of you knew was there.',
         action: () => {
           state.flags.showed_scar = true;
           updateStat('spirit', 1, 'Humor bridged the distance between strangers');
@@ -2248,6 +2303,7 @@ const SCENES = {
       {
         text: 'Stay quiet — enjoy the silence between friends',
         type: 'omen',
+        outcome: 'You say nothing. The brook speaks for both of you — cold water over smooth stones, the oldest conversation in the world. Dorieus looks at the sky and you look at the water, and in the silence a friendship takes root that will survive storms, battlefields, and the weight of prophecy.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The silence spoke louder than words');
@@ -2287,6 +2343,7 @@ const SCENES = {
     choices: [
       {
         text: '"I was also sent away as a child — from Sybaris to Miletus, and beaten there"',
+        outcome: 'The words surprise even you — you have never spoken of Sybaris to anyone. But Dorieus\'s honesty calls out your own. He listens without interrupting, and when you finish, he nods once. The nod of a man who understands exile not as a concept but as a wound.',
         action: () => {
           updateStat('spirit', 1, 'Shared vulnerability deepened the bond');
           renderScene('friendship');
@@ -2301,6 +2358,7 @@ const SCENES = {
       },
       {
         text: '"You are stronger than any exile. Sparta\'s loss is my gain"',
+        outcome: 'Dorieus stops walking. For a long moment he says nothing, but the tension in his jaw softens. It is, you realize, the first kind thing anyone has said to him about his exile. He claps your shoulder — a gesture that means more from a Spartan than any words.',
         action: () => {
           updateStat('fate', 1, 'Encouragement forged a bond');
           renderScene('friendship');
@@ -2355,6 +2413,7 @@ const SCENES = {
       {
         text: 'Accept his framing — perhaps you are a hero',
         type: 'defy',
+        outcome: 'You let his words settle into your bones. Hero. The word feels foreign in your mouth, ill-fitting — but not entirely wrong. You straighten your back and allow yourself, for the first time, to consider that Sardis might have been something other than shame.',
         action: () => {
           state.flags.accepted_hero = true;
           state.omensDefied++;
@@ -2365,6 +2424,7 @@ const SCENES = {
       },
       {
         text: '"No. Our expedition was shameful. I ran like everyone else"',
+        outcome: 'Dorieus scowls. He does not understand shame that is not military — the shame of a man who burned something sacred and cannot undo it. But he listens, and his silence is its own kind of respect. The truth, once spoken, cannot be retracted. You are glad of it.',
         action: () => {
           updateStat('spirit', 1, 'Truth preserved, even when a lie would feel better');
           addPebble('red', 'Dorieus called me a hero — I am not sure he was wrong');
@@ -2373,6 +2433,7 @@ const SCENES = {
       },
       {
         text: '"You don\'t understand. War is not what the bards make of it"',
+        outcome: 'Your voice goes quiet. You speak of the smell of burning thatch, the sound of women screaming, the way a man\'s face looks when he realizes the fire has cut off his retreat. Dorieus listens, his jaw set. He has seen war from the other side — the side that wins. Your perspective is unwelcome, but he does not look away.',
         action: () => {
           updateStat('spirit', 1, 'You spoke a truth Dorieus could not hear');
           addPebble('red', 'Dorieus called me a hero — I am not sure he was wrong');
@@ -2414,6 +2475,7 @@ const SCENES = {
       },
       {
         text: '"The oracle tells every exile to go west. Good advice, not prophecy"',
+        outcome: 'Dorieus stares at you, then snorts. "You think like a merchant, not a pilgrim." But his shoulders ease. Your skepticism gives him permission to doubt — something a Spartan would never admit to needing. The prophecy still hangs between you, but lighter now.',
         action: () => {
           updateStat('fate', 1, 'Skepticism as a shield against fear');
           renderScene('the_bones');
@@ -2440,6 +2502,7 @@ const SCENES = {
       {
         text: '"Let us go east — to war, to Ionia. I must prove that omens cannot prevent my doing what I will."',
         type: 'defy',
+        outcome: 'Dorieus grins — that rare, fierce grin. The bones point west and you walk east. The Pythia says west and you say no. Every sign, every omen, every divine whisper — you defy them all with a single step in the wrong direction. The wind shifts against you immediately, as though the gods have taken notice.',
         action: () => {
           state.omensDefied++;
           updateStat('fate', 2, 'Every omen said West — you chose East');
@@ -2449,6 +2512,7 @@ const SCENES = {
       {
         text: '"The bones speak clearly. Let us go west — to Corinth first, then beyond the sea."',
         type: 'omen',
+        outcome: 'You gather the bones and stand. West — the direction of the dove feather, the Pythia\'s command, and now the sheep\'s bones three times over. The weight of accumulated signs presses at your back like a hand. Dorieus nods slowly, his jaw set against a fate he did not choose.',
         action: () => {
           state.omensFollowed++;
           updateStat('spirit', 1, 'You trusted the signs');
@@ -2544,6 +2608,7 @@ const SCENES = {
     choices: [
       {
         text: 'Take one last look back at the temple',
+        outcome: 'You turn at the gate and look back. The temple of Apollo gleams in the pale winter light, smaller now, already receding into memory. The columns, the cliffs, the sacred way — all of it compressed into a single image that burns itself into your mind like a brand.',
         action: () => {
           state.flags.departure_manner = 'reflective';
           updateStat('spirit', 1, 'The temple\'s image burned into your memory');
@@ -2552,6 +2617,7 @@ const SCENES = {
       },
       {
         text: 'Walk away without looking — forward is the only direction',
+        outcome: 'You pass through the gate and do not turn around. The road descends before you, winding through the mountains toward the coast. Behind you, the temple, the priests, the winter of purification — all of it falls away like a cloak you no longer need.',
         action: () => {
           state.flags.departure_manner = 'decisive';
           updateStat('body', 1, 'You left the past behind');
@@ -2560,6 +2626,7 @@ const SCENES = {
       },
       {
         text: '"What happens to the Pythia? Will she be all right?"',
+        outcome: 'The servant at the gate pauses, surprised by the question. Most departing pilgrims ask about the road, not the oracle. He considers for a moment, then speaks carefully — his words carrying the weight of someone who has watched too many Pythias burn out on the divine flame.',
         action: () => {
           state.flags.departure_manner = 'concerned';
           if (state.flags.cared_for_pythia) {
@@ -2603,6 +2670,7 @@ const SCENES = {
     choices: [
       {
         text: '"That ship\'s rail. What do you think it means?"',
+        outcome: 'Dorieus glances at you sideways. "It means the sea reaches farther inland than men think." His voice is flat, but you see the unease in his eyes. The ship\'s rail is salt-eaten and ancient — evidence of a storm or a flood that carried destruction miles from the water. You have named the omen, and now it belongs to both of you.',
         action: () => {
           state.flags.acknowledged_rail_omen = true;
           updateStat('spirit', 1, 'You spoke the omen aloud');
@@ -2611,6 +2679,7 @@ const SCENES = {
       },
       {
         text: 'Say nothing — some signs are best left unread',
+        outcome: 'You walk past the javelin and its rotting prize without a word. Dorieus pulls the weapon free and walks on. The omen hangs in the air between you, unspoken but understood. Some signs gain power from being named; others gain power from silence.',
         action: () => {
           updateStat('fate', 1, 'Silence preserved the mystery');
           renderScene('coast_decision');
@@ -2760,7 +2829,7 @@ const SCENES = {
     onEnter: () => { setOmen('Corinth: where all roads meet. A pirate captain seeks crew.'); },
     choices: [
       { text: 'Seek out this Dionysius — a ship is a way west', action: () => renderScene('corinth_dionysius') },
-      { text: 'Explore Corinth first — gather information', action: () => { updateStat('spirit', 1, 'Knowledge gathered in Corinth'); renderScene('corinth_dionysius'); } }
+      { text: 'Explore Corinth first — gather information', outcome: 'You spend a day in the markets and taverns, listening. Corinth is a city that trades in secrets as readily as silver. By evening you know the price of passage to Sicily, the name of every pirate captain in the harbor, and the latest news from the Ionian war. Knowledge is the cheapest currency here — and the most valuable.', action: () => { updateStat('spirit', 1, 'Knowledge gathered in Corinth'); renderScene('corinth_dionysius'); } }
     ]
   },
 
@@ -2800,6 +2869,7 @@ const SCENES = {
       {
         text: '"We\'ll join you — but not for the omens. For the adventure."',
         type: 'defy',
+        outcome: 'Dionysius grins — a predator\'s grin, all teeth and appetite. "Good," he says. "I don\'t trust men who follow omens. I trust men who follow their own nerve." He clasps your arm with a grip like an anchor chain. You are committed now — to the ship, to the sea, to whatever waits in the west.',
         action: () => { state.omensDefied++; updateStat('body', 1, 'A warrior\'s choice — strength through action'); renderScene('the_voyage'); }
       }
     ]
@@ -2818,10 +2888,12 @@ const SCENES = {
     choices: [
       {
         text: 'Confront Dionysius — this slaughter must stop',
+        outcome: 'You find him at the bow, his axe still wet. Your voice carries over the wind — steady, but with an edge that makes his men look up. He turns slowly, and for a heartbeat you see something flicker behind his sun-blackened face. Not anger. Surprise. No one has spoken against him on his own ship before.',
         action: () => { updateStat('spirit', 1, 'You spoke against injustice'); state.flags.confronted_dionysius = true; renderScene('sea_battle_choice'); }
       },
       {
         text: 'Stay silent — survival requires ugly compromises',
+        outcome: 'You say nothing. The screams fade. The gold accumulates. At night you lie on the deck and stare at the stars and wonder what kind of man you are becoming. The silence is practical, necessary — and it sits in your stomach like a stone that will not dissolve.',
         action: () => { updateStat('fate', -1, 'Silence in the face of evil weighs on the soul'); renderScene('sea_battle_choice'); }
       }
     ]
@@ -3076,6 +3148,7 @@ const SCENES = {
       {
         text: 'Try again with Kydippe — persistence must prevail',
         type: 'defy',
+        outcome: 'You try. Gods help you, you try. More gifts, more cleverness, more transparent desire. Kydippe accepts each offering with the same cool smile and returns nothing but polished cruelty. She is fifteen years old and more ruthless than any Spartan. The lesson is bitter, but you refuse to learn it.',
         action: () => { state.omensDefied++; updateStat('spirit', -1, 'Kydippe is ice that will not melt'); renderScene('road_to_eryx'); }
       }
     ]
@@ -3162,10 +3235,12 @@ const SCENES = {
     choices: [
       {
         text: '"I am human — but I was born of a thunderbolt, and the gods have marked me."',
+        outcome: 'The words hang in the dark chamber like a confession. Arsinoe\'s breath catches. Her hand, still on your face, trembles — not with fear, but with the recognition of something she has sensed in you since the moment the lamp first caught your eyes. The truth, spoken at last, draws you closer instead of driving you apart.',
         action: () => { updateStat('spirit', 2, 'The truth, spoken at last'); renderScene('arsinoe_day'); }
       },
       {
         text: '"I swear it. I am only a man, and you are the woman I was meant to find."',
+        outcome: 'The oath leaves your lips before you can measure its weight. You are only a man. She is the woman you were meant to find. The simplicity of the words belies the enormity of what you have promised — a bond that neither temple nor distance nor the wrath of gods can easily sever.',
         action: () => { updateStat('fate', 1, 'A promise that binds you to her'); renderScene('arsinoe_day'); }
       }
     ]
@@ -3332,6 +3407,7 @@ const SCENES = {
     choices: [
       {
         text: '"I don\'t know. That\'s why I came to Delphi"',
+        outcome: 'The attendant\'s eyes soften. Your honesty disarms her more than any boast or evasion could. She nods slowly, and in that nod you see reflected the same bewilderment you carry — the shared uncertainty of people caught in the wake of something larger than themselves.',
         action: () => {
           updateStat('spirit', 1, 'Honesty in the face of mystery');
           renderScene('divine_recognition');
@@ -3346,6 +3422,7 @@ const SCENES = {
       },
       {
         text: '"Tell her to forget me. For her own safety"',
+        outcome: 'The attendant blinks, then bows her head. "I will tell her," she whispers, though her expression says she knows the Pythia will not listen. You have chosen to protect the oracle from the very thing that drew her to you. It is an act of kindness that costs more than you can yet measure.',
         action: () => {
           state.flags.cared_for_pythia = true;
           updateStat('fate', 1, 'You chose to protect her from whatever you are');
@@ -3391,6 +3468,7 @@ const SCENES = {
       },
       {
         text: 'Simply sit and absorb the peace',
+        outcome: 'You sit beside the warm stone and let the silence fill you like water fills a vessel. No questions, no demands — only the quiet hum of the Omphalos and the flicker of the eternal flame. The peace is not empty. It is the fullest thing you have felt since Ephesus.',
         action: () => {
           updateStat('spirit', 1, 'The temple\'s silence filled you');
           updateStat('fate', 1, 'You accepted what the stone offered freely');
@@ -3399,6 +3477,7 @@ const SCENES = {
       },
       {
         text: 'Speak aloud into the darkness — "Who am I?"',
+        outcome: 'Your voice breaks the sacred silence like a stone dropped into still water. The words ring against the walls and return to you changed — deeper, older, as though the temple itself is asking the question back. No answer comes. But beneath your palm, the Omphalos grows warmer.',
         action: () => {
           state.flags.asked_the_stone = true;
           updateStat('spirit', 1, 'The question echoed. No answer came. But the stone grew warmer');
@@ -3424,6 +3503,7 @@ const SCENES = {
     choices: [
       {
         text: 'Add an inscription — "Two exiles who chose the road together"',
+        outcome: 'Beneath both names you carve the words carefully, letter by letter. The stone takes the inscription without complaint — it has held a thousand such promises. But this one, you feel, is different. This one is true.',
         action: () => {
           state.flags.carved_inscription = true;
           updateStat('spirit', 1, 'Words carved in stone carry weight');
@@ -3432,6 +3512,7 @@ const SCENES = {
       },
       ...(typeof state !== 'undefined' && state.flags && state.flags.bought_bee_ring ? [{
         text: 'Carve the Ephesian bee symbol beside your name',
+        outcome: 'You carve the bee carefully — the same symbol stamped on your bronze ring, the emblem of the city that cast you out. The bee beside your name is a claim and an apology at once: this is where I came from, even if I can never return.',
         action: () => {
           state.flags.carved_bee = true;
           updateStat('spirit', 1, 'The bee of Ephesus — your first home');
@@ -3440,6 +3521,7 @@ const SCENES = {
       }] : []),
       {
         text: 'Let Dorieus carve alone — names are vanity',
+        outcome: 'You watch him work, his fierce precision carving each letter as though he were writing his own epitaph. You keep your hands at your sides. Let the stone hold his name. Yours is written elsewhere — in places you have not yet discovered.',
         action: () => {
           updateStat('fate', 1, 'You let the stone speak for itself');
           renderScene('the_stadium');
@@ -3468,6 +3550,7 @@ const SCENES = {
     choices: [
       {
         text: 'Trade for the map — offer coins',
+        outcome: 'The Phoenician names a price that empties half your purse. You pay without haggling — the scratched leather shows harbors, currents, and danger points that no Greek chart records. The map smells of salt and secrets. It is worth every coin.',
         action: () => {
           updateStat('fate', -1, 'Knowledge costs');
           awardItem('phoenician_chart');
@@ -3476,6 +3559,7 @@ const SCENES = {
       },
       {
         text: '"What lies beyond Sicily?" — ask about the western sea',
+        outcome: 'The Phoenician leans in, his voice dropping. He speaks of Etruria — cities older than Athens, where the people paint their tombs with dancers and read the future in the livers of sheep. "Strange folk," he says. "They look like Greeks but they are not. They came from somewhere else. Nobody knows where." His words lodge in your mind like a hook.',
         action: () => {
           updateStat('spirit', 1, 'He spoke of Etruria — cities older than Athens, tombs painted with dancers');
           renderScene('the_stadium');
@@ -3483,6 +3567,7 @@ const SCENES = {
       },
       {
         text: 'Share wine and stories — build rapport',
+        outcome: 'You order another jug and trade stories — yours of Ephesus and the storm, his of Carthage and the tin islands. By the third cup, the guarded Phoenician manner thaws. He speaks more freely, and by the end of the evening you have earned something rarer than his map: his trust.',
         action: () => {
           updateStat('fate', 1, 'The Phoenician warmed to you — a rare thing for his kind');
           renderScene('the_stadium');
@@ -3505,6 +3590,7 @@ const SCENES = {
     choices: [
       {
         text: 'Climb to the theater and look at the stars',
+        outcome: 'You climb to the highest row of the theater and lie back against the cold stone. The sky above Delphi is immense — closer and brighter than you have ever seen it, as though the mountain lifts you toward the heavens. The constellations wheel slowly westward, and in their turning you read a direction you have already chosen.',
         action: () => {
           updateStat('spirit', 1, 'The stars above Delphi are closer than anywhere else');
           updateStat('fate', 1, 'The constellations spell a direction: west');
@@ -3528,6 +3614,7 @@ const SCENES = {
       },
       {
         text: 'Simply walk and think — let the night do its work',
+        outcome: 'You walk without destination, letting your feet choose the path. The moonlit monuments cast long shadows that seem to move when you are not looking directly at them. By the time you return to your bed, something has shifted inside you — a knot loosened, a question answered without words.',
         action: () => {
           updateStat('spirit', 1, 'The night asked nothing and gave everything');
           renderScene('the_stadium');
@@ -3572,6 +3659,7 @@ const SCENES = {
       },
       {
         text: '"You are better than I" — decline wisely',
+        outcome: 'Dorieus stares at you, then relaxes his stance. "A man who knows his limits is rare," he says, and there is genuine respect in his voice. He has met too many men who challenged him for pride and left with broken arms. Your honesty earns what their courage could not.',
         action: () => {
           updateStat('fate', 1, 'Dorieus respects honesty more than foolish bravery');
           renderScene('dorieus_story');
@@ -3579,6 +3667,7 @@ const SCENES = {
       },
       {
         text: 'Propose a different contest — knucklebones instead of fists',
+        outcome: 'Dorieus laughs — a genuine, startled bark of laughter, the first you have heard from that sullen mouth. "Knucklebones!" he repeats, shaking his head. "An Ionian to the core." He sits down cross-legged and extends his palm. The contest shifts from muscle to chance, and the mood between you lightens.',
         action: () => {
           updateStat('spirit', 1, 'Dorieus laughed — the first real laugh you\'ve heard from him');
           renderScene('dorieus_story');
@@ -3617,6 +3706,7 @@ const SCENES = {
       },
       {
         text: '"The javelin is yours. I\'ll stick to running"',
+        outcome: 'You hand the javelin back and Dorieus accepts it with a nod. There is no shame in conceding a contest you cannot win — only the quiet grace of a man who knows where his strengths lie. Dorieus throws again, the javelin arcing through the winter sky, and you watch with honest admiration.',
         action: () => {
           updateStat('spirit', 1, 'Grace in concession');
           renderScene('dorieus_story');
@@ -3624,6 +3714,7 @@ const SCENES = {
       },
       {
         text: '"Show me the Spartan technique"',
+        outcome: 'Dorieus positions your arm, adjusts your grip, and shows you the wrist-snap that gives the Spartan throw its deadly spin. "From the elbow, not the shoulder," he says. "The shoulder gives distance. The wrist gives death." You throw again and the javelin flies straighter, truer. The technique lodges in your muscles like a memory.',
         action: () => {
           state.flags.javelin_trained = true;
           updateStat('body', 1, 'He taught you the wrist-snap that gives the throw its spin');
@@ -3669,6 +3760,7 @@ const SCENES = {
       },
       {
         text: 'Tell Dorieus about Hecate\'s dog in your dreams',
+        outcome: 'You describe the black dog that circles your bed at night — patient, watching, neither hostile nor kind. Dorieus frowns. Spartans do not speak of dreams, and the underworld makes him uneasy. But he listens, and his listening is itself a form of trust.',
         action: () => {
           updateStat('spirit', 1, 'He listened without understanding — but he listened');
           renderScene('dorieus_oracle');
@@ -3677,6 +3769,7 @@ const SCENES = {
       {
         text: 'Leave an offering — a pebble from your pouch',
         type: 'omen',
+        outcome: 'You place a small stone in a crack between the ancient rocks. For a moment the air goes very still. Then the pebble shifts, tilts, and slides into the darkness below — swallowed by the earth as though accepted by an unseen hand. Dorieus watches with wide eyes and says nothing.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The offering vanished into a crack in the stone');
@@ -3701,6 +3794,7 @@ const SCENES = {
     choices: [
       {
         text: '"That was a ship once. Ships mean the sea. The sea means west"',
+        outcome: 'Dorieus stops mid-stride. He looks at the grey, salt-eaten timber and then at you. The connection is plain — ships, the sea, the western passage. He pulls the javelin free without another word, but you see him adjust his bearing slightly. Westward.',
         action: () => {
           updateStat('spirit', 1, 'You spoke the omen aloud');
           renderScene('departure_preparations');
@@ -3708,6 +3802,7 @@ const SCENES = {
       },
       {
         text: 'Say nothing — the silence is its own acknowledgment',
+        outcome: 'You walk on without speaking. The rotted timber lies behind you on the road, and neither you nor Dorieus mentions it again. But you both felt the chill. The silence between you carries the weight of the omen as surely as any spoken word.',
         action: () => {
           updateStat('fate', 1, 'Some omens need no interpreter');
           renderScene('departure_preparations');
@@ -3715,6 +3810,7 @@ const SCENES = {
       },
       {
         text: '"It\'s just wood. Let\'s go"',
+        outcome: 'You kick the rotted timber aside with your sandal. It crumbles at the impact — just wood, just debris, just the detritus of some forgotten wreck. Dorieus watches you, and something in his face relaxes. Your blunt dismissal is the antidote to his superstitious dread.',
         action: () => {
           updateStat('body', 1, 'Pragmatism has its own strength');
           renderScene('departure_preparations');
@@ -3739,6 +3835,7 @@ const SCENES = {
     choices: [
       {
         text: 'Accept the rejection with dignity',
+        outcome: 'You bow once — not deeply, but with genuine respect. The eldest priest watches you go with an expression that might be pity, might be envy. You walk through the temple gates and do not look back. The god of Delphi has released you. Whatever comes next belongs to other gods.',
         action: () => {
           updateStat('spirit', 1, 'You bowed once and walked away');
           renderScene('the_road_south');
@@ -3761,6 +3858,7 @@ const SCENES = {
       {
         text: '"Your god is a coward" — leave in anger',
         type: 'defy',
+        outcome: 'The words burst from you before wisdom can stop them. The eldest priest\'s face hardens. The youngest reaches for the hem of his robe as though to ward off blasphemy. You turn and stride through the gates, your anger hot and righteous — but already cooling into regret.',
         action: () => {
           state.omensDefied++;
           updateStat('spirit', -1, 'Anger is not strength');
@@ -3784,6 +3882,7 @@ const SCENES = {
     choices: [
       {
         text: 'Drink deeply — carry the water\'s blessing with you',
+        outcome: 'You cup the water in your palms and drink — long, deep swallows of the coldest, clearest water you have ever tasted. It settles in your chest like a prayer, and for a moment the spring\'s ancient purity becomes your own. You carry it with you when you leave.',
         action: () => {
           updateStat('spirit', 1, 'The cold water settled in your chest like a prayer');
           renderScene('the_road_south');
@@ -3791,6 +3890,7 @@ const SCENES = {
       },
       {
         text: 'Fill a small flask to take on the journey',
+        outcome: 'You fill a clay flask with the spring water and seal it with wax. The water of Castalia, carried beyond Delphi — a piece of the sacred precinct to take on the road. The flask is small and heavy in your hand, like a promise you can hold.',
         action: () => {
           awardItem('castalian_water');
           renderScene('the_road_south');
@@ -3798,6 +3898,7 @@ const SCENES = {
       },
       {
         text: 'Whisper a prayer to Aphrodite at the water\'s edge',
+        outcome: 'You kneel at the water\'s edge and whisper the goddess\'s name. The prayer is simple — not a request, but an acknowledgment. In your pouch, the dove\'s feather stirs faintly, as though warmed by an invisible hand. The goddess is listening. She has been listening since the feather fell.',
         action: () => {
           updateStat('fate', 1, 'The dove\'s feather warmed in your pouch');
           renderScene('the_road_south');
@@ -3827,6 +3928,7 @@ const SCENES = {
       },
       {
         text: '"Corinth — where ships sail and strangers are welcome"',
+        outcome: 'Dorieus scowls but does not object. Corinth is the practical choice — a city that judges men by their coin, not their lineage. Ships sail from both its harbors, east and west. The road turns south toward the isthmus, and the air begins to carry the salt-tang of two seas.',
         action: () => {
           updateStat('fate', 1, 'The practical choice — and the right one');
           renderScene('coast_decision');
@@ -3835,6 +3937,7 @@ const SCENES = {
       {
         text: 'Toss the bones one more time at the crossroads',
         type: 'omen',
+        outcome: 'You kneel at the crossroads and cast the bones. They clatter on the packed earth and settle — pointing west. Always west. Dorieus watches over your shoulder and says nothing. At this point, the direction is beyond argument. Even the bones are tired of repeating themselves.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The bones pointed west. Again. Always west');
@@ -4024,6 +4127,7 @@ const SCENES = {
       {
         text: 'Leave an offering to Pan at the cave mouth',
         type: 'omen',
+        outcome: 'You place a handful of barley and a splash of wine at the cave\'s threshold. The wind dies for a moment — as though the mountain is holding its breath. Then a rustling from deep inside, like hooves on stone, and the offering is acknowledged by forces older than any temple.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'Pan accepts offerings from those who respect the wild places');
@@ -4032,6 +4136,7 @@ const SCENES = {
       },
       {
         text: 'Stay near the entrance — study the ancient masks',
+        outcome: 'You crouch among the offerings and turn the clay masks over in your hands. Hollow eyes, frozen mouths, expressions that hover between terror and ecstasy. Whoever made these masks knew something about the boundary between human and divine that the temple priests have forgotten.',
         action: () => {
           updateStat('spirit', 1, 'The masks told stories older than the Greek alphabet');
           renderScene('sq_winter_explore');
@@ -4061,6 +4166,7 @@ const SCENES = {
     choices: [
       {
         text: 'Help the gardener prune — honest work for idle hands',
+        outcome: 'You take the curved knife and work alongside him in silence. The olive branches yield reluctantly, and your hands blister before the morning is out. But the labor is honest and uncomplicated — the first honest work you have done since Ephesus. Your arms ache with a clean, satisfying pain.',
         action: () => {
           updateStat('body', 1, 'The labor of the groves strengthened your arms');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4068,6 +4174,7 @@ const SCENES = {
       },
       {
         text: 'Sit beneath the oldest tree and meditate',
+        outcome: 'You settle against a trunk so gnarled it might predate the temple itself. The bark is rough and warm against your back. Centuries of sunlight are stored in this wood, and as you close your eyes you feel the tree\'s patience seep into your bones — slow, deep, ancient.',
         action: () => {
           updateStat('spirit', 1, 'The olive\'s patience seeped into your bones');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4075,6 +4182,7 @@ const SCENES = {
       },
       {
         text: 'Ask about the oil that feeds the eternal flame',
+        outcome: 'The gardener pauses his pruning and looks up at the sanctuary above. "Every drop of oil in that flame," he says, "came from these trees. The flame remembers every tree that fed it." He returns to his work, and you are left with the image of an eternal fire sustained by mortal labor — the divine fed by the ordinary.',
         action: () => {
           updateStat('fate', 1, 'The gardener smiled — "The flame remembers every tree that fed it"');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4119,6 +4227,7 @@ const SCENES = {
       },
       {
         text: 'Watch the game — observe the players, gather rumors',
+        outcome: 'You lean against the wall and watch. The bones rattle and the coins change hands, but it is the talk between throws that interests you. News from the ports, gossip from the temple, whispered intelligence about the war in Ionia — the gambling den is a better source of information than any herald.',
         action: () => {
           updateStat('spirit', 1, 'The gamblers\' gossip held grains of truth');
           renderScene('sq_winter_explore_2');
@@ -4164,6 +4273,7 @@ const SCENES = {
     choices: [
       {
         text: 'Buy a cup of the Etruscan wine — drink deeply',
+        outcome: 'The wine is unlike anything you have tasted — dark, rich, with a sweetness that tastes of volcanic earth and sunlit hills you have never walked. It fills your mouth with the flavor of a country you have never visited, and yet something in the taste feels like coming home.',
         action: () => {
           state.flags.tasted_etruscan_wine = true;
           updateStat('spirit', 1, 'The wine tasted like a country you have never visited — and yet');
@@ -4172,6 +4282,7 @@ const SCENES = {
       },
       {
         text: '"Tell me about Etruria — what is it like?"',
+        outcome: 'The merchant sets down his cup and speaks of green hills, painted tombs, cities where women dine with men and the dead are buried with banquets for the afterlife. "They are not like us," he says. "They laugh more. They die better." His words stir something in you that you cannot name.',
         action: () => {
           updateStat('spirit', 1, 'The merchant\'s descriptions stirred something in you');
           renderScene('sq_winter_explore_2');
@@ -4179,6 +4290,7 @@ const SCENES = {
       },
       {
         text: 'Stick with the Greek wine — the familiar is safer',
+        outcome: 'You push the Etruscan cup aside and order the familiar resinous wine of the Greek world. The merchant shrugs, unsurprised — most men prefer what they know. The wine is thin and sharp, but it warms your belly without troubling your mind with questions you are not ready to answer.',
         action: () => {
           updateStat('body', 1, 'The Greek wine warmed your belly without troubling your mind');
           renderScene('sq_winter_explore_2');
@@ -4202,6 +4314,7 @@ const SCENES = {
     choices: [
       {
         text: 'Buy a heavy winter cloak — the mountain cold is merciless',
+        outcome: 'You haggle briefly and wrap yourself in the heavy wool. The saffron dye smells of mountain meadows, and the cloak is warm enough to sleep outside in. A practical purchase — but on Parnassus in winter, practicality is the difference between life and death.',
         action: () => {
           awardItem('winter_cloak');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4209,6 +4322,7 @@ const SCENES = {
       },
       {
         text: 'Buy a clay lamp — light for the long nights',
+        outcome: 'The lamp is shaped like a crouching hare — a common design, the vendor says, sacred to Artemis. You fill it with oil and test the wick. The flame catches, small and steady, and throws a circle of warmth against the winter dark. A small comfort, but in Delphi\'s long nights, small comforts matter.',
         action: () => {
           awardItem('clay_lamp');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4216,6 +4330,7 @@ const SCENES = {
       },
       {
         text: 'Browse without buying — let the market wash over you',
+        outcome: 'You drift among the stalls, touching nothing, buying nothing. The vendors\' cries, the clatter of coins, the smell of honey cakes and saffron — the market is a world in miniature, every human desire laid out on rough cloth. You watch the commerce of faith and learn something about what men truly value.',
         action: () => {
           updateStat('fate', 1, 'You watched the world trade its wares and learned something about value');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore');
@@ -4245,6 +4360,7 @@ const SCENES = {
     choices: [
       {
         text: '"What gods lived here before Apollo?"',
+        outcome: 'The shepherd speaks names you have never heard — Gaia, who breathed through the cracks in the earth. Python, the great serpent that guarded the spring. The nymphs of the Corycian Cave. His voice is matter-of-fact, as though recounting neighbors. The old gods have old names, and this old man knows them all.',
         action: () => {
           updateStat('spirit', 1, 'The old gods have old names — and the shepherd knew them all');
           renderScene('approach_delphi');
@@ -4252,6 +4368,7 @@ const SCENES = {
       },
       {
         text: '"Which paths are safe in this weather?"',
+        outcome: 'The shepherd points with his crook — this ridge is stable, that gully floods in rain, the goat track above the spring is the safest route when the wind comes from the west. His knowledge of the mountain is intimate and precise, earned through decades of walking the same slopes in every weather.',
         action: () => {
           updateStat('body', 1, 'The shepherd\'s knowledge of the mountain saved you hours of climbing');
           renderScene('approach_delphi');
@@ -4259,6 +4376,7 @@ const SCENES = {
       },
       {
         text: 'Share your food with the old man',
+        outcome: 'You break your bread and offer half. The shepherd takes it without ceremony and eats in silence, watching his goats pick their way across the scree. It is the simplest of exchanges — bread for company, food for wisdom. On the mountain road, the gods note such things.',
         action: () => {
           updateStat('fate', 1, 'Generosity on the mountain road — the gods see such things');
           renderScene('approach_delphi');
@@ -4288,6 +4406,7 @@ const SCENES = {
     choices: [
       {
         text: 'Ask Athena for wisdom — kneel at her altar',
+        outcome: 'You kneel before the modest altar and close your eyes. No thunder, no ecstasy, no shifting faces — only a quiet settling of your thoughts, as though a hand has smoothed the surface of troubled water. When you rise, the world seems slightly clearer than before.',
         action: () => {
           updateStat('spirit', 1, 'The owl-eyed goddess grants clarity to those who ask quietly');
           renderScene('sq_winter_explore');
@@ -4296,6 +4415,7 @@ const SCENES = {
       {
         text: 'Make an offering at the tholos',
         type: 'omen',
+        outcome: 'You place a coin at the base of the circular temple. The offering is modest, but the tholos seems to accept it — the winter light catches the marble columns and for a moment they glow with a warmth that has nothing to do with the sun. A good sign.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The circular temple accepted your offering — a good sign');
@@ -4304,6 +4424,7 @@ const SCENES = {
       },
       {
         text: 'Ask the priestess what she has seen in her years at Delphi',
+        outcome: 'She speaks quietly, without drama — of kings who wept at the oracle\'s pronouncements, of pilgrims who found what they sought and wished they had not, of the steady erosion of faith that comes from watching too many seekers leave disappointed. Her stories carry more truth than any oracle\'s riddling.',
         action: () => {
           updateStat('spirit', 1, 'Her stories were worth more than any oracle\'s riddling');
           renderScene('sq_winter_explore');
@@ -4336,6 +4457,7 @@ const SCENES = {
       if (state.charClass === 'seer') {
         c.push({
           text: 'Speak to the statue — your seer\'s sight pierces the veil',
+          outcome: 'You address the bronze figure aloud, and for a heartbeat the moonlit air between you thickens. A whisper reaches your inner ear — not heard, but known: "The west remembers what the east forgets." The charioteer\'s inlaid eyes glimmer, and then the presence fades, leaving you alone in the silver dark.',
           action: () => {
             state.flags.charioteer_spoke = true;
             updateStat('spirit', 2, 'The charioteer whispered: "The west remembers what the east forgets"');
@@ -4363,6 +4485,7 @@ const SCENES = {
       }
       c.push({
         text: 'Touch the bronze hand — feel what time has left in the metal',
+        outcome: 'Your fingers close around the charioteer\'s outstretched hand. The bronze is warm — impossibly warm on a winter night. The heat travels up your arm and settles in your chest. For a moment you are not holding a statue\'s hand but a man\'s, and the grip is strong and sure.',
         action: () => {
           state.flags.touched_charioteer = true;
           updateStat('spirit', 1, 'The bronze was warm. It should not have been warm.');
@@ -4372,6 +4495,7 @@ const SCENES = {
       c.push({
         text: 'Bow and move on — some things are best left undisturbed',
         type: 'omen',
+        outcome: 'You bow to the charioteer as you would bow to a living man. The gesture costs nothing and risks nothing, but in the moonlight the statue\'s expression seems to soften — from its eternal composure into something almost like gratitude. The dead, it seems, still care about courtesy.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'You honored the dead and the dead honored you in return');
@@ -4409,6 +4533,7 @@ const SCENES = {
       if (cls === 'warrior') {
         c.push({
           text: 'Match his intensity — train until you cannot stand',
+          outcome: 'You match him blow for blow, drill for drill, until your arms tremble and your vision blurs. When you finally collapse, Dorieus stands over you without a word. He has seen men train to failure before — it is the Spartan way. He offers his hand and pulls you up.',
           action: () => {
             updateStat('body', 2, 'Spartan training pushed beyond your limits');
             updateStat('spirit', -1, 'Your body broke before your will did');
@@ -4417,6 +4542,7 @@ const SCENES = {
         });
         c.push({
           text: 'Trade techniques — your eastern style for his western discipline',
+          outcome: 'You show him the feints and footwork of Ionian combat; he teaches you the Spartan shield-wall discipline. By afternoon you have created something neither of you has seen before — a hybrid style, quick and brutal, that draws from both worlds. Dorieus admits, grudgingly, that the east has something to teach.',
           action: () => {
             updateStat('body', 1, 'Two fighting styles merged into something new');
             updateStat('spirit', 1, 'Teaching is its own form of learning');
@@ -4426,6 +4552,7 @@ const SCENES = {
       } else {
         c.push({
           text: 'Train until you drop — earn his respect through endurance',
+          outcome: 'You endure. The shield is too heavy, the drills are too fast, and every correction stings like a slap. But you do not stop. When you finally fall, Dorieus looks down at you with the closest thing to approval a Spartan can offer a non-Spartan. It is enough.',
           action: () => {
             updateStat('body', 2, 'Spartan training pushed beyond your limits');
             updateStat('spirit', -1, 'Your body broke before your will did');
@@ -4434,6 +4561,7 @@ const SCENES = {
         });
         c.push({
           text: 'Train at a measured pace — learn the basics well',
+          outcome: 'You take each lesson slowly, repeating the movements until they feel natural. Shield position. Footwork. The angle of counter-thrust. Dorieus is impatient with your pace, but the fundamentals lodge in your muscles with a permanence that speed alone could not achieve.',
           action: () => {
             updateStat('body', 1, 'The fundamentals of Spartan combat lodged in your muscles');
             renderScene('sq_winter_explore');
@@ -4442,6 +4570,7 @@ const SCENES = {
       }
       c.push({
         text: 'Ask Dorieus about Spartan strategy instead of fighting',
+        outcome: 'Dorieus sits on a fallen column and talks instead of fighting — a rare concession. He explains the phalanx, the envelopment, the feigned retreat that draws the enemy into a killing ground. His descriptions are spare and precise, and you realize that Spartan warfare is not about strength but about geometry.',
         action: () => {
           state.flags.learned_tactics = true;
           updateStat('spirit', 1, 'Spartan tactics are simple — and devastatingly effective');
@@ -4475,6 +4604,7 @@ const SCENES = {
     choices: [
       {
         text: 'Focus on the woman\'s voice — try to remember the language',
+        outcome: 'You close your eyes and chase the melody. The language hovers at the edge of understanding — the vowels are softer than Greek, the rhythm different, rolling like hills instead of breaking like waves. Not Greek, not Persian, not Phoenician. Something else. Something that lives in the marrow of your bones.',
         action: () => {
           state.flags.sybaris_language_hint = true;
           updateStat('spirit', 1, 'The language hovered at the edge of understanding — not Greek, not Persian, something else');
@@ -4483,6 +4613,7 @@ const SCENES = {
       },
       {
         text: 'Push the dream away — you cannot afford to break now',
+        outcome: 'You press your palms against your eyes and force the images back beneath the surface. The woman\'s singing fades. The fire recedes. You are in Delphi, in the present, and the present demands all of your strength. The dream retreats, but it does not disappear — it only waits.',
         action: () => {
           updateStat('body', 1, 'You buried the memory and steadied your hands');
           renderScene('sq_fasting_explore');
@@ -4490,6 +4621,7 @@ const SCENES = {
       },
       {
         text: 'Scratch the details into the wall before they fade',
+        outcome: 'You seize a sharp stone and scratch the images into the plaster before they dissolve — the white city, the singing woman, the soldiers, the fire, the ship. The scratched words are crude but clear. When the mind forgets, the wall will remember.',
         action: () => {
           state.flags.recorded_dream = true;
           updateStat('spirit', 1, 'The scratched words preserved what the mind would forget');
@@ -4520,6 +4652,7 @@ const SCENES = {
     choices: [
       {
         text: 'Teach Dorieus the Ionian names for the constellations',
+        outcome: 'You point out the Ionian names — the Hunter, the Bear, the Ship. Dorieus listens, repeating each name with the careful pronunciation of a man learning a foreign tongue. Under the stars of Delphi, two different worlds overlap, and the sky becomes a language you share.',
         action: () => {
           updateStat('spirit', 1, 'Sharing knowledge under the stars deepened the bond between you');
           renderScene('sq_winter_explore_2');
@@ -4527,6 +4660,7 @@ const SCENES = {
       },
       {
         text: 'Learn the Spartan navigation stars — useful for the voyage west',
+        outcome: 'Dorieus traces the navigation stars with his finger — the Soldier\'s Star that points south, the Twin Guards that mark east and west, the Anchor Star that never moves. Practical knowledge for a voyage you have not yet begun. You commit each one to memory with the diligence of a man preparing for the unknown.',
         action: () => {
           updateStat('body', 1, 'Practical star-knowledge for the journey ahead');
           renderScene('sq_winter_explore_2');
@@ -4534,6 +4668,7 @@ const SCENES = {
       },
       {
         text: 'Lie in silence together — some things need no words',
+        outcome: 'You lie side by side on the cold stone, wrapped in your cloaks, breathing slowly under the vast weight of the sky. Neither of you speaks. The stars turn above you with the patience of the gods, and the silence between you is warmer than any fire.',
         action: () => {
           updateStat('fate', 1, 'The silence between friends is its own language');
           renderScene('sq_winter_explore_2');
@@ -4581,6 +4716,7 @@ const SCENES = {
       },
       {
         text: 'Help practically — fresh water, clean cloths, broth',
+        outcome: 'You fetch clean water from the spring, tear strips from your spare cloak for compresses, and prepare a thin broth from the temple kitchen\'s scraps. It is not divine healing — just the stubborn, practical compassion of hands doing what they can. By nightfall the man\'s breathing has eased.',
         action: () => {
           updateStat('body', 1, 'Practical compassion is its own form of healing');
           renderScene(state.flags.explored_during_fast ? 'sq_fasting_explore' : 'sq_winter_explore_3');
@@ -4589,6 +4725,7 @@ const SCENES = {
       {
         text: 'Pray to Artemis — the healer, the protector',
         type: 'omen',
+        outcome: 'You kneel beside the sick man and pray — not to Apollo, whose temple this is, but to Artemis, the goddess who has watched over you since Ephesus. The prayer rises from your lips like smoke. The wife watches you with desperate hope, and when the sick man\'s breathing eases, she weeps.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The prayer rose like smoke — and the sick man\'s breathing eased');
@@ -4619,6 +4756,7 @@ const SCENES = {
     choices: [
       {
         text: 'Join the revelers — let the god take you',
+        outcome: 'You take the fox-masked dancer\'s hand and plunge into the torchlit procession. The drums fill your blood. Your feet move in patterns you never learned. The masks blur around you — animal, human, divine, all boundaries dissolving in the sacred frenzy. When dawn comes, you are wrung out and trembling, but something inside you has been freed.',
         action: () => {
           state.flags.danced_for_dionysus = true;
           updateStat('spirit', 1, 'The dance dissolved every boundary you had built');
@@ -4629,6 +4767,7 @@ const SCENES = {
       },
       {
         text: 'Watch from the edges — observe the sacred madness',
+        outcome: 'You lean against a column and watch the procession pass. The masked figures wheel and spin in the torchlight, their shadows enormous on the temple walls. From the edges you see what the dancers cannot — the pattern of the dance, the face behind the mask, the thin line between sacred ecstasy and ordinary madness.',
         action: () => {
           updateStat('fate', 1, 'The observer sees what the participant cannot');
           renderScene('sq_winter_explore_2');
@@ -4709,6 +4848,7 @@ const SCENES = {
       });
       c.push({
         text: 'Decline the contest — tell a story instead',
+        outcome: 'You wave away the verse contest and speak instead — of Ephesus, the storm, the road to Delphi, the faces in the fire. Your words are plain, not metered, but the crowd leans in. The poet frowns, then falls silent. A good story, told simply, cuts deeper than the cleverest hexameter.',
         action: () => {
           updateStat('fate', 1, 'The poet frowned, but the crowd leaned in — a good story outranks clever verse');
           renderScene('sq_winter_explore_3');
@@ -4739,6 +4879,7 @@ const SCENES = {
     choices: [
       {
         text: 'Study the paintings carefully — commit every detail to memory',
+        outcome: 'You crouch in the dim light and study each figure, each symbol, each faded line of pigment. The dancing figures. The animals that are not quite horses. The door that leads nowhere. You burn every detail into your memory, knowing that when you find the people who painted this, you will need these images as proof.',
         action: () => {
           state.flags.saw_ancient_tomb_art = true;
           updateStat('spirit', 1, 'The painted figures danced behind your eyelids long after you left');
@@ -4747,6 +4888,7 @@ const SCENES = {
       },
       {
         text: 'Take a painted shard from the crumbling wall — evidence',
+        outcome: 'A piece of painted plaster crumbles at your touch — a fragment showing a dancer\'s hand and a spiral symbol. You wrap it carefully in cloth and tuck it into your pack. Evidence of what, you cannot yet say. But the shard feels important in your hand, heavy with a significance you do not yet understand.',
         action: () => {
           awardItem('ancient_shard');
           renderScene('sq_winter_explore_3');
@@ -4755,6 +4897,7 @@ const SCENES = {
       {
         text: 'Seal the entrance with stones — this place should rest undisturbed',
         type: 'omen',
+        outcome: 'You stack stones across the narrow entrance until the tomb is hidden again — a cairn of silence over the dancing dead. The mountain will keep its secret. The painted figures will continue their eternal procession in the dark, unseen and undisturbed, as they have for centuries.',
         action: () => {
           state.omensFollowed++;
           updateStat('fate', 1, 'The dead rest easier when the living show respect');
