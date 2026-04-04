@@ -23,13 +23,15 @@
 - **4 character classes** — Storm-Born, Warrior, Seer, Seafarer — each with unique abilities and weaknesses
 - **87 illustrated scenes** (AI-generated via Flux/Replicate)
 - **Dice-based skill system** — 2d6 rolls against Spirit, Body, and Fate attributes
-- **Pebble economy** — collect inscribed stones at turning points that record your choices
+- **Pebble economy** — collect inscribed stones at turning points that record your choices (directly from Waltari's novel)
 - **Omen/Defy system** — follow the gods' signs or defy them; neither is wrong, but the balance shapes your ending
+- **Narrative outcome system** — every meaningful choice shows its consequences before you move on
 - **Encyclopedia** — unlockable lore entries for characters, places, gods, and cultures
-- **Inventory system** — collect and use story items
-- **Sound effects** (AI-generated via ElevenLabs)
+- **Inventory system** — collect story items with lore descriptions
+- **Background music** — looping ambient ancient Greek soundtrack with separate volume controls
+- **16 sound effects** (AI-generated via ElevenLabs) mapped to 98 scenes
 - **Checkpoint saves** — resume where you left off
-- **Single HTML file** (8 MB) — zero dependencies, works offline, runs in any browser
+- **Single HTML file** (9.3 MB) — zero dependencies, works offline, runs in any browser
 
 ## How to Play
 
@@ -43,7 +45,8 @@ This game was built as a human-AI collaboration:
 
 - **Text & logic:** Claude (Anthropic)
 - **Illustrations:** Flux via Replicate
-- **Sound effects:** ElevenLabs
+- **Promo art:** Recraft V3 via Replicate
+- **Sound effects & music:** ElevenLabs, Athena IV
 - **Creative direction:** Human
 
 ## License
@@ -54,4 +57,4 @@ The game's narrative is inspired by Mika Waltari's *The Etruscan* (1955). The no
 
 ## Author
 
-Bastian Brand — March 2026
+Bastian Brand — 2026
