@@ -115,7 +115,7 @@ const ENCYCLOPEDIA = {
     title: 'The Etruscans',
     category: 'culture',
     text: 'A civilisation that flourished in central Italy (modern Tuscany, Umbria, and Lazio) from the 8th to 3rd century BCE. The Etruscans were master metalworkers, skilled sailors, and sophisticated urban planners. Their language — written in a Greek-derived alphabet — remains only partially understood. They heavily influenced early Rome: the Roman toga, triumphal processions, gladiatorial combat, and even the city\'s drainage system were Etruscan in origin. Their religion was deeply concerned with divination — reading the will of the gods in lightning, bird flight, and the entrails of sacrificed animals.',
-    scenes: ['character_select', 'road_to_delphi']
+    scenes: ['road_to_delphi']
   },
 
   pythian_games: {
