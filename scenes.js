@@ -131,7 +131,6 @@ function isSceneEnabled(sceneId) {
 }
 
 const SCENE_IMAGES = {
-  title: SCENE_IMAGES_DATA.title,
   road_to_delphi: SCENE_IMAGES_DATA.road_to_delphi,
   the_storm: SCENE_IMAGES_DATA.storm,
   storm_survived: SCENE_IMAGES_DATA.storm_survived,
