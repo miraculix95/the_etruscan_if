@@ -21,3 +21,6 @@ dist/
 # Environment
 .env
 .env.local
+images_b64/
+images_raw/
+integrate_images.py

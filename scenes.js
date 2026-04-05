@@ -233,8 +233,7 @@ const SCENE_IMAGES = {
 };
 
 const SCENE_SOUNDS = {
-  title: SCENE_SOUNDS_DATA.title,
-  road_to_delphi: SCENE_SOUNDS_DATA.title,
+  road_to_delphi: SCENE_SOUNDS_DATA.birdsong,
   the_storm: SCENE_SOUNDS_DATA.storm,
   storm_survived: SCENE_SOUNDS_DATA.storm,
   the_pythia: SCENE_SOUNDS_DATA.oracle,
