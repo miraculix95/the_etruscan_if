@@ -357,7 +357,7 @@ const SCENES = {
       '<em>Collect pebbles at each turning point. Follow the omens — or defy them. The stones will remember what you choose.</em></div></div>'
     ],
     choices: [
-      { text: 'Choose your path... (Start Game)', action: () => renderScene('character_select') },
+      { text: 'Choose your path... (Start Game)', primary: true, action: () => renderScene('character_select') },
       { text: 'About this game', action: () => renderScene('about') }
     ]
   },
