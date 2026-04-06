@@ -356,10 +356,18 @@ const SCENES = {
       'The Mediterranean, 5th century BCE. Gods walk among mortals, oracles speak in riddles, and the great civilizations of Greece, Carthage and Etruria collide.<br><br>' +
       '<em>Collect pebbles at each turning point. Follow the omens — or defy them. The stones will remember what you choose.</em></div></div>'
     ],
-    choices: [
-      { text: 'Choose your path... (Start Game)', primary: true, action: () => renderScene('character_select') },
-      { text: 'About this game', action: () => renderScene('about') }
-    ]
+    choices: () => {
+      const choices = [];
+      if (typeof hasAutoSave === 'function' && hasAutoSave()) {
+        const label = getAutoSaveLabel() || 'last scene';
+        choices.push({ text: '▶ Resume — ' + label, primary: true, action: () => autoLoad() });
+        choices.push({ text: 'New Game', action: () => renderScene('character_select') });
+      } else {
+        choices.push({ text: 'Choose your path... (Start Game)', primary: true, action: () => renderScene('character_select') });
+      }
+      choices.push({ text: 'About this game', action: () => renderScene('about') });
+      return choices;
+    }
   },
 
   // ---- ABOUT ----
